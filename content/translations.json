@@ -9,6 +9,7 @@
     "journal":           { "en": "Journal",            "zh": "故事日记" },
     "contact":           { "en": "Contact",            "zh": "联系我们" },
     "documentary":       { "en": "Documentary",        "zh": "纪录片" },
+    "stories":           { "en": "Stories",             "zh": "客户故事" },
     "custom_order":      { "en": "Custom Order",       "zh": "定制下单" }
   },
 

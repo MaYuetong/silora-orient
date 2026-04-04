@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Stories — Silora Orient</title>
+  <meta name="description" content="Real stories from Silora Orient customers — the flowers they chose, the colors of their eyes, and the moments that made each piece." />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Featured story ─────────────────────────────────────────── */
+    .featured-customer {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: var(--space-lg);
+      align-items: center;
+      padding: var(--space-xl) 0;
+      background: var(--cream);
+    }
+    .featured-image {
+      aspect-ratio: 4/5;
+      overflow: hidden;
+      position: relative;
+    }
+    .featured-badge {
+      position: absolute;
+      top: 1.5rem; left: 1.5rem;
+      background: var(--text-dark);
+      color: var(--ivory);
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.8rem;
+    }
+    .featured-body { display: flex; flex-direction: column; gap: 1.2rem; }
+    .big-quote {
+      font-family: var(--font-serif);
+      font-size: clamp(1.6rem, 3vw, 2.8rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.25;
+      color: var(--text-dark);
+    }
+    .big-quote::before { content: '\201C'; color: var(--gold); }
+    .big-quote::after  { content: '\201D'; color: var(--gold); }
+    .attribution {
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      color: var(--text-light);
+      text-transform: uppercase;
+    }
+    .attribution strong { color: var(--text-dark); font-weight: 500; }
+
+    /* ── Story cards grid ───────────────────────────────────────── */
+    #storiesGrid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+      margin-top: 3rem;
+    }
+    .story-card {
+      background: var(--white);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.4s var(--ease);
+    }
+    .story-card:hover { box-shadow: 0 16px 50px var(--shadow); }
+    .story-card-media {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      background: var(--cream);
+      position: relative;
+    }
+    .story-card-media img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s var(--ease);
+    }
+    .story-card:hover .story-card-media img { transform: scale(1.05); }
+    .story-card-media-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-serif);
+      font-size: 3rem; color: var(--gold); opacity: 0.3;
+    }
+    /* Video embed inside card */
+    .story-card-video {
+      position: relative; padding-bottom: 75%; height: 0;
+    }
+    .story-card-video iframe {
+      position: absolute; inset: 0; width: 100%; height: 100%; border: none;
+    }
+    .story-card-body {
+      padding: 1.5rem;
+      display: flex; flex-direction: column; gap: 0.6rem;
+      flex: 1;
+    }
+    .story-tag { color: var(--gold); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; }
+    .story-quote-sm {
+      font-family: var(--font-serif);
+      font-size: 1.05rem; font-style: italic; font-weight: 300;
+      line-height: 1.45; color: var(--text-dark);
+    }
+    .story-quote-sm::before { content: '\201C'; }
+    .story-quote-sm::after  { content: '\201D'; }
+    .story-name {
+      font-size: 0.72rem; letter-spacing: 0.1em; color: var(--text-light);
+      text-transform: uppercase;
+    }
+    .story-piece { font-size: 0.75rem; color: var(--text-light); font-style: italic; }
+    .story-text {
+      font-size: 0.85rem; color: var(--text-light); line-height: 1.7;
+      margin-top: 0.2rem;
+    }
+
+    /* ── Loading / empty states ─────────────────────────────────── */
+    #storiesLoading { text-align: center; padding: 4rem; color: var(--text-light); }
+    #storiesEmpty   { text-align: center; padding: 4rem; }
+
+    /* ── Submit story form ──────────────────────────────────────── */
+    .submit-section {
+      background: var(--text-dark);
+      padding: var(--space-xl) 0;
+    }
+    .submit-form-wrap {
+      max-width: 600px; margin: 0 auto;
+      display: flex; flex-direction: column; gap: 1.2rem;
+    }
+    .submit-success {
+      display: none; text-align: center; padding: 2rem;
+      color: var(--ivory);
+    }
+    .submit-success.active { display: block; }
+    .submit-success-icon { font-family: var(--font-serif); font-size: 3rem; color: var(--gold); }
+
+    @media (max-width: 1024px) { #storiesGrid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 768px) {
+      .featured-customer { grid-template-columns: 1fr; }
+      #storiesGrid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav scrolled" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Silora Orient<span>Silk Flower Jewelry</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html"             class="nav-link" data-i18n="nav.home">Home</a></li>
+      <li><a href="about.html"             class="nav-link" data-i18n="nav.our_story">Our Story</a></li>
+      <li><a href="collections.html"       class="nav-link" data-i18n="nav.collections">Collections</a></li>
+      <li><a href="other-collections.html" class="nav-link" data-i18n="nav.other_collections">Other Collections</a></li>
+      <li><a href="stories.html"           class="nav-link active">Stories</a></li>
+      <li><a href="journal.html"           class="nav-link" data-i18n="nav.journal">Journal</a></li>
+      <li><a href="contact.html"           class="nav-link" data-i18n="nav.contact">Contact</a></li>
+    </ul>
+    <div style="display:flex; align-items:center; gap:1rem;">
+      <div class="lang-switch" id="langSwitch">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <div class="lang-divider-line"></div>
+        <button class="lang-btn" data-lang="zh">中文</button>
+      </div>
+      <a href="custom.html" class="nav-cta" data-i18n="nav.custom_order">Custom Order</a>
+    </div>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html"             class="nav-link" data-i18n="nav.home">Home</a>
+  <a href="about.html"             class="nav-link" data-i18n="nav.our_story">Our Story</a>
+  <a href="collections.html"       class="nav-link" data-i18n="nav.collections">Collections</a>
+  <a href="other-collections.html" class="nav-link" data-i18n="nav.other_collections">Other Collections</a>
+  <a href="stories.html"           class="nav-link">Stories</a>
+  <a href="journal.html"           class="nav-link" data-i18n="nav.journal">Journal</a>
+  <a href="contact.html"           class="nav-link" data-i18n="nav.contact">Contact</a>
+  <a href="custom.html" class="btn btn-gold" style="margin-top:1rem;" data-i18n="nav.custom_order">Custom Order</a>
+</div>
+
+<!-- Page Hero -->
+<div class="page-hero">
+  <p class="t-label page-hero-label">Real People · Real Flowers</p>
+  <h1 class="t-display page-hero-title" style="font-size:clamp(2.5rem,5vw,5rem);">
+    Customer Stories
+  </h1>
+  <div class="divider"></div>
+  <p class="page-hero-desc">
+    Every Silora Orient piece belongs to someone specific. These are their stories — the colors they chose, the memories they carried, and the moments that made each flower worth making.
+  </p>
+</div>
+
+<!-- ── Featured story (loaded from JSON) ──────────────────────── -->
+<div id="featuredStory"></div>
+
+<!-- ── All stories grid ───────────────────────────────────────── -->
+<section style="background:var(--ivory); padding:var(--space-xl) 0;">
+  <div class="container">
+    <div style="text-align:center; margin-bottom:1.5rem;">
+      <p class="t-label reveal">Every Flower Has a Story</p>
+      <div class="divider"></div>
+      <h2 class="t-headline reveal reveal-delay-1">From Our Customers</h2>
+    </div>
+    <div id="storiesLoading" class="t-small">Loading stories…</div>
+    <div id="storiesEmpty"  style="display:none;">
+      <p class="t-italic t-body">More stories are on their way. Be the first to share yours.</p>
+    </div>
+    <div id="storiesGrid"></div>
+  </div>
+</section>
+
+<!-- ── Share your story ───────────────────────────────────────── -->
+<section class="submit-section">
+  <div class="container">
+    <div style="text-align:center; margin-bottom:3rem;">
+      <p class="t-label" style="color:var(--gold-light);">Your Turn</p>
+      <div class="divider" style="background:rgba(191,157,106,0.4);"></div>
+      <h2 style="font-family:var(--font-serif); font-size:clamp(1.8rem,3vw,2.8rem); font-weight:300; color:var(--ivory); max-width:480px; margin:0 auto 1rem; line-height:1.3;">
+        Share your Silora Orient moment
+      </h2>
+      <p style="font-size:0.9rem; color:rgba(250,247,242,0.5); max-width:380px; margin:0 auto;">
+        Your story may appear here. Send us your words and photos — we will add them with care.
+      </p>
+    </div>
+
+    <form id="storyForm" action="https://formspree.io/f/xlgopzqb" method="POST" class="submit-form-wrap">
+      <input type="hidden" name="_subject" value="Silora Orient — Customer Story Submission" />
+      <div class="form-field">
+        <label class="form-label" style="color:rgba(250,247,242,0.5);">Your Name (or initials)</label>
+        <input name="name" type="text" class="form-input" placeholder="Ana, or A.M., or however you'd like to be known" />
+      </div>
+      <div class="form-field">
+        <label class="form-label" style="color:rgba(250,247,242,0.5);">Which piece did you receive?</label>
+        <input name="piece" type="text" class="form-input" placeholder="e.g. Custom Orchid Earrings, Iris Brooch…" />
+      </div>
+      <div class="form-field">
+        <label class="form-label" style="color:rgba(250,247,242,0.5);">Your story or comment</label>
+        <textarea name="story" class="form-textarea" rows="5"
+          placeholder="Tell us about the piece — why you chose it, how it feels to wear it, what it means to you."></textarea>
+      </div>
+      <div class="form-field">
+        <label class="form-label" style="color:rgba(250,247,242,0.5);">Email (so we can credit you correctly)</label>
+        <input name="email" type="email" class="form-input" placeholder="your@email.com" />
+      </div>
+      <div class="form-field">
+        <label class="form-label" style="color:rgba(250,247,242,0.5);">Photo or video link (optional)</label>
+        <input name="mediaLink" type="text" class="form-input" placeholder="Google Drive, WeTransfer, or Instagram post URL" />
+      </div>
+      <div style="text-align:right;">
+        <button type="submit" class="btn btn-gold">Send My Story →</button>
+      </div>
+    </form>
+
+    <div class="submit-success" id="submitSuccess">
+      <div class="submit-success-icon">✿</div>
+      <p style="font-family:var(--font-serif); font-size:1.3rem; font-weight:300; color:var(--ivory); margin-top:1rem;">
+        Thank you. Your story is in our hands now.
+      </p>
+      <p style="font-size:0.82rem; color:rgba(250,247,242,0.45); margin-top:0.5rem;">
+        We will be in touch when it appears on the page.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="nav-logo" style="color:var(--ivory); margin-bottom:1rem;">Silora Orient<span>Silk Flower Jewelry</span></div>
+        <p class="footer-tagline" data-i18n="footer.tagline">"For your eyes, your story, your memories — a silk flower jewel from the East, made just for you."</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="Pinterest">PT</a>
+          <a href="#" aria-label="WeChat">微</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title" data-i18n="footer.explore">Explore</p>
+        <ul class="footer-links">
+          <li><a href="collections.html">Collections</a></li>
+          <li><a href="other-collections.html">Other Collections</a></li>
+          <li><a href="stories.html">Customer Stories</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title" data-i18n="footer.studio">Studio</p>
+        <ul class="footer-links">
+          <li><a href="about.html">Our Story</a></li>
+          <li><a href="custom.html">Custom Order</a></li>
+          <li><a href="journal.html">Journal</a></li>
+          <li><a href="documentary.html">Documentary</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title" data-i18n="footer.contact">Contact</p>
+        <ul class="footer-links">
+          <li><a href="mailto:hello@siloraorient.com">hello@siloraorient.com</a></li>
+          <li><a href="contact.html">Contact Page</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy" data-i18n="footer.copyright">© 2026 Silora Orient. All rights reserved.</p>
+      <p class="footer-note" data-i18n="footer.craft_note">Handmade in the tradition of Chinese 缠花 craftsmanship</p>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+<script>
+/* ── Customer Stories renderer ───────────────────────────────────
+   Loads content/customer-stories.json and renders:
+   - featured story (first item with "featured": true)
+   - story cards grid (all items)
+
+   To add a new story: edit content/customer-stories.json only.
+   No code changes needed.
+──────────────────────────────────────────────────────────────── */
+const lang = () => localStorage.getItem('silora-lang') || 'en';
+const t    = (s, key) => s[key + (lang() === 'zh' ? '_zh' : '')] || s[key] || '';
+
+async function loadStories() {
+  let data;
+  try {
+    const res = await fetch('content/customer-stories.json');
+    data = await res.json();
+  } catch (_) {
+    document.getElementById('storiesLoading').textContent = 'Stories coming soon.';
+    return;
+  }
+
+  const stories = data.stories || [];
+  document.getElementById('storiesLoading').style.display = 'none';
+
+  // ── Featured ────────────────────────────────────────────────
+  const featured = stories.find(s => s.featured);
+  if (featured) renderFeatured(featured);
+
+  // ── Grid (all stories, skip featured so it's not duplicated) ─
+  const grid = document.getElementById('storiesGrid');
+  const rest = stories.filter(s => !s.featured);
+
+  if (rest.length === 0 && !featured) {
+    document.getElementById('storiesEmpty').style.display = 'block';
+    return;
+  }
+
+  rest.forEach((s, i) => {
+    const card = buildCard(s);
+    card.classList.add('reveal', i % 3 === 1 ? 'reveal-delay-1' : i % 3 === 2 ? 'reveal-delay-2' : '');
+    grid.appendChild(card);
+  });
+
+  // Re-run reveal observer for dynamically added cards
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+    revealObserver && revealObserver.observe(el);
+  });
+}
+
+function renderFeatured(s) {
+  const wrap = document.getElementById('featuredStory');
+  wrap.innerHTML = `
+    <div class="featured-customer">
+      <div class="container" style="display:contents;">
+        <div class="featured-image reveal">
+          ${s.photo
+            ? `<img src="${s.photo}" alt="${t(s,'name')} — ${t(s,'piece')}" style="width:100%;height:100%;object-fit:cover;" />`
+            : `<div style="width:100%;height:100%;background:var(--cream-mid);display:flex;align-items:center;justify-content:center;font-family:var(--font-serif);font-size:4rem;color:var(--gold);opacity:.3;">✿</div>`}
+          <div class="featured-badge">${t(s,'tag')}</div>
+        </div>
+        <div class="featured-body reveal reveal-delay-1" style="padding: var(--space-lg) max(var(--space-md), calc((100vw - 1200px) / 2 + var(--space-md))) var(--space-lg) var(--space-lg);">
+          <p class="t-label">${t(s,'date')} · ${t(s,'location')}</p>
+          <div class="divider divider-left"></div>
+          <p class="big-quote">${t(s,'quote')}</p>
+          <p class="attribution">— <strong>${t(s,'name')}</strong>, ${t(s,'location')}</p>
+          <p class="t-body" style="max-width:440px;">${t(s,'story')}</p>
+          ${s.piece ? `<p style="font-size:0.78rem;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;margin-top:0.5rem;">${t(s,'piece')}</p>` : ''}
+          <a href="custom.html" class="btn btn-outline btn-arrow" style="width:fit-content;margin-top:1rem;">Create Your Own Flower</a>
+        </div>
+      </div>
+    </div>`;
+}
+
+function buildCard(s) {
+  const card = document.createElement('div');
+  card.className = 'story-card';
+
+  // Media area
+  let media = '';
+  if (s.video_url) {
+    media = `<div class="story-card-video"><iframe src="${s.video_url}" title="${t(s,'name')}" allowfullscreen></iframe></div>`;
+  } else if (s.photo) {
+    media = `<div class="story-card-media"><img src="${s.photo}" alt="${t(s,'name')}" loading="lazy" /></div>`;
+  } else {
+    media = `<div class="story-card-media"><div class="story-card-media-placeholder">✿</div></div>`;
+  }
+
+  card.innerHTML = `
+    ${media}
+    <div class="story-card-body">
+      <span class="story-tag">${t(s,'tag')}</span>
+      <p class="story-quote-sm">${t(s,'quote')}</p>
+      <p class="story-name">${t(s,'name')}${s.location ? ' · ' + t(s,'location') : ''}</p>
+      ${s.piece ? `<p class="story-piece">${t(s,'piece')}</p>` : ''}
+      ${s.story ? `<p class="story-text">${t(s,'story').substring(0,160)}…</p>` : ''}
+    </div>`;
+  return card;
+}
+
+// Expose observer for re-use after dynamic insert
+let revealObserver;
+document.addEventListener('DOMContentLoaded', () => {
+  revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); }});
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  loadStories();
+});
+
+// Reload stories if language is switched (so bilingual text updates)
+document.addEventListener('langChanged', loadStories);
+
+/* ── Story submission form ──────────────────────────────────── */
+document.getElementById('storyForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const body = new FormData(this);
+  try {
+    const res = await fetch(this.action, { method:'POST', body, headers:{'Accept':'application/json'} });
+    if (res.ok) {
+      this.style.display = 'none';
+      document.getElementById('submitSuccess').classList.add('active');
+    } else { alert('Something went wrong — please email us at hello@siloraorient.com'); }
+  } catch(_) { alert('Please email us at hello@siloraorient.com'); }
+});
+</script>
+</body>
+</html>
