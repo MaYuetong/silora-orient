@@ -295,7 +295,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 2.5rem;
+  gap: 1.6rem;
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
 
 .nav-link {
