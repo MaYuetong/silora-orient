@@ -1,0 +1,46 @@
+# Silora Orient — Auto-deploy on push to main
+# Deploys to Vercel (international) on every push.
+# Cloudflare Pages (China-friendly mirror) can be added below when ready.
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy-vercel:
+    name: Deploy to Vercel
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Vercel (Production)
+        run: |
+          npx vercel \
+            --token "${{ secrets.VERCEL_TOKEN }}" \
+            --scope "${{ secrets.VERCEL_SCOPE }}" \
+            --prod \
+            --yes
+        env:
+          VERCEL_ORG_ID:     ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+  # ── China-friendly mirror via Cloudflare Pages ──────────────────────
+  # Cloudflare Pages CDN has edge nodes in Asia and is generally accessible
+  # in mainland China without a VPN (no ICP license required for *.pages.dev).
+  # Uncomment this job after completing the one-time setup in README.md.
+  #
+  # deploy-cloudflare:
+  #   name: Deploy to Cloudflare Pages (China mirror)
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Deploy to Cloudflare Pages
+  #       uses: cloudflare/pages-action@v1
+  #       with:
+  #         apiToken:   ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  #         accountId:  ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+  #         projectName: silora-orient
+  #         directory:  .        # static site — root is the source
+  #         gitHubToken: ${{ secrets.GITHUB_TOKEN }}
