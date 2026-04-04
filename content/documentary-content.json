@@ -1,0 +1,42 @@
+{
+  "_instructions": "Edit this file to update the documentary page. Change video_url to a YouTube embed URL (e.g. https://www.youtube.com/embed/VIDEO_ID) or a Vimeo embed URL. Set show_placeholder to false once you have a real video. See HOW-TO-UPDATE.md.",
+
+  "featured_video": {
+    "title": "Born in Silk: The Story of Silora Orient",
+    "title_zh": "丝绸中诞生：Silora Orient 的故事",
+    "video_url": "",
+    "show_placeholder": true,
+    "description": "From a university friendship to a silk flower workshop in China, through five years of craft, to a spring afternoon in New York when a Spanish musician pointed at a pair of orchid earrings and said: 'Those are the colors of my eyes.' This is the story of Silora Orient.",
+    "description_zh": "从大学里的一段友谊，到中国的一间丝绸花坊，经过五年的手工打磨，再到纽约春日的一个午后——一位西班牙音乐家指着一对兰花耳饰说：'那是我眼睛的颜色。'这是 Silora Orient 的故事。"
+  },
+
+  "clips": [
+    {
+      "id": "studio-china",
+      "title": "Inside the Studio: Five Years of 缠花",
+      "title_zh": "工作室内部：五年的缠花工艺",
+      "video_url": "",
+      "show_placeholder": true,
+      "description": "A look inside the Chinese silk flower workshop — the silk, the wire, the patience.",
+      "description_zh": "走进中国丝绸花坊——丝线、金丝，以及那份无法省略的耐心。"
+    },
+    {
+      "id": "new-york-arrival",
+      "title": "Spring in New York: The First Day",
+      "title_zh": "纽约的春天：第一天",
+      "video_url": "",
+      "show_placeholder": true,
+      "description": "The flowers arrive in New York. A city, a suitcase, and the beginning of something new.",
+      "description_zh": "花朵抵达纽约。一座城市，一只行李箱，和某件新事物的开始。"
+    },
+    {
+      "id": "making-a-piece",
+      "title": "How a Silk Flower Is Made",
+      "title_zh": "一朵丝绸花是如何制作的",
+      "video_url": "",
+      "show_placeholder": true,
+      "description": "Silk thread, gold wire, pearl. A time-lapse of one piece from start to finish.",
+      "description_zh": "丝线、金丝、珍珠。从开始到完成，一枚作品的延时摄影。"
+    }
+  ]
+}

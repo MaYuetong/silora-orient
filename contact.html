@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Silora Orient</title>
+  <meta name="description" content="Get in touch with Silora Orient — custom orders, pricing inquiries, and general questions." />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: var(--space-xl);
+      align-items: start;
+      padding: var(--space-xl) 0;
+    }
+    .contact-aside {
+      position: sticky;
+      top: calc(var(--nav-h) + 2rem);
+    }
+    .contact-aside-image {
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      background: var(--cream);
+      margin-bottom: 2rem;
+    }
+    .contact-info-block {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .contact-info-item { }
+    .contact-info-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.3rem;
+    }
+    .contact-info-value {
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+    }
+
+    /* Instagram QR section */
+    .instagram-section {
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .qr-placeholder {
+      width: 120px;
+      height: 120px;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      text-align: center;
+      padding: 0.5rem;
+      /* To update: replace this div with <img src="images/instagram-qr.png" ...> */
+    }
+    .ig-handle {
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      color: var(--text-dark);
+      margin-top: 0.8rem;
+    }
+    .ig-handle span { color: var(--gold); }
+
+    /* Form */
+    .contact-form-wrap { }
+    .contact-form { display: flex; flex-direction: column; gap: 0; }
+    .contact-form .form-field { margin-bottom: 1.3rem; }
+    .contact-submit-row {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    .contact-delay-note {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      font-style: italic;
+      line-height: 1.5;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    @media (max-width: 768px) {
+      .contact-layout { grid-template-columns: 1fr; }
+      .contact-aside { position: static; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav scrolled" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      Silora Orient
+      <span>Silk Flower Jewelry</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html"            class="nav-link" data-i18n="nav.home">Home</a></li>
+      <li><a href="about.html"            class="nav-link" data-i18n="nav.our_story">Our Story</a></li>
+      <li><a href="collections.html"      class="nav-link" data-i18n="nav.collections">Collections</a></li>
+      <li><a href="other-collections.html"class="nav-link" data-i18n="nav.other_collections">Other Collections</a></li>
+      <li><a href="journal.html"          class="nav-link" data-i18n="nav.journal">Journal</a></li>
+      <li><a href="contact.html"          class="nav-link active" data-i18n="nav.contact">Contact</a></li>
+    </ul>
+    <div style="display:flex; align-items:center; gap:1rem;">
+      <div class="lang-switch" id="langSwitch">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <div class="lang-divider-line"></div>
+        <button class="lang-btn" data-lang="zh">中文</button>
+      </div>
+      <a href="custom.html" class="nav-cta" data-i18n="nav.custom_order">Custom Order</a>
+    </div>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html"            class="nav-link" data-i18n="nav.home">Home</a>
+  <a href="about.html"            class="nav-link" data-i18n="nav.our_story">Our Story</a>
+  <a href="collections.html"      class="nav-link" data-i18n="nav.collections">Collections</a>
+  <a href="other-collections.html"class="nav-link" data-i18n="nav.other_collections">Other Collections</a>
+  <a href="journal.html"          class="nav-link" data-i18n="nav.journal">Journal</a>
+  <a href="contact.html"          class="nav-link" data-i18n="nav.contact">Contact</a>
+  <a href="custom.html" class="btn btn-gold" style="margin-top:1rem;" data-i18n="nav.custom_order">Custom Order</a>
+</div>
+
+<!-- Page Hero -->
+<div class="page-hero">
+  <p class="t-label page-hero-label" data-i18n="nav.contact">Contact</p>
+  <h1 class="t-display page-hero-title" style="font-size: clamp(2.5rem, 5vw, 5rem);" data-i18n="contact.title">
+    Get in Touch
+  </h1>
+  <div class="divider"></div>
+  <p class="page-hero-desc" data-i18n="contact.subtitle">
+    We reply within a few days — because every piece is made by hand, and so is every response.
+  </p>
+</div>
+
+<!-- Contact Layout -->
+<section style="background: var(--ivory);">
+  <div class="container">
+    <div class="contact-layout">
+
+      <!-- Sidebar -->
+      <div class="contact-aside">
+        <div class="contact-aside-image reveal">
+          <img src="images/iris-brooch.jpg" alt="Handmade iris brooch — Silora Orient studio" style="object-position: center top;" />
+        </div>
+
+        <div class="contact-info-block reveal">
+          <div class="contact-info-item">
+            <p class="contact-info-label">Email</p>
+            <p class="contact-info-value">
+              <a href="mailto:hello@siloraorient.com" style="color:var(--gold);">hello@siloraorient.com</a>
+            </p>
+          </div>
+          <div class="contact-info-item">
+            <p class="contact-info-label">Response Time</p>
+            <p class="contact-info-value">2–5 business days.<br>Every response is personal.</p>
+          </div>
+          <div class="contact-info-item">
+            <p class="contact-info-label">Custom Orders</p>
+            <p class="contact-info-value">
+              For bespoke pieces, use our <a href="custom.html" style="color:var(--gold); text-decoration:underline;">Custom Order</a> form for the most detailed intake.
+            </p>
+          </div>
+          <div class="contact-info-item">
+            <p class="contact-info-label">Location</p>
+            <p class="contact-info-value">New York, NY<br>Online & by appointment</p>
+          </div>
+        </div>
+
+        <!-- Instagram Section -->
+        <!-- To update: replace qr-placeholder div with <img src="images/instagram-qr.png" style="width:120px;height:120px;"> -->
+        <!-- To update username: change @siloraorient below -->
+        <div class="instagram-section reveal">
+          <p class="t-label" style="margin-bottom:1rem;">Follow Along</p>
+          <div class="qr-placeholder" id="instagram-qr">
+            <!-- Replace this div with your QR code image -->
+            Instagram<br>QR Code<br>Place here
+          </div>
+          <p class="ig-handle"><span>@</span>siloraorient</p>
+          <p class="t-small" style="margin-top:0.5rem; color:var(--text-light);">DMs welcome for quick questions.</p>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="contact-form-wrap">
+        <div class="reveal">
+          <p class="t-label" style="margin-bottom:0.5rem;">Send a Message</p>
+          <div class="divider divider-left"></div>
+          <p class="t-body" style="max-width:440px; margin-bottom:2.5rem;">
+            Whether you have a question about a piece, want to discuss a custom order, or simply want to say hello — we are glad to hear from you.
+          </p>
+        </div>
+
+        <!-- Formspree form -->
+        <form
+          id="contactForm"
+          action="https://formspree.io/f/xlgopzqb"
+          method="POST"
+          class="contact-form reveal"
+        >
+          <div class="form-field">
+            <label class="form-label" data-i18n="contact.name">Your Name</label>
+            <input type="text" name="name" class="form-input"
+                   placeholder="Your name" required />
+          </div>
+          <div class="form-field">
+            <label class="form-label" data-i18n="contact.email">Email Address</label>
+            <input type="email" name="email" class="form-input"
+                   placeholder="your@email.com" required />
+          </div>
+          <div class="form-field">
+            <label class="form-label" data-i18n="contact.subject">Subject</label>
+            <select name="subject" class="form-select">
+              <option value="">— Please select —</option>
+              <option value="custom-order">Custom Order Inquiry</option>
+              <option value="pricing">Pricing Request</option>
+              <option value="collections">Question about Collections</option>
+              <option value="wholesale">Wholesale / Collaboration</option>
+              <option value="press">Press / Media</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label class="form-label" data-i18n="contact.message">Message</label>
+            <textarea name="message" class="form-textarea"
+                      placeholder="Tell us what's on your mind…" rows="6" required></textarea>
+          </div>
+
+          <!-- Hidden field to identify source -->
+          <input type="hidden" name="_subject" value="Silora Orient — Website Contact" />
+          <input type="hidden" name="_next" value="" />
+
+          <div class="contact-submit-row">
+            <button type="submit" class="btn btn-primary" data-i18n="contact.send">Send Message</button>
+            <p class="contact-delay-note" data-i18n="contact.subtitle">
+              We reply within a few days. Every response is written personally.
+            </p>
+          </div>
+        </form>
+
+        <!-- Success state (shown by JS after Formspree submits) -->
+        <div class="contact-success" id="contactSuccess">
+          <div style="font-family:var(--font-serif); font-size:3rem; color:var(--gold); margin-bottom:1rem;">✿</div>
+          <h3 style="font-family:var(--font-serif); font-size:1.6rem; font-weight:300; margin-bottom:1rem;" data-i18n="contact.success">
+            Thank you. We will be in touch within a few days.
+          </h3>
+          <p class="t-small">— Silora Orient</p>
+          <a href="index.html" class="btn btn-ghost" style="margin-top:2rem;">Return Home</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="nav-logo" style="color: var(--ivory); margin-bottom: 1rem;">Silora Orient<span>Silk Flower Jewelry</span></div>
+        <p class="footer-tagline" data-i18n="footer.tagline">"For your eyes, your story, your memories — a silk flower jewel from the East, made just for you."</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="Pinterest">PT</a>
+          <a href="#" aria-label="WeChat">微</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title" data-i18n="footer.explore">Explore</p>
+        <ul class="footer-links">
+          <li><a href="collections.html">Collections</a></li>
+          <li><a href="other-collections.html">Other Collections</a></li>
+          <li><a href="collections.html#orchid">Orchid Custom</a></li>
+          <li><a href="collections.html#eye-color">Eye Color</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title" data-i18n="footer.studio">Studio</p>
+        <ul class="footer-links">
+          <li><a href="about.html">Our Story</a></li>
+          <li><a href="custom.html">Custom Order</a></li>
+          <li><a href="journal.html">Journal</a></li>
+          <li><a href="documentary.html">Documentary</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title" data-i18n="footer.contact">Contact</p>
+        <ul class="footer-links">
+          <li><a href="mailto:hello@siloraorient.com">hello@siloraorient.com</a></li>
+          <li><a href="contact.html">Contact Page</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy" data-i18n="footer.copyright">© 2026 Silora Orient. All rights reserved.</p>
+      <p class="footer-note" data-i18n="footer.craft_note">Handmade in the tradition of Chinese 缠花 craftsmanship</p>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+<script>
+  // Formspree AJAX submission (keeps user on page, shows success state)
+  const contactForm    = document.getElementById('contactForm');
+  const contactSuccess = document.getElementById('contactSuccess');
+
+  if (contactForm) {
+    contactForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const data = new FormData(contactForm);
+      try {
+        const res = await fetch(contactForm.action, {
+          method: 'POST',
+          body: data,
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          contactForm.style.display = 'none';
+          contactSuccess.classList.add('active');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          alert('Something went wrong. Please email us directly at hello@siloraorient.com');
+        }
+      } catch(err) {
+        alert('Something went wrong. Please email us directly at hello@siloraorient.com');
+      }
+    });
+  }
+</script>
+</body>
+</html>

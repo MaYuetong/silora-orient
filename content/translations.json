@@ -1,0 +1,88 @@
+{
+  "_instructions": "This file contains all bilingual text for the website. Edit the 'zh' values to update Chinese content. Edit 'en' values to update English. Never change the 'key' values — those are used by the code. See HOW-TO-UPDATE.md.",
+
+  "nav": {
+    "home":              { "en": "Home",              "zh": "首页" },
+    "our_story":         { "en": "Our Story",          "zh": "品牌故事" },
+    "collections":       { "en": "Collections",        "zh": "系列作品" },
+    "other_collections": { "en": "Other Collections",  "zh": "更多系列" },
+    "journal":           { "en": "Journal",            "zh": "故事日记" },
+    "contact":           { "en": "Contact",            "zh": "联系我们" },
+    "documentary":       { "en": "Documentary",        "zh": "纪录片" },
+    "custom_order":      { "en": "Custom Order",       "zh": "定制下单" }
+  },
+
+  "home": {
+    "banner":    { "en": "Now in New York — Spring 2026 · Handmade silk flower jewelry from the East",
+                   "zh": "现已登陆纽约 — 2026年春 · 来自东方的手工丝绸花朵珠宝" },
+    "eyebrow":   { "en": "New York · Spring 2026",    "zh": "纽约 · 2026年春" },
+    "headline1": { "en": "Silk Flowers",              "zh": "东方丝花" },
+    "headline2": { "en": "for the",                   "zh": "为你携带的" },
+    "headline3": { "en": "Stories",                   "zh": "故事" },
+    "headline4": { "en": "You Carry",                 "zh": "而生" },
+    "tagline":   { "en": "For your eyes, your story, your memories — a silk flower jewel from the East, made just for you.",
+                   "zh": "为你的眼睛、你的故事、你的记忆——定制一朵来自东方的丝绸花朵珠宝。" },
+    "btn_explore":{ "en": "Explore the Collection",  "zh": "浏览系列作品" },
+    "btn_custom": { "en": "Create Your Custom Flower","zh": "定制你的专属花朵" },
+    "manifesto":  { "en": "Born in a Chinese silk flower studio with five years of craftsmanship, Silora Orient now begins a new chapter in New York.",
+                    "zh": "诞生于中国丝绸花坊，五年匠心传承，Silora Orient 在纽约开启全新篇章。" }
+  },
+
+  "footer": {
+    "tagline":   { "en": "For your eyes, your story, your memories — a silk flower jewel from the East, made just for you.",
+                   "zh": "为你的眼睛、你的故事、你的记忆——定制一朵来自东方的丝绸花朵珠宝。" },
+    "explore":   { "en": "Explore",       "zh": "探索" },
+    "studio":    { "en": "Studio",        "zh": "工作室" },
+    "contact":   { "en": "Contact",       "zh": "联系" },
+    "copyright": { "en": "© 2026 Silora Orient. All rights reserved.",
+                   "zh": "© 2026 Silora Orient 版权所有。" },
+    "craft_note":{ "en": "Handmade in the tradition of Chinese 缠花 craftsmanship",
+                   "zh": "以中国传统缠花工艺手工制作" }
+  },
+
+  "custom": {
+    "step1_title": { "en": "What is the color of your eyes?",
+                     "zh": "你的眼睛是什么颜色？" },
+    "step1_desc":  { "en": "We will build your flower around this — around the particular way you see the world.",
+                     "zh": "我们将围绕这个颜色，围绕你看世界的独特方式，为你塑造专属花朵。" },
+    "step2_title": { "en": "What flower speaks to you?",
+                     "zh": "哪种花与你产生共鸣？" },
+    "step3_title": { "en": "What memory or person inspires this piece?",
+                     "zh": "是什么记忆或人，启发了这件作品？" },
+    "step4_title": { "en": "Which colors call to you?",
+                     "zh": "哪些颜色在召唤你？" },
+    "step5_title": { "en": "What would you like it to be?",
+                     "zh": "你希望它是什么形式？" },
+    "closing":     { "en": "We will create a flower that belongs only to you.",
+                     "zh": "我们将为你创造一朵只属于你的花。" },
+    "alt_option":  { "en": "Or share your ideas freely",
+                     "zh": "或者自由分享你的想法" },
+    "clip_note":   { "en": "If you do not have pierced ears, clip-on versions are also available.",
+                     "zh": "如果没有耳洞，我们也提供夹式耳饰。" },
+    "upload_label":{ "en": "Upload a photo of your eyes for inspiration (optional)",
+                     "zh": "上传一张眼睛的照片作为灵感参考（可选）" }
+  },
+
+  "contact": {
+    "title":     { "en": "Get in Touch",    "zh": "联系我们" },
+    "subtitle":  { "en": "We reply within a few days — because every piece is made by hand, and so is every response.",
+                   "zh": "我们会在几天内回复——因为每件作品都是手工制作的，每一封回复也是。" },
+    "name":      { "en": "Your Name",      "zh": "你的姓名" },
+    "email":     { "en": "Email Address",  "zh": "电子邮件" },
+    "subject":   { "en": "Subject",        "zh": "主题" },
+    "message":   { "en": "Message",        "zh": "留言内容" },
+    "send":      { "en": "Send Message",   "zh": "发送留言" },
+    "success":   { "en": "Thank you. We will be in touch within a few days.",
+                   "zh": "谢谢你。我们会在几天内与你联系。" }
+  },
+
+  "pricing_modal": {
+    "title":     { "en": "Request Pricing",
+                   "zh": "询价" },
+    "note":      { "en": "Because each piece is handmade and may vary by customization, production time, and delivery location, pricing is shared individually.",
+                   "zh": "由于每件作品均为手工定制，价格因定制内容、制作时间及收货地点而有所不同，我们将单独告知报价。" },
+    "send":      { "en": "Send Inquiry",   "zh": "发送询价" },
+    "success":   { "en": "Thank you. We will reply with pricing within 2–3 days.",
+                   "zh": "谢谢。我们将在2-3天内回复报价。" }
+  }
+}

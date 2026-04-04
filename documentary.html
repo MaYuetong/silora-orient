@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentary — Silora Orient</title>
+  <meta name="description" content="The story of Silora Orient — from a Chinese silk flower studio to New York. Documentary films." />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .doc-intro {
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+      padding: var(--space-xl) 0 var(--space-lg);
+    }
+    .doc-video-section {
+      background: var(--text-dark);
+      padding: var(--space-xl) 0;
+    }
+    .doc-video-label {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .doc-clips-section {
+      padding: var(--space-xl) 0;
+      background: var(--cream);
+    }
+    .doc-clips-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+      margin-top: 3rem;
+    }
+    .doc-clip-card {
+      background: var(--white);
+      overflow: hidden;
+    }
+    .doc-clip-video {
+      aspect-ratio: 16/9;
+      background: var(--text-dark);
+      position: relative;
+    }
+    .doc-clip-body {
+      padding: 1.5rem;
+    }
+    .doc-clip-title {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.3;
+      margin-bottom: 0.5rem;
+    }
+    .doc-clip-desc {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* Update note for non-technical users */
+    .doc-update-hint {
+      background: var(--cream);
+      border-left: 2px solid var(--gold);
+      padding: 1rem 1.5rem;
+      font-size: 0.8rem;
+      color: var(--text-light);
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      display: none; /* Show in dev mode only — remove 'display:none' to see */
+    }
+
+    @media (max-width: 768px) {
+      .doc-clips-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav" id="nav" style="background: rgba(42,39,36,0.95); backdrop-filter: blur(12px);">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo" style="color: var(--ivory);">
+      Silora Orient
+      <span>Silk Flower Jewelry</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html"            class="nav-link" style="color:rgba(250,247,242,0.6);" data-i18n="nav.home">Home</a></li>
+      <li><a href="about.html"            class="nav-link" style="color:rgba(250,247,242,0.6);" data-i18n="nav.our_story">Our Story</a></li>
+      <li><a href="collections.html"      class="nav-link" style="color:rgba(250,247,242,0.6);" data-i18n="nav.collections">Collections</a></li>
+      <li><a href="other-collections.html"class="nav-link" style="color:rgba(250,247,242,0.6);" data-i18n="nav.other_collections">Other Collections</a></li>
+      <li><a href="journal.html"          class="nav-link" style="color:rgba(250,247,242,0.6);" data-i18n="nav.journal">Journal</a></li>
+      <li><a href="contact.html"          class="nav-link" style="color:rgba(250,247,242,0.6);" data-i18n="nav.contact">Contact</a></li>
+    </ul>
+    <div style="display:flex; align-items:center; gap:1rem;">
+      <div class="lang-switch" id="langSwitch" style="border-color:rgba(191,157,106,0.3);">
+        <button class="lang-btn active" data-lang="en" style="color:rgba(250,247,242,0.6);">EN</button>
+        <div class="lang-divider-line" style="background:rgba(191,157,106,0.2);"></div>
+        <button class="lang-btn" data-lang="zh" style="color:rgba(250,247,242,0.6);">中文</button>
+      </div>
+      <a href="custom.html" class="nav-cta" style="border-color:var(--gold);color:var(--gold);" data-i18n="nav.custom_order">Custom Order</a>
+    </div>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span style="background:var(--ivory);"></span>
+      <span style="background:var(--ivory);"></span>
+      <span style="background:var(--ivory);"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html"            class="nav-link" data-i18n="nav.home">Home</a>
+  <a href="about.html"            class="nav-link" data-i18n="nav.our_story">Our Story</a>
+  <a href="collections.html"      class="nav-link" data-i18n="nav.collections">Collections</a>
+  <a href="other-collections.html"class="nav-link" data-i18n="nav.other_collections">Other Collections</a>
+  <a href="journal.html"          class="nav-link" data-i18n="nav.journal">Journal</a>
+  <a href="contact.html"          class="nav-link" data-i18n="nav.contact">Contact</a>
+  <a href="custom.html" class="btn btn-gold" style="margin-top:1rem;" data-i18n="nav.custom_order">Custom Order</a>
+</div>
+
+<!-- Featured Video -->
+<section class="doc-video-section" style="padding-top: calc(var(--nav-h) + var(--space-lg));">
+  <div class="container">
+    <div class="doc-video-label reveal">
+      <p class="t-label" style="color:var(--gold-light);" data-i18n="nav.documentary">Documentary</p>
+      <div class="divider" style="background:rgba(191,157,106,0.4);"></div>
+      <!-- To update video title: edit documentary-content.json or change the text here -->
+      <h1 id="doc-main-title"
+          style="font-family:var(--font-serif); font-size:clamp(2rem,4vw,3.5rem); font-weight:300; color:var(--ivory); line-height:1.2; margin-bottom:1rem;">
+        Born in Silk: The Story of Silora Orient
+      </h1>
+    </div>
+
+    <!--
+      TO UPDATE VIDEO:
+      1. Get your YouTube embed URL: https://www.youtube.com/embed/YOUR_VIDEO_ID
+         or Vimeo: https://player.vimeo.com/video/YOUR_VIDEO_ID
+      2. Replace the src attribute in the iframe below with your URL
+      3. Remove the video-placeholder div once you have a real video
+      4. Or edit content/documentary-content.json and reload the page (if JS loading is enabled)
+    -->
+    <div class="video-wrapper reveal" id="doc-main-video-wrapper">
+      <!-- Placeholder — replace with your iframe once you have the video URL -->
+      <div class="video-placeholder" id="doc-main-placeholder">
+        <div class="video-placeholder-icon">▶</div>
+        <p>Video Coming Soon</p>
+        <p style="font-size:0.65rem; margin-top:0.5rem; opacity:0.5;">
+          Add your YouTube or Vimeo URL in content/documentary-content.json
+        </p>
+      </div>
+      <!--
+        When ready, uncomment and fill in your video URL:
+        <iframe
+          id="doc-main-iframe"
+          src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
+          title="Born in Silk: The Story of Silora Orient"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      -->
+    </div>
+
+    <!-- Video description -->
+    <div style="max-width:680px; margin:2.5rem auto 0; text-align:center;" class="reveal">
+      <p id="doc-main-desc"
+         style="font-family:var(--font-serif); font-size:1.05rem; font-weight:300; font-style:italic; color:rgba(250,247,242,0.65); line-height:1.8;">
+        From a university friendship to a silk flower workshop in China, through five years of craft, to a spring afternoon in New York when a Spanish musician pointed at a pair of orchid earrings and said: 'Those are the colors of my eyes.' This is the story of Silora Orient.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Introduction text -->
+<section style="background: var(--ivory); padding: var(--space-xl) 0;">
+  <div class="container">
+    <div style="max-width:640px; margin:0 auto; text-align:center;">
+      <p class="t-label reveal">The Story Behind the Flowers</p>
+      <div class="divider"></div>
+      <h2 class="t-headline reveal reveal-delay-1">Why We Made This Film</h2>
+      <p class="t-body reveal reveal-delay-2" style="margin-top:1rem;">
+        Silk flower jewelry is, by its nature, a quiet art. It does not announce itself. It accumulates — petal by petal, colour by colour, hour by hour. We made this film because we wanted to show the slowness. The dedication. The particular texture of a workshop where everyone is paying attention.
+      </p>
+      <p class="t-body reveal reveal-delay-3" style="margin-top:1rem;">
+        And we wanted to show New York receiving it — the moment this slow, handmade Eastern craft stepped into a city that moves very fast, and the city stopped to look.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Behind the scenes clips -->
+<section class="doc-clips-section">
+  <div class="container">
+    <div style="text-align:center; margin-bottom:1rem;">
+      <p class="t-label reveal">Behind the Scenes</p>
+      <div class="divider"></div>
+      <h2 class="t-headline reveal reveal-delay-1">More from the Studio</h2>
+      <p class="t-body reveal reveal-delay-2" style="max-width:440px; margin:1rem auto 0;">
+        Three short films — the workshop, the crossing, and the making of a single silk flower from start to finish.
+      </p>
+    </div>
+
+    <div class="doc-clips-grid">
+
+      <!-- Clip 1 -->
+      <!-- To update: change the src in the iframe, or swap placeholder for iframe -->
+      <div class="doc-clip-card reveal">
+        <div class="doc-clip-video">
+          <div class="video-placeholder">
+            <div class="video-placeholder-icon" style="font-size:2rem;">▶</div>
+            <p style="font-size:0.65rem;">Coming Soon</p>
+          </div>
+          <!--
+            <iframe src="https://www.youtube.com/embed/CLIP_1_ID" title="..." allowfullscreen></iframe>
+          -->
+        </div>
+        <div class="doc-clip-body">
+          <p class="t-label" style="margin-bottom:0.4rem;">Studio · China</p>
+          <h3 class="doc-clip-title">Inside the Studio: Five Years of 缠花</h3>
+          <p class="doc-clip-desc">A look inside the Chinese silk flower workshop — the silk, the wire, the patience.</p>
+        </div>
+      </div>
+
+      <!-- Clip 2 -->
+      <div class="doc-clip-card reveal reveal-delay-1">
+        <div class="doc-clip-video">
+          <div class="video-placeholder">
+            <div class="video-placeholder-icon" style="font-size:2rem;">▶</div>
+            <p style="font-size:0.65rem;">Coming Soon</p>
+          </div>
+        </div>
+        <div class="doc-clip-body">
+          <p class="t-label" style="margin-bottom:0.4rem;">Arrival · New York</p>
+          <h3 class="doc-clip-title">Spring in New York: The First Day</h3>
+          <p class="doc-clip-desc">The flowers arrive in New York. A city, a suitcase, and the beginning of something new.</p>
+        </div>
+      </div>
+
+      <!-- Clip 3 -->
+      <div class="doc-clip-card reveal reveal-delay-2">
+        <div class="doc-clip-video">
+          <div class="video-placeholder">
+            <div class="video-placeholder-icon" style="font-size:2rem;">▶</div>
+            <p style="font-size:0.65rem;">Coming Soon</p>
+          </div>
+        </div>
+        <div class="doc-clip-body">
+          <p class="t-label" style="margin-bottom:0.4rem;">Craft · Process</p>
+          <h3 class="doc-clip-title">How a Silk Flower Is Made</h3>
+          <p class="doc-clip-desc">Silk thread, gold wire, pearl. A time-lapse of one piece from start to finish.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background: var(--ivory); padding: var(--space-xl) 0; text-align:center;">
+  <div class="container">
+    <p class="t-label reveal">The Work Continues</p>
+    <div class="divider"></div>
+    <h2 class="t-headline reveal reveal-delay-1">
+      Every piece is its own small film.
+    </h2>
+    <p class="t-body reveal reveal-delay-2" style="max-width:420px; margin:1rem auto 2rem;">
+      A flower made for your eyes. A story carried in your ears. Commission a piece and become part of the Silora Orient archive.
+    </p>
+    <a href="custom.html" class="btn btn-primary btn-arrow reveal reveal-delay-3">Create Your Custom Flower</a>
+  </div>
+</section>
+
+<!-- ============================================================ FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="nav-logo" style="color: var(--ivory); margin-bottom: 1rem;">Silora Orient<span>Silk Flower Jewelry</span></div>
+        <p class="footer-tagline" data-i18n="footer.tagline">"For your eyes, your story, your memories — a silk flower jewel from the East, made just for you."</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="Pinterest">PT</a>
+          <a href="#" aria-label="WeChat">微</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title" data-i18n="footer.explore">Explore</p>
+        <ul class="footer-links">
+          <li><a href="collections.html">Collections</a></li>
+          <li><a href="other-collections.html">Other Collections</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title" data-i18n="footer.studio">Studio</p>
+        <ul class="footer-links">
+          <li><a href="about.html">Our Story</a></li>
+          <li><a href="custom.html">Custom Order</a></li>
+          <li><a href="journal.html">Journal</a></li>
+          <li><a href="documentary.html">Documentary</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title" data-i18n="footer.contact">Contact</p>
+        <ul class="footer-links">
+          <li><a href="mailto:hello@siloraorient.com">hello@siloraorient.com</a></li>
+          <li><a href="contact.html">Contact Page</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy" data-i18n="footer.copyright">© 2026 Silora Orient. All rights reserved.</p>
+      <p class="footer-note" data-i18n="footer.craft_note">Handmade in the tradition of Chinese 缠花 craftsmanship</p>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

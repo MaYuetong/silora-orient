@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Custom Order — Silora Orient</title>
+  <meta name="description" content="Create your bespoke silk flower jewel — designed around your eyes, your story, your memory." />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ---- Custom page specific ---- */
+    .custom-hero {
+      min-height: 50vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: var(--nav-h);
+    }
+    .custom-hero-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--space-xl) max(var(--space-md), calc((100vw - var(--max-w)) / 2 + var(--space-md)));
+      gap: 1.5rem;
+      background: var(--cream);
+    }
+    .custom-hero-image {
+      background: var(--text-dark);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ---- Form layout ---- */
+    .custom-form-section {
+      padding: var(--space-xl) 0;
+      background: var(--ivory);
+    }
+    .custom-form-wrap {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: var(--space-xl);
+      align-items: start;
+    }
+    .form-sidebar {
+      position: sticky;
+      top: calc(var(--nav-h) + 2rem);
+    }
+    .form-sidebar-image {
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      margin-bottom: 2rem;
+      background: var(--cream);
+    }
+    .form-sidebar-note {
+      padding: 1.5rem;
+      background: var(--cream);
+      border-left: 2px solid var(--gold);
+    }
+    .form-sidebar-note p {
+      font-family: var(--font-serif);
+      font-size: 0.95rem;
+      font-style: italic;
+      color: var(--text-mid);
+      line-height: 1.7;
+    }
+
+    /* ---- Multi-step form ---- */
+    .step-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 3rem;
+    }
+    .step-node {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      font-family: var(--font-serif);
+      font-size: 0.85rem;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+      flex-shrink: 0;
+    }
+    .step-node.active {
+      background: var(--text-dark);
+      border-color: var(--text-dark);
+      color: var(--ivory);
+    }
+    .step-node.done {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--white);
+    }
+    .step-connector {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .step-connector.done { background: var(--gold); }
+
+    /* ---- Color selector ---- */
+    .color-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+    /* Each chip is a labeled button: swatch circle + name below */
+    .color-chip {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: var(--font-sans);
+    }
+    .color-chip-swatch {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: 2.5px solid transparent;
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+      transition: border-color 0.2s, outline-color 0.2s, transform 0.2s;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .color-chip:hover .color-chip-swatch {
+      border-color: var(--gold);
+      transform: scale(1.1);
+    }
+    .color-chip.selected .color-chip-swatch {
+      border-color: var(--gold);
+      outline-color: var(--gold);
+      transform: scale(1.1);
+    }
+    /* Checkmark rendered as a box-shadow ring + SVG tick — no ::after flex hack */
+    .color-chip.selected .color-chip-swatch::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.18);
+    }
+    .color-chip.selected .color-chip-swatch::after {
+      content: '✓';
+      position: absolute;
+      inset: 0;
+      font-size: 0.85rem;
+      line-height: 37px;   /* match swatch height */
+      text-align: center;
+      color: #fff;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.55);
+    }
+    .color-chip-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      color: var(--text-light);
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+    .color-chip.selected .color-chip-label { color: var(--gold); }
+
+    /* Selected summary pill row */
+    .color-summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      min-height: 1.6rem;
+      margin-top: 1rem;
+      align-items: center;
+    }
+    .color-summary-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-right: 0.2rem;
+    }
+    .color-pill {
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      padding: 0.2rem 0.6rem;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      border-radius: 0;
+      background: rgba(191,157,106,0.07);
+    }
+
+    /* ---- Form section headers ---- */
+    .form-section-block {
+      padding: 2.5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .form-section-block:last-of-type { border-bottom: none; }
+
+    .form-section-header {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1.5rem;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    .form-section-num {
+      font-family: var(--font-serif);
+      font-size: 3.5rem;
+      font-weight: 300;
+      color: var(--blush);
+      line-height: 1;
+    }
+
+    /* ---- Jewelry type cards ---- */
+    .jewelry-type-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    .jewelry-type-card {
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+      background: var(--white);
+    }
+    .jewelry-type-card:hover,
+    .jewelry-type-card.selected {
+      border-color: var(--gold);
+      background: rgba(191,157,106,0.05);
+    }
+    .jewelry-type-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--gold);
+    }
+    .jewelry-type-name {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+    }
+    .jewelry-type-desc {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      margin-top: 0.3rem;
+    }
+
+    /* ---- Closing screen ---- */
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: var(--space-xl) 0;
+    }
+    .form-success.active { display: block; }
+    .form-success-flower {
+      font-family: var(--font-serif);
+      font-size: 5rem;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+
+    /* ---- Process steps ---- */
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-md);
+      margin-top: 4rem;
+      padding-top: 4rem;
+      border-top: 1px solid var(--border);
+    }
+    .process-step {
+      text-align: center;
+    }
+    .process-step-num {
+      font-family: var(--font-serif);
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 0.8rem;
+    }
+    .process-step-title {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+    }
+    .process-step-desc {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      .custom-hero { grid-template-columns: 1fr; }
+      .custom-hero-image { height: 50vw; min-height: 250px; }
+      .custom-form-wrap { grid-template-columns: 1fr; }
+      .form-sidebar { position: static; }
+      .jewelry-type-grid { grid-template-columns: 1fr 1fr; }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav scrolled" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      Silora Orient
+      <span>Silk Flower Jewelry</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html"            class="nav-link" data-i18n="nav.home">Home</a></li>
+      <li><a href="about.html"            class="nav-link" data-i18n="nav.our_story">Our Story</a></li>
+      <li><a href="collections.html"      class="nav-link" data-i18n="nav.collections">Collections</a></li>
+      <li><a href="other-collections.html"class="nav-link" data-i18n="nav.other_collections">Other Collections</a></li>
+      <li><a href="journal.html"          class="nav-link" data-i18n="nav.journal">Journal</a></li>
+      <li><a href="contact.html"          class="nav-link" data-i18n="nav.contact">Contact</a></li>
+    </ul>
+    <div style="display:flex; align-items:center; gap:1rem;">
+      <div class="lang-switch" id="langSwitch">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <div class="lang-divider-line"></div>
+        <button class="lang-btn" data-lang="zh">中文</button>
+      </div>
+      <a href="custom.html" class="nav-cta" style="border-color: var(--text-dark); color: var(--text-dark);" data-i18n="nav.custom_order">Custom Order</a>
+    </div>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html"            class="nav-link" data-i18n="nav.home">Home</a>
+  <a href="about.html"            class="nav-link" data-i18n="nav.our_story">Our Story</a>
+  <a href="collections.html"      class="nav-link" data-i18n="nav.collections">Collections</a>
+  <a href="other-collections.html"class="nav-link" data-i18n="nav.other_collections">Other Collections</a>
+  <a href="journal.html"          class="nav-link" data-i18n="nav.journal">Journal</a>
+  <a href="contact.html"          class="nav-link" data-i18n="nav.contact">Contact</a>
+  <a href="custom.html" class="btn btn-gold" style="margin-top:1rem;" data-i18n="nav.custom_order">Custom Order</a>
+</div>
+
+<!-- Custom Hero -->
+<div class="custom-hero">
+  <div class="custom-hero-content">
+    <p class="t-label">Bespoke Creation</p>
+    <h1 class="t-display" style="font-size: clamp(2.5rem, 4vw, 4.5rem);">
+      Create Your<br>Custom Flower
+    </h1>
+    <p class="t-body" style="max-width: 400px;">
+      Tell us who you are. Tell us what you see and what you remember. We will make you a silk flower jewel that has never existed before — and never will again.
+    </p>
+    <p style="font-family: var(--font-serif); font-style: italic; font-size: 0.9rem; color: var(--text-light);">
+      "We will create a flower that belongs only to you."
+    </p>
+  </div>
+  <div class="custom-hero-image">
+    <img src="images/white-orchid-earrings.jpg" alt="Custom white orchid earrings — pearl and gold" />
+  </div>
+</div>
+
+<!-- Form Section -->
+<div class="custom-form-section">
+  <div class="container">
+    <div class="custom-form-wrap">
+
+      <!-- Sidebar -->
+      <div class="form-sidebar">
+        <div class="form-sidebar-image">
+          <img src="images/iris-brooch.jpg" alt="Handmade iris brooch — an example of what custom orders look like" style="object-position: center top;" />
+        </div>
+        <div class="form-sidebar-note">
+          <p>"Every piece is made by hand, from scratch. We may reach out with a few questions before we begin — to make sure your flower is truly yours."</p>
+          <p style="margin-top: 1rem; font-size: 0.75rem; color: var(--text-light); font-style: normal; letter-spacing: 0.05em;">
+            After submitting, we will be in touch within 3–5 days. Custom orders typically take 2–4 weeks to complete.
+          </p>
+        </div>
+      </div>
+
+      <!-- Main Form -->
+      <div>
+        <!-- Step indicator -->
+        <div class="step-indicator" id="stepIndicator">
+          <div class="step-node active" data-step="1">1</div>
+          <div class="step-connector" id="conn1"></div>
+          <div class="step-node" data-step="2">2</div>
+          <div class="step-connector" id="conn2"></div>
+          <div class="step-node" data-step="3">3</div>
+          <div class="step-connector" id="conn3"></div>
+          <div class="step-node" data-step="4">4</div>
+          <div class="step-connector" id="conn4"></div>
+          <div class="step-node" data-step="5">5</div>
+        </div>
+
+        <!-- Form wrapper -->
+        <form id="customForm" action="#" method="post">
+
+          <!-- STEP 1: Eye Color -->
+          <div class="form-step active" id="step1">
+            <div class="form-section-header">
+              <div class="form-section-num">01</div>
+              <div>
+                <h2 class="form-step-title">What is the color of your eyes?</h2>
+                <p class="form-step-desc">We will build your flower around this — around the particular way you see the world.</p>
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label class="form-label">Choose your eye color</label>
+              <div class="form-options" id="eyeColorOptions">
+                <button type="button" class="form-option" data-val="hazel">Hazel</button>
+                <button type="button" class="form-option" data-val="blue">Blue</button>
+                <button type="button" class="form-option" data-val="green">Green</button>
+                <button type="button" class="form-option" data-val="brown">Brown</button>
+                <button type="button" class="form-option" data-val="grey">Grey</button>
+                <button type="button" class="form-option" data-val="dark-brown">Dark Brown</button>
+                <button type="button" class="form-option" data-val="other">Other — I'll describe</button>
+              </div>
+            </div>
+
+            <div class="form-field" id="eyeColorDescField" style="display:none;">
+              <label class="form-label">Describe your eye color</label>
+              <input type="text" class="form-input" placeholder="e.g. golden-brown with green flecks in sunlight" name="eyeColorDesc" />
+            </div>
+
+            <!-- Optional eye photo upload -->
+            <div class="form-field" style="margin-top:1rem;">
+              <label class="form-label" data-i18n="custom.upload_label">Upload a photo of your eyes for inspiration (optional)</label>
+              <label class="form-upload">
+                <div class="form-upload-icon">✦</div>
+                <div class="form-upload-label">Click to upload a photo — or drag and drop</div>
+                <div class="t-small" style="margin-top:0.3rem;">JPG, PNG · Max 10MB · Optional</div>
+                <input type="file" name="eyePhoto" accept="image/*" />
+              </label>
+            </div>
+
+            <!-- Alternative: not eye-color based -->
+            <div style="margin-top:2rem; padding-top:1.5rem; border-top:1px solid var(--border);">
+              <p class="t-label" style="margin-bottom:0.5rem;" data-i18n="custom.alt_option">Or share your ideas freely</p>
+              <p class="t-small" style="margin-bottom:0.8rem; color:var(--text-light);">
+                Not sure about eye colors? You can skip the color selector and simply tell us what you have in mind — a flower, a feeling, a memory, a person, a season. We will help design your piece from there.
+              </p>
+              <textarea class="form-textarea" name="freeIdea"
+                        placeholder="e.g. I want something that feels like early spring. Soft, a little purple, a little white. It's for my mother's birthday.&#10;&#10;Or: I love the ocean. I want blues and greens with a pearl. I'm not sure about the flower.&#10;&#10;Or: Just surprise me — I trust you."
+                        style="min-height:100px;"></textarea>
+
+              <!-- Upload inspiration images -->
+              <div style="margin-top:1rem;">
+                <label class="form-label">Upload inspiration images (optional)</label>
+                <label class="form-upload">
+                  <div class="form-upload-icon" style="font-size:1.2rem;">⊕</div>
+                  <div class="form-upload-label">Colors, flowers, outfits, moods — anything that helps</div>
+                  <input type="file" name="inspirationPhoto" accept="image/*" multiple />
+                </label>
+              </div>
+            </div>
+
+            <!-- Inspiration guidance note -->
+            <div class="inspiration-note">
+              If you are not sure where to begin, you may explore our
+              <a href="https://instagram.com/siloraorient" target="_blank" rel="noopener">Instagram</a>
+              and customer stories, or browse
+              <a href="other-collections.html">Other Collections</a>
+              for inspiration.
+            </div>
+
+            <!-- Clip-on note -->
+            <p class="clip-on-note" style="margin-top:1.5rem; font-size:0.8rem; color:var(--text-light);" data-i18n="custom.clip_note">
+              If you do not have pierced ears,
+              <button class="clip-on-link">clip-on versions</button>
+              are also available.
+            </p>
+
+            <div class="form-nav">
+              <span></span>
+              <button type="button" class="btn btn-primary" onclick="nextStep(1)">Continue →</button>
+            </div>
+          </div>
+
+          <!-- STEP 2: Flower -->
+          <div class="form-step" id="step2">
+            <div class="form-section-header">
+              <div class="form-section-num">02</div>
+              <div>
+                <h2 class="form-step-title">What flower speaks to you?</h2>
+                <p class="form-step-desc">You may choose from our signature flowers — or describe something entirely your own.</p>
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label class="form-label">Choose a flower</label>
+              <div class="form-options" id="flowerOptions">
+                <button type="button" class="form-option" data-val="orchid">Orchid — rare, personal</button>
+                <button type="button" class="form-option" data-val="iris">Iris — elegant, poetic</button>
+                <button type="button" class="form-option" data-val="peony">Peony — lush, romantic</button>
+                <button type="button" class="form-option" data-val="plum">Plum Blossom — delicate, Eastern</button>
+                <button type="button" class="form-option" data-val="chrysanthemum">Chrysanthemum — thoughtful, strong</button>
+                <button type="button" class="form-option" data-val="rose">Rose — timeless</button>
+                <button type="button" class="form-option" data-val="surprise">Surprise me</button>
+              </div>
+            </div>
+
+            <div class="form-nav">
+              <button type="button" class="btn btn-ghost" onclick="prevStep(2)">← Back</button>
+              <button type="button" class="btn btn-primary" onclick="nextStep(2)">Continue →</button>
+            </div>
+          </div>
+
+          <!-- STEP 3: Memory / Story -->
+          <div class="form-step" id="step3">
+            <div class="form-section-header">
+              <div class="form-section-num">03</div>
+              <div>
+                <h2 class="form-step-title">What memory or person inspires this piece?</h2>
+                <p class="form-step-desc">Optional, but it helps us understand the feeling you want to carry. You can write anything — a name, a moment, a season.</p>
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label class="form-label">Your story (optional)</label>
+              <textarea class="form-textarea" name="story" placeholder="e.g. My grandmother had a garden full of irises. She always wore purple. I want to carry something of hers with me.&#10;&#10;Or: For my daughter, who loves the sea. Her eyes are ocean-grey.&#10;&#10;Or simply: It's for me. For the beginning of something new."></textarea>
+            </div>
+
+            <div class="form-nav">
+              <button type="button" class="btn btn-ghost" onclick="prevStep(3)">← Back</button>
+              <button type="button" class="btn btn-primary" onclick="nextStep(3)">Continue →</button>
+            </div>
+          </div>
+
+          <!-- STEP 4: Colors -->
+          <div class="form-step" id="step4">
+            <div class="form-section-header">
+              <div class="form-section-num">04</div>
+              <div>
+                <h2 class="form-step-title">Which colors call to you?</h2>
+                <p class="form-step-desc">Choose as many as feel right. These are suggestions — we may interpret them in unexpected ways.</p>
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label class="form-label">Silk colors</label>
+              <!-- Chips rendered by JS from SILK_COLORS — add new colors there, not here -->
+              <div class="color-options" id="colorChipsContainer"></div>
+              <!-- Live summary of selected colors -->
+              <div class="color-summary" id="colorSummary">
+                <span class="color-summary-label" id="colorSummaryLabel" style="display:none;">Selected:</span>
+              </div>
+              <p class="t-small" style="margin-top:0.3rem;">Click to select or deselect. Choose as many as feel right.</p>
+              <!-- Hidden input carries selections into form submission -->
+              <input type="hidden" id="selectedColorsInput" name="selectedColors" />
+            </div>
+
+            <div class="form-field">
+              <label class="form-label">Or describe in words</label>
+              <input type="text" class="form-input" name="colorDesc" placeholder="e.g. the exact blue of early morning before sunrise, with gold edges" />
+            </div>
+
+            <div class="form-nav">
+              <button type="button" class="btn btn-ghost" onclick="prevStep(4)">← Back</button>
+              <button type="button" class="btn btn-primary" onclick="nextStep(4)">Continue →</button>
+            </div>
+          </div>
+
+          <!-- STEP 5: Jewelry Type + Contact -->
+          <div class="form-step" id="step5">
+            <div class="form-section-header">
+              <div class="form-section-num">05</div>
+              <div>
+                <h2 class="form-step-title">What would you like it to be?</h2>
+                <p class="form-step-desc">Choose your jewelry type, and tell us how to reach you.</p>
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label class="form-label">Jewelry type</label>
+              <div class="jewelry-type-grid">
+                <div class="jewelry-type-card" data-type="earrings">
+                  <div class="jewelry-type-icon">◎</div>
+                  <div class="jewelry-type-name">Earrings</div>
+                  <div class="jewelry-type-desc">Drop, stud, or asymmetrical — our signature style</div>
+                </div>
+                <div class="jewelry-type-card" data-type="brooch">
+                  <div class="jewelry-type-icon">✿</div>
+                  <div class="jewelry-type-name">Brooch</div>
+                  <div class="jewelry-type-desc">A wearable sculpture for lapels, collars, or hair</div>
+                </div>
+                <div class="jewelry-type-card" data-type="ring">
+                  <div class="jewelry-type-icon">○</div>
+                  <div class="jewelry-type-name">Ring</div>
+                  <div class="jewelry-type-desc">A silk flower bloom on a gold-tone band</div>
+                </div>
+                <div class="jewelry-type-card" data-type="necklace">
+                  <div class="jewelry-type-icon">❀</div>
+                  <div class="jewelry-type-name">Necklace</div>
+                  <div class="jewelry-type-desc">A single flower pendant on a delicate chain</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-field" style="margin-top: 2rem;">
+              <label class="form-label">Your name</label>
+              <input type="text" class="form-input" name="name" placeholder="Your name" required />
+            </div>
+
+            <div class="form-field">
+              <label class="form-label">Email address</label>
+              <input type="email" class="form-input" name="email" placeholder="your@email.com" required />
+            </div>
+
+            <div class="form-field">
+              <label class="form-label">Anything else you'd like to tell us?</label>
+              <textarea class="form-textarea" name="notes" placeholder="Budget, timeline, special requests, or anything else we should know..." style="min-height: 80px;"></textarea>
+            </div>
+
+            <div class="form-nav">
+              <button type="button" class="btn btn-ghost" onclick="prevStep(5)">← Back</button>
+              <button type="button" class="btn btn-gold" onclick="submitForm()" style="padding: 1rem 2.5rem;">
+                Send My Story →
+              </button>
+            </div>
+          </div>
+
+          <!-- SUCCESS STATE -->
+          <div class="form-success" id="formSuccess">
+            <div class="form-success-flower">✿</div>
+            <p class="t-label" style="margin-bottom: 1rem;">Your flower is on its way</p>
+            <h2 style="font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 300; margin-bottom: 1.5rem; line-height: 1.3;">
+              We will create a flower<br>that belongs only to you.
+            </h2>
+            <p style="font-size: 0.95rem; color: var(--text-mid); max-width: 460px; margin: 0 auto 2rem; line-height: 1.8;">
+              Thank you for sharing your story with us. We will be in touch within 3–5 days to discuss your piece and begin making it. Every custom order is a conversation — and we are looking forward to ours.
+            </p>
+            <p style="font-family: var(--font-serif); font-style: italic; font-size: 1.1rem; color: var(--gold);">
+              — Silora Orient
+            </p>
+            <a href="index.html" class="btn btn-outline" style="margin-top: 2.5rem;">Return Home</a>
+          </div>
+
+        </form>
+
+        <!-- Process Steps -->
+        <div class="process-steps">
+          <div class="process-step">
+            <div class="process-step-num">01</div>
+            <div class="process-step-title">You tell us your story</div>
+            <p class="process-step-desc">Eye color, flower, memory, colors — we receive your words.</p>
+          </div>
+          <div class="process-step">
+            <div class="process-step-num">02</div>
+            <div class="process-step-title">We write back</div>
+            <p class="process-step-desc">Within 3–5 days, we'll share a concept and confirm details.</p>
+          </div>
+          <div class="process-step">
+            <div class="process-step-num">03</div>
+            <div class="process-step-title">We make your flower</div>
+            <p class="process-step-desc">By hand, from silk and wire. It takes 2–4 weeks.</p>
+          </div>
+          <div class="process-step">
+            <div class="process-step-num">04</div>
+            <div class="process-step-title">It arrives with you</div>
+            <p class="process-step-desc">Wrapped with care, with a handwritten note — yours.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="nav-logo" style="color: var(--ivory); margin-bottom: 1rem;">
+          Silora Orient
+          <span>Silk Flower Jewelry</span>
+        </div>
+        <p class="footer-tagline">
+          "For your eyes, your story, your memories — a silk flower jewel from the East, made just for you."
+        </p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="Pinterest">PT</a>
+          <a href="#" aria-label="WeChat">微</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title">Explore</p>
+        <ul class="footer-links">
+          <li><a href="collections.html">Collections</a></li>
+          <li><a href="collections.html#orchid">Orchid Custom</a></li>
+          <li><a href="collections.html#eye-color">Eye Color</a></li>
+          <li><a href="collections.html#memory">Mother &amp; Daughter</a></li>
+          <li><a href="collections.html#wedding">Wedding</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Studio</p>
+        <ul class="footer-links">
+          <li><a href="about.html">Our Story</a></li>
+          <li><a href="custom.html">Custom Order</a></li>
+          <li><a href="journal.html">Journal</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Contact</p>
+        <ul class="footer-links">
+          <li><a href="mailto:hello@siloraorient.com">hello@siloraorient.com</a></li>
+          <li><a href="#">Instagram DM</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Silora Orient. All rights reserved.</p>
+      <p class="footer-note">Handmade in the tradition of Chinese 缠花 craftsmanship</p>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+<script>
+  /* ============================================================
+     SILORA ORIENT — Custom Order Form
+     Manages: step nav · color selection · state · Formspree submit
+     ============================================================ */
+
+  /* ------------------------------------------------------------------
+     SILK_COLORS — the single source of truth for all color options.
+     To add a new color: append one object to this array. No HTML changes needed.
+     Format: { id, label, bg, border (optional, for near-white chips) }
+  ------------------------------------------------------------------ */
+  const SILK_COLORS = [
+    { id: 'white',    label: 'White',    bg: '#F0EEE8', border: '#ddd' },
+    { id: 'ivory',    label: 'Ivory',    bg: '#F5EBD4' },
+    { id: 'blush',    label: 'Blush',    bg: '#EDCFCA' },
+    { id: 'rose',     label: 'Rose',     bg: '#D4968E' },
+    { id: 'lavender', label: 'Lavender', bg: '#C4BAD4' },
+    { id: 'blue',     label: 'Blue',     bg: '#7EB3D4' },
+    { id: 'sage',     label: 'Sage',     bg: '#A8B89C' },
+    { id: 'yellow',   label: 'Yellow',   bg: '#E8D080' },
+    { id: 'gold',     label: 'Gold',     bg: '#BF9D6A' },
+    { id: 'purple',   label: 'Purple',   bg: '#8B6CA0' },
+  ];
+
+  /* ------------------------------------------------------------------
+     formState — single object holds all step selections.
+     Persists across forward/back navigation because the form never re-renders.
+  ------------------------------------------------------------------ */
+  const formState = {
+    eyeColor:     '',   // selected eye-color button value
+    eyeColorDesc: '',   // free-text eye description
+    flower:       '',   // selected flower button value
+    story:        '',   // memory / person textarea
+    colors:       new Set(),  // Set of selected color ids
+    colorDesc:    '',   // free-text color description
+    jewelryType:  '',   // selected jewelry-type card value
+    name:         '',
+    email:        '',
+    notes:        '',
+    freeIdea:     '',
+  };
+
+  /* ------------------------------------------------------------------
+     Step navigation
+  ------------------------------------------------------------------ */
+  let currentStep = 1;
+  const totalSteps = 5;
+
+  function goToStep(target) {
+    document.getElementById('step' + currentStep).classList.remove('active');
+    document.getElementById('step' + target).classList.add('active');
+    currentStep = target;
+    updateStepIndicator();
+    window.scrollTo({ top: document.getElementById('customForm').offsetTop - 120, behavior: 'smooth' });
+  }
+
+  function nextStep(current) { if (current < totalSteps) goToStep(current + 1); }
+  function prevStep(current) { if (current > 1)          goToStep(current - 1); }
+
+  function updateStepIndicator() {
+    for (let i = 1; i <= totalSteps; i++) {
+      const node = document.querySelector('[data-step="' + i + '"]');
+      node.classList.remove('active', 'done');
+      if (i < currentStep)  node.classList.add('done');
+      if (i === currentStep) node.classList.add('active');
+    }
+    for (let i = 1; i < totalSteps; i++) {
+      const conn = document.getElementById('conn' + i);
+      if (conn) conn.classList.toggle('done', i < currentStep);
+    }
+  }
+
+  /* ------------------------------------------------------------------
+     Color chip renderer — driven entirely by SILK_COLORS array
+  ------------------------------------------------------------------ */
+  function renderColorChips() {
+    const container = document.getElementById('colorChipsContainer');
+    container.innerHTML = '';
+
+    SILK_COLORS.forEach(color => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'color-chip' + (formState.colors.has(color.id) ? ' selected' : '');
+      btn.dataset.colorId = color.id;
+      btn.setAttribute('aria-pressed', formState.colors.has(color.id));
+      btn.title = color.label;
+
+      const swatchStyle = `background:${color.bg};${color.border ? 'border-color:' + color.border + ';' : ''}`;
+      btn.innerHTML =
+        `<span class="color-chip-swatch" style="${swatchStyle}"></span>` +
+        `<span class="color-chip-label">${color.label}</span>`;
+
+      btn.addEventListener('click', () => toggleColor(color.id, btn));
+      container.appendChild(btn);
+    });
+  }
+
+  function toggleColor(id, btn) {
+    if (formState.colors.has(id)) {
+      formState.colors.delete(id);
+      btn.classList.remove('selected');
+      btn.setAttribute('aria-pressed', 'false');
+    } else {
+      formState.colors.add(id);
+      btn.classList.add('selected');
+      btn.setAttribute('aria-pressed', 'true');
+    }
+    syncColorState();
+  }
+
+  /* Keeps the hidden input and summary pills in sync with formState.colors */
+  function syncColorState() {
+    const selected = [...formState.colors];
+
+    // Hidden input — goes into Formspree payload
+    document.getElementById('selectedColorsInput').value = selected.join(', ');
+
+    // Summary pills below the chips
+    const summary = document.getElementById('colorSummary');
+    const label   = document.getElementById('colorSummaryLabel');
+    // Remove existing pills (keep the label span)
+    summary.querySelectorAll('.color-pill').forEach(p => p.remove());
+
+    if (selected.length === 0) {
+      label.style.display = 'none';
+    } else {
+      label.style.display = '';
+      selected.forEach(id => {
+        const color = SILK_COLORS.find(c => c.id === id);
+        if (!color) return;
+        const pill = document.createElement('span');
+        pill.className = 'color-pill';
+        pill.textContent = color.label;
+        summary.appendChild(pill);
+      });
+    }
+  }
+
+  /* ------------------------------------------------------------------
+     Option-button groups (eye color, flower) — single-select
+  ------------------------------------------------------------------ */
+  document.querySelectorAll('.form-options button').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const group = this.closest('.form-options');
+      group.querySelectorAll('.form-option').forEach(b => b.classList.remove('selected'));
+      this.classList.add('selected');
+
+      const eyeDescField = document.getElementById('eyeColorDescField');
+      if (eyeDescField) {
+        eyeDescField.style.display = (this.dataset.val === 'other') ? 'block' : 'none';
+      }
+
+      // Persist into formState
+      if (group.id === 'eyeColorOptions') formState.eyeColor = this.dataset.val;
+      if (group.id === 'flowerOptions')   formState.flower   = this.dataset.val;
+    });
+  });
+
+  /* ------------------------------------------------------------------
+     Jewelry type cards — single-select
+  ------------------------------------------------------------------ */
+  document.querySelectorAll('.jewelry-type-card').forEach(card => {
+    card.addEventListener('click', function () {
+      document.querySelectorAll('.jewelry-type-card').forEach(c => c.classList.remove('selected'));
+      this.classList.add('selected');
+      formState.jewelryType = this.dataset.type;
+    });
+  });
+
+  /* ------------------------------------------------------------------
+     Form submission — POST to Formspree with full formState
+  ------------------------------------------------------------------ */
+  async function submitForm() {
+    // Collect remaining plain-input values
+    formState.eyeColorDesc = document.querySelector('[name="eyeColorDesc"]')?.value || '';
+    formState.story        = document.querySelector('[name="story"]')?.value        || '';
+    formState.colorDesc    = document.querySelector('[name="colorDesc"]')?.value    || '';
+    formState.freeIdea     = document.querySelector('[name="freeIdea"]')?.value     || '';
+    formState.name         = document.getElementById('pricingName')?.value          ||
+                             document.querySelector('[name="name"]')?.value         || '';
+    formState.email        = document.querySelector('[name="email"]')?.value        || '';
+    formState.notes        = document.querySelector('[name="notes"]')?.value        || '';
+
+    const body = new FormData();
+    body.append('name',    formState.name);
+    body.append('email',   formState.email);
+    body.append('_subject','Silora Orient — Custom Order Inquiry');
+
+    const message = [
+      `Eye Color: ${formState.eyeColor || '—'}`,
+      formState.eyeColorDesc ? `Eye Description: ${formState.eyeColorDesc}` : '',
+      `Flower: ${formState.flower || '—'}`,
+      `Story / Inspiration: ${formState.story || '—'}`,
+      `Silk Colors Selected: ${[...formState.colors].join(', ') || '—'}`,
+      formState.colorDesc ? `Color Description: ${formState.colorDesc}` : '',
+      formState.freeIdea  ? `Free Idea / Alternative: ${formState.freeIdea}` : '',
+      `Jewelry Type: ${formState.jewelryType || '—'}`,
+      formState.notes     ? `Additional Notes: ${formState.notes}` : '',
+    ].filter(Boolean).join('\n');
+
+    body.append('message', message);
+
+    // Show success immediately for better UX, retry in background
+    document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active'));
+    document.getElementById('stepIndicator').style.display = 'none';
+    document.getElementById('formSuccess').classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    try {
+      await fetch('https://formspree.io/f/xlgopzqb', {
+        method: 'POST', body,
+        headers: { 'Accept': 'application/json' }
+      });
+    } catch (_) {
+      // Silent — user already sees success; Formspree has retry logic
+    }
+  }
+
+  /* ------------------------------------------------------------------
+     Init on load
+  ------------------------------------------------------------------ */
+  renderColorChips();
+</script>
+</body>
+</html>

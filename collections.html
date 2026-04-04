@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Collections — Silora Orient</title>
+  <meta name="description" content="Explore Silora Orient collections: Eye Color, Orchid Custom, Mother & Daughter, and Wedding." />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ---- Collections page specific ---- */
+    .collection-intro {
+      padding: var(--space-xl) 0 var(--space-lg);
+      border-bottom: 1px solid var(--border);
+    }
+    .collection-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    /* ---- Eye Color section ---- */
+    .eye-section { padding: var(--space-xl) 0; }
+    .eye-color-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: var(--space-sm);
+      margin-top: 3rem;
+    }
+    .eye-card {
+      background: var(--white);
+      text-align: center;
+      padding: 2rem 1rem;
+      cursor: pointer;
+      transition: all 0.3s var(--ease);
+      border: 1px solid transparent;
+    }
+    .eye-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px var(--shadow);
+    }
+    .eye-swatch-large {
+      width: 90px; height: 90px;
+      border-radius: 50%;
+      margin: 0 auto 1.2rem;
+      position: relative;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    .eye-swatch-large::after {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.22);
+    }
+    .eye-card-name {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      font-weight: 400;
+      margin-bottom: 0.3rem;
+    }
+    .eye-card-palette {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      font-style: italic;
+    }
+    .eye-card-desc {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      line-height: 1.6;
+      margin-top: 0.8rem;
+    }
+
+    /* ---- Orchid feature ---- */
+    .orchid-collection {
+      background: var(--text-dark);
+      position: relative;
+      overflow: hidden;
+      padding: var(--space-xl) 0;
+    }
+    .orchid-collection::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at 80% 50%, rgba(191,157,106,0.15) 0%, transparent 70%);
+    }
+    .orchid-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-lg);
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .orchid-image-stack {
+      position: relative;
+      height: 560px;
+    }
+    .orchid-img-main {
+      position: absolute;
+      width: 80%; height: 80%;
+      top: 0; left: 0;
+      overflow: hidden;
+    }
+    .orchid-img-accent {
+      position: absolute;
+      width: 55%; height: 55%;
+      bottom: 0; right: 0;
+      overflow: hidden;
+      border: 4px solid var(--text-dark);
+    }
+    .orchid-customize {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .orchid-option {
+      padding: 1rem;
+      border: 1px solid rgba(191,157,106,0.25);
+      color: rgba(250,247,242,0.7);
+    }
+    .orchid-option-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 0.3rem;
+    }
+    .orchid-option-value {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    /* ---- Memory & Mother-Daughter ---- */
+    .memory-section {
+      background: var(--cream);
+      padding: var(--space-xl) 0;
+    }
+    .memory-gallery {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 6px;
+      margin-top: 3rem;
+    }
+    .memory-main {
+      grid-row: span 2;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+    }
+    .memory-side {
+      aspect-ratio: 1/1;
+      overflow: hidden;
+    }
+
+    /* ---- Wedding ---- */
+    .wedding-section {
+      padding: var(--space-xl) 0;
+    }
+    .wedding-features {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-md);
+      margin-top: 3rem;
+    }
+    .wedding-feature-card {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      background: var(--white);
+      border-top: 1px solid var(--gold);
+    }
+    .wedding-icon {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+    }
+    .wedding-feature-title {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
+    .wedding-feature-desc {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* ---- Collection nav ---- */
+    .collections-nav {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .collections-nav-item {
+      padding: 1rem 1.5rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-family: var(--font-sans);
+      color: var(--text-light);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.25s;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+    .collections-nav-item:hover,
+    .collections-nav-item.active {
+      color: var(--text-dark);
+      border-bottom-color: var(--gold);
+    }
+
+    @media (max-width: 768px) {
+      .eye-color-grid { grid-template-columns: repeat(2, 1fr); }
+      .orchid-inner { grid-template-columns: 1fr; }
+      .orchid-image-stack { height: 300px; }
+      .memory-gallery { grid-template-columns: 1fr 1fr; }
+      .memory-main { grid-row: span 1; }
+      .wedding-features { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .eye-color-grid { grid-template-columns: 1fr 1fr; }
+      .wedding-features { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav scrolled" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      Silora Orient
+      <span>Silk Flower Jewelry</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html"            class="nav-link" data-i18n="nav.home">Home</a></li>
+      <li><a href="about.html"            class="nav-link" data-i18n="nav.our_story">Our Story</a></li>
+      <li><a href="collections.html"      class="nav-link active" data-i18n="nav.collections">Collections</a></li>
+      <li><a href="other-collections.html"class="nav-link" data-i18n="nav.other_collections">Other Collections</a></li>
+      <li><a href="journal.html"          class="nav-link" data-i18n="nav.journal">Journal</a></li>
+      <li><a href="contact.html"          class="nav-link" data-i18n="nav.contact">Contact</a></li>
+    </ul>
+    <div style="display:flex; align-items:center; gap:1rem;">
+      <div class="lang-switch" id="langSwitch">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <div class="lang-divider-line"></div>
+        <button class="lang-btn" data-lang="zh">中文</button>
+      </div>
+      <a href="custom.html" class="nav-cta" data-i18n="nav.custom_order">Custom Order</a>
+    </div>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" class="nav-link">Home</a>
+  <a href="about.html" class="nav-link">Our Story</a>
+  <a href="collections.html" class="nav-link">Collections</a>
+  <a href="journal.html" class="nav-link">Journal</a>
+  <a href="custom.html" class="btn btn-gold" style="margin-top:1rem;">Custom Order</a>
+</div>
+
+<!-- Page Hero -->
+<div class="page-hero">
+  <p class="t-label page-hero-label">Silora Orient</p>
+  <h1 class="t-display page-hero-title" style="font-size: clamp(2.5rem, 5vw, 5rem);">
+    The Collections
+  </h1>
+  <div class="divider"></div>
+  <p class="page-hero-desc">
+    Handmade silk flower jewelry for eyes, stories, memories, and bonds. Every piece is unique. Every piece is made for someone specific.
+  </p>
+</div>
+
+<!-- Collection Nav -->
+<div style="background: var(--white); position: sticky; top: var(--nav-h); z-index: 50; border-bottom: 1px solid var(--border);">
+  <div class="container">
+    <div class="collections-nav">
+      <a href="#eye-color" class="collections-nav-item active">Eye Color</a>
+      <a href="#orchid" class="collections-nav-item">Orchid Custom</a>
+      <a href="#memory" class="collections-nav-item">Mother &amp; Daughter</a>
+      <a href="#wedding" class="collections-nav-item">Wedding</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ EYE COLOR COLLECTION -->
+<section class="eye-section" id="eye-color">
+  <div class="container">
+    <div class="collection-header">
+      <div>
+        <p class="t-label reveal">Collection One</p>
+        <div class="divider divider-left"></div>
+        <h2 class="t-headline reveal reveal-delay-1">Eye Color Collection</h2>
+        <p class="t-body reveal reveal-delay-2" style="max-width: 480px; margin-top: 0.8rem;">
+          Every pair of eyes holds a landscape. The Eye Color Collection begins with the most intimate detail about you — the color of the light you see the world through — and builds a flower around it.
+        </p>
+      </div>
+      <a href="custom.html" class="btn btn-outline btn-arrow reveal">Design Yours</a>
+    </div>
+
+    <!-- Gallery highlight -->
+    <div style="aspect-ratio: 16/7; overflow: hidden; margin-bottom: 3rem; background: var(--cream);" class="reveal">
+      <img src="images/orchid-collection.jpg" alt="Eye Color Collection — silk flower earrings in hazel, blue, green, brown, and grey" style="object-position: center center;" />
+    </div>
+
+    <div class="eye-color-grid">
+      <div class="eye-card reveal">
+        <div class="eye-swatch-large swatch-hazel"></div>
+        <div class="eye-card-name">Hazel Eyes</div>
+        <div class="eye-card-palette">Warm amber, moss, honey gold</div>
+        <p class="eye-card-desc">For the eyes that shift with light — sometimes gold, sometimes green, always warm. Silk petals in amber and burnished honey, with a touch of forest moss.</p>
+      </div>
+
+      <div class="eye-card reveal reveal-delay-1">
+        <div class="eye-swatch-large swatch-blue"></div>
+        <div class="eye-card-name">Blue Eyes</div>
+        <div class="eye-card-palette">Sky blue, cornflower, pale ice</div>
+        <p class="eye-card-desc">The blue that made our first customer stop and say — "those are my eyes." Soft blues, cool lilac, the particular clarity of a clear spring day.</p>
+      </div>
+
+      <div class="eye-card reveal reveal-delay-2">
+        <div class="eye-swatch-large swatch-green"></div>
+        <div class="eye-card-name">Green Eyes</div>
+        <div class="eye-card-palette">Sage, jade, spring green</div>
+        <p class="eye-card-desc">The rarest eye color, and the hardest to capture. Sage silk, touches of jade, pale green petals that glow like leaves in early morning light.</p>
+      </div>
+
+      <div class="eye-card reveal reveal-delay-3">
+        <div class="eye-swatch-large swatch-brown"></div>
+        <div class="eye-card-name">Brown Eyes</div>
+        <div class="eye-card-palette">Warm earth, coffee, bronze</div>
+        <p class="eye-card-desc">The warmth of dark amber, the depth of earth after rain. Rich silk tones — bronze, deep rose gold, warm cocoa — for eyes that hold the whole world.</p>
+      </div>
+
+      <div class="eye-card reveal reveal-delay-4">
+        <div class="eye-swatch-large swatch-grey"></div>
+        <div class="eye-card-name">Grey Eyes</div>
+        <div class="eye-card-palette">Silver mist, pewter, cloud</div>
+        <p class="eye-card-desc">Cool, still, and luminous. Silks in soft grey, pale lavender, and dove white — for eyes with the quality of winter light on water.</p>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 3rem;">
+      <p class="t-italic t-body reveal" style="font-size: 1.1rem; color: var(--text-dark); max-width: 500px; margin: 0 auto 1.5rem;">
+        "What color are your eyes? Tell us — and we will make a flower that has never existed before."
+      </p>
+      <a href="custom.html" class="btn btn-primary btn-arrow reveal reveal-delay-1">Begin Your Custom Order</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ ORCHID CUSTOM COLLECTION -->
+<section class="orchid-collection" id="orchid">
+  <div class="container">
+    <div class="orchid-inner">
+      <div class="orchid-image-stack reveal">
+        <div class="orchid-img-main img-bg-pearl">
+          <img src="images/white-orchid-earrings.jpg" alt="White silk orchid earrings — pearl and gold, the signature Silora Orient piece" />
+        </div>
+        <div class="orchid-img-accent img-bg-orchid">
+          <img src="images/orchid-collection.jpg" alt="Orchid earrings in multiple colour stories" />
+        </div>
+      </div>
+
+      <div>
+        <p class="t-label" style="color: var(--gold-light);" class="reveal">Signature Collection</p>
+        <div class="divider divider-left" style="background: var(--gold);"></div>
+        <h2 style="font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 300; color: var(--ivory); line-height: 1.2; margin-bottom: 1rem;" class="reveal">
+          Orchid Custom<br>Collection
+        </h2>
+        <p style="font-family: var(--font-serif); font-size: 1.3rem; font-style: italic; color: var(--gold-light); margin-bottom: 1.5rem;" class="reveal">
+          "An orchid made only for you."
+        </p>
+        <p style="font-size: 0.95rem; color: rgba(250,247,242,0.65); line-height: 1.8; max-width: 420px;" class="reveal">
+          The orchid is our symbol for a reason. It is rare, specific, deeply individual — it blooms where it chooses to bloom, and in no two places exactly the same way. Every Orchid Custom piece begins with your story: your eye color, your memory, your flower.
+        </p>
+
+        <div class="orchid-customize reveal reveal-delay-1">
+          <div class="orchid-option">
+            <div class="orchid-option-label">Choose</div>
+            <div class="orchid-option-value">Flower Color</div>
+          </div>
+          <div class="orchid-option">
+            <div class="orchid-option-label">Inspired by</div>
+            <div class="orchid-option-value">Your Eye Color</div>
+          </div>
+          <div class="orchid-option">
+            <div class="orchid-option-label">Infused with</div>
+            <div class="orchid-option-value">Memory or Story</div>
+          </div>
+          <div class="orchid-option">
+            <div class="orchid-option-label">Made as</div>
+            <div class="orchid-option-value">Earrings, Ring, Brooch, Necklace</div>
+          </div>
+        </div>
+
+        <a href="custom.html" class="btn btn-gold btn-arrow reveal reveal-delay-2" style="margin-top: 2rem;">
+          Begin Your Orchid
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ MOTHER & DAUGHTER -->
+<section class="memory-section" id="memory">
+  <div class="container">
+    <div class="collection-header">
+      <div>
+        <p class="t-label reveal">Memory Collection</p>
+        <div class="divider divider-left"></div>
+        <h2 class="t-headline reveal reveal-delay-1">Mother &amp; Daughter</h2>
+        <p class="t-body reveal reveal-delay-2" style="max-width: 480px; margin-top: 0.8rem;">
+          Some flowers are made to be shared. The Mother &amp; Daughter Collection creates matching jewelry sets for mothers and daughters, grandmothers and grandchildren, sisters, and anyone whose love deserves to be worn. Two flowers from the same garden — slightly different, deeply connected.
+        </p>
+      </div>
+      <a href="custom.html" class="btn btn-outline btn-arrow reveal">Order a Set</a>
+    </div>
+
+    <div class="memory-gallery">
+      <div class="memory-main reveal">
+        <img src="images/orchid-mixed-set.jpg" alt="Mother and daughter matching orchid jewelry set — yellow and purple silk flowers" />
+      </div>
+      <div class="memory-side img-bg-pearl reveal reveal-delay-1">
+        <img src="images/white-orchid-earrings.jpg" alt="Pearl orchid earrings — elegant matching set" />
+      </div>
+      <div class="memory-side img-bg-iris reveal reveal-delay-2">
+        <img src="images/iris-brooch.jpg" alt="Purple iris brooch — a gift for a mother" />
+      </div>
+    </div>
+
+    <div style="background: var(--white); padding: 2.5rem 3rem; margin-top: 3rem; border-left: 3px solid var(--gold);" class="reveal">
+      <p style="font-family: var(--font-serif); font-size: 1.2rem; font-weight: 300; font-style: italic; line-height: 1.6; color: var(--text-dark); max-width: 600px;">
+        "A brooch for her. Earrings for you. Made from the same colors, shaped by the same hands — flowers that know they belong together."
+      </p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); margin-top: 3rem;">
+      <div style="padding: 1.5rem; border-top: 1px solid var(--border);" class="reveal">
+        <p class="t-label" style="margin-bottom: 0.5rem;">Mother &amp; Daughter</p>
+        <p style="font-family: var(--font-serif); font-size: 1rem; margin-bottom: 0.5rem;">Matching earring sets</p>
+        <p class="t-small">Two pairs, one color story. Each slightly different — as mothers and daughters always are.</p>
+      </div>
+      <div style="padding: 1.5rem; border-top: 1px solid var(--border);" class="reveal reveal-delay-1">
+        <p class="t-label" style="margin-bottom: 0.5rem;">Grandmother's Garden</p>
+        <p style="font-family: var(--font-serif); font-size: 1rem; margin-bottom: 0.5rem;">Brooch &amp; earring set</p>
+        <p class="t-small">A brooch for the grandmother, earrings for the grandchild. The same flower, different scales.</p>
+      </div>
+      <div style="padding: 1.5rem; border-top: 1px solid var(--border);" class="reveal reveal-delay-2">
+        <p class="t-label" style="margin-bottom: 0.5rem;">Memory Piece</p>
+        <p style="font-family: var(--font-serif); font-size: 1rem; margin-bottom: 0.5rem;">Custom memorial jewelry</p>
+        <p class="t-small">A flower made in memory of someone you love — carrying their color, their spirit, their presence.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ WEDDING -->
+<section class="wedding-section" id="wedding">
+  <div class="container">
+    <div class="collection-header">
+      <div>
+        <p class="t-label reveal">Wedding Collection</p>
+        <div class="divider divider-left"></div>
+        <h2 class="t-headline reveal reveal-delay-1">For the Day That Blooms Once</h2>
+        <p class="t-body reveal reveal-delay-2" style="max-width: 520px; margin-top: 0.8rem;">
+          Silk flowers for weddings — worn, carried, gifted. From bridal earrings to bridesmaid sets, corsages to bouquet details, Silora Orient creates pieces that will last long after fresh flowers have faded.
+        </p>
+      </div>
+      <a href="custom.html" class="btn btn-outline btn-arrow reveal">Inquire for Weddings</a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 3rem;" class="reveal">
+      <div style="aspect-ratio: 4/3; overflow: hidden; background: var(--cream);">
+        <img src="images/white-orchid-earrings.jpg" alt="White orchid bridal earrings — pearl and gold for the wedding day" />
+      </div>
+      <div style="aspect-ratio: 4/3; overflow: hidden; background: var(--cream);">
+        <img src="images/orchid-mixed-set.jpg" alt="Wedding bridesmaid jewelry set — silk flowers in coordinating colors" />
+      </div>
+    </div>
+
+    <div class="wedding-features">
+      <div class="wedding-feature-card reveal">
+        <div class="wedding-icon">✿</div>
+        <div class="wedding-feature-title">Bridal Earrings</div>
+        <p class="wedding-feature-desc">Silk orchid earrings for the bride — white, ivory, blush, or in the color of her eyes.</p>
+      </div>
+      <div class="wedding-feature-card reveal reveal-delay-1">
+        <div class="wedding-icon">❀</div>
+        <div class="wedding-feature-title">Bridesmaid Sets</div>
+        <p class="wedding-feature-desc">Matching sets for the whole party — each slightly different, unified by color and craft.</p>
+      </div>
+      <div class="wedding-feature-card reveal reveal-delay-2">
+        <div class="wedding-icon">✾</div>
+        <div class="wedding-feature-title">Corsages &amp; Bouquet Details</div>
+        <p class="wedding-feature-desc">Silk flowers that travel through the ceremony and last forever — unlike fresh flowers.</p>
+      </div>
+      <div class="wedding-feature-card reveal reveal-delay-3">
+        <div class="wedding-icon">✽</div>
+        <div class="wedding-feature-title">Wedding Gifts</div>
+        <p class="wedding-feature-desc">Silk flower jewelry as a gift for mothers, grandmothers, and cherished guests.</p>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 3rem;">
+      <a href="custom.html" class="btn btn-primary btn-arrow reveal">Inquire for Your Wedding</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ ALL COLLECTIONS CTA -->
+<section style="background: var(--cream); padding: var(--space-xl) 0; text-align: center;">
+  <div class="container">
+    <div style="aspect-ratio: 21/9; overflow: hidden; background: var(--cream-mid); margin-bottom: 3rem; max-width: 900px; margin-left: auto; margin-right: auto; margin-bottom: 3rem;" class="reveal">
+      <img src="images/orchid-collection.jpg" alt="Silora Orient collection overview — silk orchid jewelry in every color" />
+    </div>
+    <p class="t-label reveal">Every Piece, Made for You</p>
+    <div class="divider"></div>
+    <h2 class="t-headline reveal reveal-delay-1" style="max-width: 600px; margin: 0 auto 1.5rem;">
+      Every flower in the collection can be made as a custom order.
+    </h2>
+    <p class="t-body reveal reveal-delay-2" style="max-width: 440px; margin: 0 auto 2rem;">
+      Tell us your story. We will create a silk flower jewel — shaped for you, colored by you, made only once.
+    </p>
+    <a href="custom.html" class="btn btn-primary btn-arrow reveal reveal-delay-3">Create Your Custom Flower</a>
+  </div>
+</section>
+
+<!-- ============================================================ FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="nav-logo" style="color: var(--ivory); margin-bottom: 1rem;">
+          Silora Orient
+          <span>Silk Flower Jewelry</span>
+        </div>
+        <p class="footer-tagline">
+          "For your eyes, your story, your memories — a silk flower jewel from the East, made just for you."
+        </p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="Pinterest">PT</a>
+          <a href="#" aria-label="WeChat">微</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title">Explore</p>
+        <ul class="footer-links">
+          <li><a href="collections.html">Collections</a></li>
+          <li><a href="collections.html#orchid">Orchid Custom</a></li>
+          <li><a href="collections.html#eye-color">Eye Color</a></li>
+          <li><a href="collections.html#memory">Mother &amp; Daughter</a></li>
+          <li><a href="collections.html#wedding">Wedding</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Studio</p>
+        <ul class="footer-links">
+          <li><a href="about.html">Our Story</a></li>
+          <li><a href="custom.html">Custom Order</a></li>
+          <li><a href="journal.html">Journal</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Contact</p>
+        <ul class="footer-links">
+          <li><a href="mailto:hello@siloraorient.com">hello@siloraorient.com</a></li>
+          <li><a href="#">Instagram DM</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Silora Orient. All rights reserved.</p>
+      <p class="footer-note">Handmade in the tradition of Chinese 缠花 craftsmanship</p>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

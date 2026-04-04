@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Story — Silora Orient</title>
+  <meta name="description" content="The story of Silora Orient — from a Chinese silk flower studio to New York." />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ---- About page specific styles ---- */
+    .story-section {
+      padding: var(--space-xl) 0;
+    }
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: var(--space-xl);
+      align-items: start;
+    }
+    .story-sticky {
+      position: sticky;
+      top: calc(var(--nav-h) + 2rem);
+    }
+    .story-body {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+    .story-paragraph {
+      font-family: var(--font-serif);
+      font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--text-dark);
+    }
+    .story-paragraph em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .story-paragraph + .story-paragraph {
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ---- First customer feature ---- */
+    .customer-feature {
+      background: var(--cream);
+      padding: var(--space-xl) 0;
+    }
+    .customer-inner {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: var(--space-lg);
+      align-items: center;
+    }
+    .customer-image {
+      aspect-ratio: 4/5;
+      overflow: hidden;
+    }
+    .customer-quote-block {
+      padding: 3rem;
+      background: var(--white);
+      border-left: 3px solid var(--gold);
+    }
+    .customer-quote {
+      font-family: var(--font-serif);
+      font-size: clamp(1.2rem, 2vw, 1.7rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--text-dark);
+      margin-bottom: 1.5rem;
+    }
+
+    /* ---- Values section ---- */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+    }
+    .value-card {
+      padding: 2.5rem 2rem;
+      background: var(--white);
+      border-top: 2px solid var(--gold);
+    }
+    .value-number {
+      font-family: var(--font-serif);
+      font-size: 3rem;
+      font-weight: 300;
+      color: var(--blush);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+    .value-title {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
+    .value-body {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      line-height: 1.7;
+    }
+
+    /* ---- Founder ---- */
+    .founder-section {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: var(--space-lg);
+      align-items: center;
+      padding: var(--space-xl) 0;
+    }
+    .founder-portrait {
+      aspect-ratio: 3/4;
+      background: linear-gradient(135deg, var(--cream) 0%, var(--cream-mid) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .founder-portrait-placeholder {
+      font-family: var(--font-serif);
+      font-size: 5rem;
+      color: var(--gold);
+      opacity: 0.3;
+    }
+
+    /* ---- Craft section ---- */
+    .craft-section {
+      background: var(--text-dark);
+      color: var(--ivory);
+      padding: var(--space-xl) 0;
+    }
+    .craft-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-lg);
+      align-items: center;
+    }
+    .craft-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .craft-step {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+    .craft-step-number {
+      font-family: var(--font-serif);
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+      flex-shrink: 0;
+      width: 2.5rem;
+      text-align: center;
+    }
+    .craft-step-text h4 {
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 0.3rem;
+    }
+    .craft-step-text p {
+      font-size: 0.9rem;
+      color: rgba(250,247,242,0.6);
+      line-height: 1.7;
+    }
+
+    @media (max-width: 768px) {
+      .story-grid { grid-template-columns: 1fr; gap: var(--space-md); }
+      .story-sticky { position: static; }
+      .customer-inner { grid-template-columns: 1fr; }
+      .values-grid { grid-template-columns: 1fr; }
+      .founder-section { grid-template-columns: 1fr; }
+      .craft-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav scrolled" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      Silora Orient
+      <span>Silk Flower Jewelry</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html"            class="nav-link" data-i18n="nav.home">Home</a></li>
+      <li><a href="about.html"            class="nav-link active" data-i18n="nav.our_story">Our Story</a></li>
+      <li><a href="collections.html"      class="nav-link" data-i18n="nav.collections">Collections</a></li>
+      <li><a href="other-collections.html"class="nav-link" data-i18n="nav.other_collections">Other Collections</a></li>
+      <li><a href="journal.html"          class="nav-link" data-i18n="nav.journal">Journal</a></li>
+      <li><a href="contact.html"          class="nav-link" data-i18n="nav.contact">Contact</a></li>
+    </ul>
+    <div style="display:flex; align-items:center; gap:1rem;">
+      <div class="lang-switch" id="langSwitch">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <div class="lang-divider-line"></div>
+        <button class="lang-btn" data-lang="zh">中文</button>
+      </div>
+      <a href="custom.html" class="nav-cta" data-i18n="nav.custom_order">Custom Order</a>
+    </div>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html"            class="nav-link" data-i18n="nav.home">Home</a>
+  <a href="about.html"            class="nav-link" data-i18n="nav.our_story">Our Story</a>
+  <a href="collections.html"      class="nav-link" data-i18n="nav.collections">Collections</a>
+  <a href="other-collections.html"class="nav-link" data-i18n="nav.other_collections">Other Collections</a>
+  <a href="journal.html"          class="nav-link" data-i18n="nav.journal">Journal</a>
+  <a href="contact.html"          class="nav-link" data-i18n="nav.contact">Contact</a>
+  <a href="custom.html" class="btn btn-gold" style="margin-top:1rem;" data-i18n="nav.custom_order">Custom Order</a>
+</div>
+
+<!-- Page Hero -->
+<div class="page-hero">
+  <p class="t-label page-hero-label">Our Story</p>
+  <h1 class="t-display page-hero-title" style="font-size: clamp(2.5rem, 5vw, 5rem);">
+    Five Years of Petals.<br>A New Chapter.
+  </h1>
+  <div class="divider"></div>
+  <p class="page-hero-desc">
+    From a small silk flower workshop in China to the streets of New York — a story of craft, friendship, memory, and the particular color of someone's eyes.
+  </p>
+</div>
+
+<!-- ============================================================ STORY SECTION -->
+<section class="story-section">
+  <div class="container">
+    <div class="story-grid">
+
+      <!-- Sticky side label -->
+      <div class="story-sticky">
+        <div style="aspect-ratio: 3/4; overflow: hidden; background: var(--cream);">
+          <img src="images/iris-brooch.jpg" alt="Purple iris silk brooch — a symbol of the craft" />
+        </div>
+        <div style="padding: 2rem 0;">
+          <p class="t-label">Born in China, Blooming in New York</p>
+          <div class="divider divider-left"></div>
+          <p style="font-size: 0.85rem; color: var(--text-light); line-height: 1.7; margin-top: 0.5rem;">
+            "Silora Orient is not just a jewelry brand. It is a friendship, a craft, a feeling — and it is yours."
+          </p>
+        </div>
+      </div>
+
+      <!-- Main story text -->
+      <div class="story-body">
+        <div>
+          <p class="t-label" style="margin-bottom: 1rem;">The Beginning</p>
+          <p class="story-paragraph reveal">
+            It began with a friendship, and a fascination.
+          </p>
+          <p class="story-paragraph reveal reveal-delay-1">
+            At university, the founder of Silora Orient watched a close friend — a student of landscape architecture and traditional Chinese plant craft — bend silk around wire with an almost supernatural patience. From those slow afternoons of watching and wondering, a love for the art of <em>缠花</em> was born.
+          </p>
+          <p class="story-paragraph reveal reveal-delay-2">
+            <em>缠花</em> — literally "wound flower" — is one of China's oldest textile arts. Thread by thread, silk is wrapped around wire frames to create flowers so lifelike they seem to hold morning dew. Historically used for weddings, festivals, and ceremonies, each piece carries within it an entire language of care.
+          </p>
+        </div>
+
+        <div>
+          <p class="t-label" style="margin-bottom: 1rem;">The Workshop Years (2021–2025)</p>
+          <p class="story-paragraph reveal">
+            In 2021, the studio was founded in China. For five years, the work was quiet and devoted. Flowers were made one at a time. Every petal was shaped by hand. Every wire was wound with the particular attention that cannot be hurried.
+          </p>
+          <p class="story-paragraph reveal reveal-delay-1">
+            A loyal following grew — people who recognized in these pieces something they had never seen in other jewelry: the feeling that a flower had been made specifically for them, with patience and love.
+          </p>
+          <p class="story-paragraph reveal reveal-delay-2">
+            Over those years, the craft deepened. The palette expanded. The pieces grew from simple flowers into full jewels — earrings, brooches, rings, necklaces — each one its own small story.
+          </p>
+        </div>
+
+        <div>
+          <p class="t-label" style="margin-bottom: 1rem;">The Journey to New York</p>
+          <p class="story-paragraph reveal">
+            In the spring of 2026, a suitcase arrived at JFK airport carrying silk flowers wrapped in tissue paper. The plan was simple: share the work. See if New York would receive it.
+          </p>
+          <p class="story-paragraph reveal reveal-delay-1">
+            New York received it immediately.
+          </p>
+          <p class="story-paragraph reveal reveal-delay-2">
+            People stopped. They leaned in close. They said — "I've never seen anything like this." And they were right. Silk flower jewelry, made by hand in the tradition of Chinese <em>缠花</em>, does not exist in New York quite like this. It is something entirely its own.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FIRST CUSTOMER -->
+<div class="customer-feature" id="first-customer">
+  <div class="container">
+    <div class="customer-inner">
+      <div class="customer-image reveal">
+        <img src="images/orchid-collection.jpg" alt="Blue and pink silk orchid earrings — made for the first New York customer" />
+      </div>
+      <div>
+        <p class="t-label reveal">Spring 2026 · New York</p>
+        <div class="divider divider-left"></div>
+        <h2 class="t-headline reveal reveal-delay-1">The First Customer</h2>
+        <div class="customer-quote-block reveal reveal-delay-2">
+          <p class="customer-quote">
+            "He was a Spanish musician. He came over carrying a guitar case, and stopped when he saw the orchids. He looked at them for a long time. Then he pointed to a pair — the ones with blue and pink petals — and said: those are the colors of my eyes."
+          </p>
+          <p class="t-small">— From the Journal of Silora Orient, Spring 2026</p>
+        </div>
+        <p class="t-body reveal reveal-delay-3" style="margin-top: 1.5rem;">
+          That moment became the founding philosophy of Silora Orient. Not a collection for everyone — but a flower made for <em>you</em>: for the specific color of your eyes, the texture of your particular light. From that afternoon in New York, the Eye Color Collection was born.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ TIMELINE -->
+<section style="background: var(--ivory); padding: var(--space-xl) 0;">
+  <div class="container">
+    <div style="text-align: center; margin-bottom: 4rem;">
+      <p class="t-label reveal">A Journey</p>
+      <div class="divider"></div>
+      <h2 class="t-headline reveal reveal-delay-1">Five Years in Bloom</h2>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-year">2021</div>
+        <p class="timeline-text">
+          The silk flower studio is founded in China. The first petals are wound by hand. A friendship becomes a craft, and a craft becomes a calling.
+        </p>
+      </div>
+
+      <div class="timeline-item reveal reveal-delay-1">
+        <div class="timeline-year">2021 – 2025</div>
+        <p class="timeline-text">
+          Five years of devoted making. Dozens of flower series — orchids, irises, peonies, plum blossoms — each one handmade, each one with its own story. A quiet and loyal following grows in China.
+        </p>
+      </div>
+
+      <div class="timeline-item reveal reveal-delay-2">
+        <div class="timeline-year">Spring 2026</div>
+        <p class="timeline-text">
+          The first silk flowers arrive in New York. They travel in tissue paper, in a suitcase, across the Pacific — carrying five years of craft to a new city, a new light, a new spring.
+        </p>
+      </div>
+
+      <div class="timeline-item reveal reveal-delay-3">
+        <div class="timeline-year">Spring 2026</div>
+        <p class="timeline-text">
+          The first New York customer: a Spanish musician who finds in a pair of blue and pink orchid earrings the exact color of his eyes. The Eye Color Collection is born in that moment.
+        </p>
+      </div>
+
+      <div class="timeline-item reveal reveal-delay-4">
+        <div class="timeline-year">2026</div>
+        <p class="timeline-text">
+          Silora Orient officially launches in New York. Custom orders open. The orchid becomes the symbol of the brand: rare, individual, and deeply personal.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ CRAFT SECTION -->
+<section class="craft-section">
+  <div class="container">
+    <div class="craft-grid">
+      <div>
+        <p class="t-label" style="color: var(--gold-light);" class="reveal">The Making</p>
+        <div class="divider divider-left" style="background: var(--gold); margin-left: 0;"></div>
+        <h2 style="font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 3rem); font-weight: 300; color: var(--ivory); line-height: 1.2; margin-bottom: 1.5rem;" class="reveal">
+          缠花 — The Art of the Wound Flower
+        </h2>
+        <p style="font-size: 0.95rem; color: rgba(250,247,242,0.6); line-height: 1.8; max-width: 400px;" class="reveal">
+          One of China's most patient textile arts — silk thread wound around wire, petal by petal, until a flower appears that seems to breathe. Silora Orient carries this tradition into every piece.
+        </p>
+        <div class="craft-steps reveal reveal-delay-1">
+          <div class="craft-step">
+            <div class="craft-step-number">一</div>
+            <div class="craft-step-text">
+              <h4>Silk Selection</h4>
+              <p>The finest silk thread is chosen for its sheen, texture, and how it holds dye. Each color is selected to match its story.</p>
+            </div>
+          </div>
+          <div class="craft-step">
+            <div class="craft-step-number">二</div>
+            <div class="craft-step-text">
+              <h4>Wire Shaping</h4>
+              <p>Gold-toned wire is bent and shaped by hand into the skeleton of each petal — each flower is a unique sculpture.</p>
+            </div>
+          </div>
+          <div class="craft-step">
+            <div class="craft-step-number">三</div>
+            <div class="craft-step-text">
+              <h4>Silk Winding</h4>
+              <p>Thread by thread, silk is wound tightly around the wire, building color, texture, and depth — the most meditative part of the process.</p>
+            </div>
+          </div>
+          <div class="craft-step">
+            <div class="craft-step-number">四</div>
+            <div class="craft-step-text">
+              <h4>Pearl &amp; Stone Setting</h4>
+              <p>Freshwater pearls, gemstone beads, and gold hardware complete the piece — a jewel worthy of the flower it holds.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="aspect-ratio: 3/4; overflow: hidden;" class="reveal">
+        <img src="images/iris-brooch.jpg" alt="Detail of the silk iris brooch — gold wire and purple silk petals" style="object-position: center top;" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ VALUES -->
+<section style="background: var(--ivory); padding: var(--space-xl) 0;">
+  <div class="container">
+    <div style="text-align: center; margin-bottom: 3rem;">
+      <p class="t-label reveal">What We Believe</p>
+      <div class="divider"></div>
+      <h2 class="t-headline reveal reveal-delay-1">The Heart of Silora Orient</h2>
+    </div>
+
+    <div class="values-grid">
+      <div class="value-card reveal">
+        <div class="value-number">01</div>
+        <h3 class="value-title">Every piece is personal</h3>
+        <p class="value-body">
+          We do not make jewelry for "everyone." We make flowers for specific people — for the color of their eyes, the people they love, the memories they carry. The more personal, the more beautiful.
+        </p>
+      </div>
+      <div class="value-card reveal reveal-delay-1">
+        <div class="value-number">02</div>
+        <h3 class="value-title">Slow is the only way</h3>
+        <p class="value-body">
+          There is no fast way to wind silk around wire. There is no shortcut to a petal that looks alive. Every Silora Orient piece takes hours to make. That is the only way it can be done.
+        </p>
+      </div>
+      <div class="value-card reveal reveal-delay-2">
+        <div class="value-number">03</div>
+        <h3 class="value-title">East and West, together</h3>
+        <p class="value-body">
+          Our craft comes from China. Our new home is New York. We belong to both — and to the people who feel they belong to more than one world, one culture, one story.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ CTA -->
+<section style="background: var(--cream); padding: var(--space-xl) 0; text-align: center;">
+  <div class="container">
+    <p class="t-label reveal">Begin</p>
+    <div class="divider"></div>
+    <h2 class="t-headline reveal reveal-delay-1">
+      Your flower is waiting to be made.
+    </h2>
+    <p class="t-body reveal reveal-delay-2" style="max-width: 440px; margin: 1.5rem auto 0;">
+      Tell us your story. Share the color of your eyes, a memory, a name. We will create a silk flower jewel that is entirely, beautifully yours.
+    </p>
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2.5rem;" class="reveal reveal-delay-3">
+      <a href="custom.html" class="btn btn-primary btn-arrow">Create Your Custom Flower</a>
+      <a href="collections.html" class="btn btn-outline btn-arrow">Browse Collections</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="nav-logo" style="color: var(--ivory); margin-bottom: 1rem;">
+          Silora Orient
+          <span>Silk Flower Jewelry</span>
+        </div>
+        <p class="footer-tagline">
+          "For your eyes, your story, your memories — a silk flower jewel from the East, made just for you."
+        </p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="Pinterest">PT</a>
+          <a href="#" aria-label="WeChat">微</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title">Explore</p>
+        <ul class="footer-links">
+          <li><a href="collections.html">Collections</a></li>
+          <li><a href="collections.html#orchid">Orchid Custom</a></li>
+          <li><a href="collections.html#eye-color">Eye Color</a></li>
+          <li><a href="collections.html#memory">Mother &amp; Daughter</a></li>
+          <li><a href="collections.html#wedding">Wedding</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Studio</p>
+        <ul class="footer-links">
+          <li><a href="about.html">Our Story</a></li>
+          <li><a href="custom.html">Custom Order</a></li>
+          <li><a href="journal.html">Journal</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Contact</p>
+        <ul class="footer-links">
+          <li><a href="mailto:hello@siloraorient.com">hello@siloraorient.com</a></li>
+          <li><a href="#">Instagram DM</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Silora Orient. All rights reserved.</p>
+      <p class="footer-note">Handmade in the tradition of Chinese 缠花 craftsmanship</p>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

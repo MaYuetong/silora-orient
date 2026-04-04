@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Journal — Silora Orient</title>
+  <meta name="description" content="Stories from Silora Orient — the first New York customer, the meaning of orchids, five years of silk flower craft." />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ---- Journal page specific ---- */
+    .journal-hero {
+      padding: calc(var(--nav-h) + var(--space-lg)) 0 var(--space-lg);
+      background: var(--text-dark);
+      color: var(--ivory);
+      position: relative;
+      overflow: hidden;
+    }
+    .journal-hero::before {
+      content: '';
+      position: absolute;
+      top: -20%; right: -5%;
+      width: 50%;
+      height: 140%;
+      background: radial-gradient(ellipse, rgba(191,157,106,0.12) 0%, transparent 70%);
+    }
+    .journal-hero-inner {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    /* ---- Featured Story ---- */
+    .featured-story {
+      background: var(--cream);
+      padding: var(--space-xl) 0;
+    }
+    .featured-story-inner {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: var(--space-lg);
+      align-items: center;
+    }
+    .featured-story-image {
+      aspect-ratio: 4/5;
+      overflow: hidden;
+      position: relative;
+    }
+    .featured-story-label {
+      position: absolute;
+      top: 1.5rem; left: 1.5rem;
+      background: var(--text-dark);
+      color: var(--ivory);
+      padding: 0.4rem 0.8rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .featured-story-body {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .featured-story-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 300;
+      line-height: 1.2;
+    }
+    .featured-story-excerpt {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      font-style: italic;
+      line-height: 1.8;
+      color: var(--text-mid);
+    }
+
+    /* ---- Article Grid ---- */
+    .article-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+      margin-top: var(--space-lg);
+    }
+
+    .article-card {
+      background: var(--white);
+      overflow: hidden;
+      transition: box-shadow 0.4s;
+      cursor: pointer;
+    }
+    .article-card:hover {
+      box-shadow: 0 16px 50px var(--shadow);
+    }
+    .article-card-image {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      background: var(--cream);
+    }
+    .article-card-image img {
+      transition: transform 0.8s var(--ease);
+    }
+    .article-card:hover .article-card-image img {
+      transform: scale(1.05);
+    }
+    .article-card-body {
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+    .article-tag {
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-family: var(--font-sans);
+    }
+    .article-title {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      font-weight: 300;
+      line-height: 1.35;
+      color: var(--text-dark);
+      transition: color 0.3s;
+    }
+    .article-card:hover .article-title { color: var(--gold); }
+    .article-excerpt {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      line-height: 1.7;
+    }
+    .article-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      margin-top: auto;
+    }
+    .article-date {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--text-light);
+      text-transform: uppercase;
+    }
+    .article-read-link {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      transition: gap 0.3s;
+    }
+
+    /* ---- Article body (for expanded posts) ---- */
+    .article-expanded {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: var(--space-lg) 0 var(--space-xl);
+    }
+    .article-expanded-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .article-body-text {
+      font-family: var(--font-serif);
+      font-size: clamp(1.05rem, 1.5vw, 1.18rem);
+      font-weight: 300;
+      line-height: 1.85;
+      color: var(--text-dark);
+    }
+    .article-body-text p + p { margin-top: 1.5rem; }
+    .article-body-text em { color: var(--gold); }
+
+    .article-pullquote {
+      border-left: 3px solid var(--gold);
+      padding: 1.5rem 2rem;
+      margin: 2.5rem 0;
+      background: var(--cream);
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    /* ---- Newsletter ---- */
+    .newsletter-section {
+      background: var(--text-dark);
+      color: var(--ivory);
+      padding: var(--space-xl) 0;
+      text-align: center;
+    }
+    .newsletter-form {
+      display: flex;
+      max-width: 480px;
+      margin: 2rem auto 0;
+      gap: 0;
+    }
+    .newsletter-input {
+      flex: 1;
+      padding: 0.9rem 1.2rem;
+      border: none;
+      background: rgba(255,255,255,0.1);
+      color: var(--ivory);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      outline: none;
+      transition: background 0.3s;
+    }
+    .newsletter-input::placeholder { color: rgba(250,247,242,0.4); }
+    .newsletter-input:focus { background: rgba(255,255,255,0.15); }
+    .newsletter-btn {
+      padding: 0.9rem 1.5rem;
+      background: var(--gold);
+      color: var(--white);
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.3s;
+    }
+    .newsletter-btn:hover { background: var(--gold-light); }
+
+    @media (max-width: 768px) {
+      .featured-story-inner { grid-template-columns: 1fr; }
+      .article-grid { grid-template-columns: 1fr; }
+      .newsletter-form { flex-direction: column; }
+    }
+    @media (max-width: 1024px) and (min-width: 769px) {
+      .article-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav" id="nav" style="background: rgba(42,39,36,0.95); backdrop-filter: blur(12px);">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo" style="color: var(--ivory);">
+      Silora Orient
+      <span>Silk Flower Jewelry</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link" style="color: rgba(250,247,242,0.6);">Home</a></li>
+      <li><a href="about.html" class="nav-link" style="color: rgba(250,247,242,0.6);">Our Story</a></li>
+      <li><a href="collections.html" class="nav-link" style="color: rgba(250,247,242,0.6);">Collections</a></li>
+      <li><a href="journal.html" class="nav-link active" style="color: var(--ivory);">Journal</a></li>
+    </ul>
+    <a href="custom.html" class="nav-cta" style="border-color: var(--gold); color: var(--gold);">Custom Order</a>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span style="background: var(--ivory);"></span>
+      <span style="background: var(--ivory);"></span>
+      <span style="background: var(--ivory);"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html"            class="nav-link" data-i18n="nav.home">Home</a>
+  <a href="about.html"            class="nav-link" data-i18n="nav.our_story">Our Story</a>
+  <a href="collections.html"      class="nav-link" data-i18n="nav.collections">Collections</a>
+  <a href="other-collections.html"class="nav-link" data-i18n="nav.other_collections">Other Collections</a>
+  <a href="journal.html"          class="nav-link" data-i18n="nav.journal">Journal</a>
+  <a href="contact.html"          class="nav-link" data-i18n="nav.contact">Contact</a>
+  <a href="custom.html" class="btn btn-gold" style="margin-top:1rem;" data-i18n="nav.custom_order">Custom Order</a>
+</div>
+
+<!-- Journal Hero -->
+<div class="journal-hero">
+  <div class="container journal-hero-inner">
+    <p class="t-label" style="color: var(--gold-light);">From the Studio</p>
+    <div class="divider" style="background: rgba(191,157,106,0.4);"></div>
+    <h1 style="font-family: var(--font-serif); font-size: clamp(2.5rem, 5vw, 5rem); font-weight: 300; color: var(--ivory); line-height: 1.1; margin-bottom: 1rem;">
+      The Journal
+    </h1>
+    <p style="font-size: 1rem; color: rgba(250,247,242,0.55); max-width: 480px; margin: 0 auto; line-height: 1.8;">
+      Stories from Silora Orient — the people, the flowers, the craft, and the particular moments that made each piece worth making.
+    </p>
+  </div>
+</div>
+
+<!-- ============================================================ FEATURED STORY -->
+<section class="featured-story">
+  <div class="container">
+    <div class="featured-story-inner">
+      <div class="featured-story-image reveal">
+        <img src="images/orchid-collection.jpg" alt="Blue and pink silk orchid earrings — made for the first New York customer, a Spanish musician" />
+        <div class="featured-story-label">Featured Story</div>
+      </div>
+      <div class="featured-story-body">
+        <div>
+          <p class="article-tag reveal">First Story · New York, Spring 2026</p>
+          <div class="divider divider-left"></div>
+        </div>
+        <h2 class="featured-story-title reveal reveal-delay-1">
+          The Color of His Eyes:<br>Our First New York Customer
+        </h2>
+        <p class="featured-story-excerpt reveal reveal-delay-2">
+          He was a Spanish musician, and he stopped when he saw the orchids. He looked at them for a long time. Then he pointed to the ones with blue and pink petals — the ones that looked like the color of early morning — and said: those are the colors of my eyes.
+        </p>
+        <p class="t-body reveal reveal-delay-3">
+          That moment became the philosophy of Silora Orient. Not jewelry for everyone — but a flower made for you, specifically: for the color you see the world through, for the stories you carry in your eyes.
+        </p>
+        <div class="reveal reveal-delay-4">
+          <a href="#story-spanish-musician" class="btn btn-primary btn-arrow" style="width: fit-content;">Read the Full Story</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FULL STORY: The Spanish Musician -->
+<section id="story-spanish-musician" style="background: var(--ivory); padding: var(--space-xl) 0;">
+  <div class="container">
+    <div class="article-expanded">
+      <div class="article-expanded-header reveal">
+        <p class="article-tag" style="display: block; margin-bottom: 1rem;">New York · Spring 2026</p>
+        <h2 style="font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 3rem); font-weight: 300; line-height: 1.2; margin-bottom: 1.5rem;">
+          The Color of His Eyes
+        </h2>
+        <div class="divider"></div>
+        <p style="font-size: 0.8rem; color: var(--text-light); letter-spacing: 0.1em; margin-top: 1rem;">
+          By Silora Orient &nbsp;·&nbsp; 5 min read
+        </p>
+      </div>
+
+      <div class="article-body-text reveal">
+        <p>
+          It happened on a Tuesday afternoon in early spring. The light in New York in March has a quality unlike anywhere else — clear and cool, not quite winter, almost something new.
+        </p>
+        <p>
+          He came in carrying a guitar case on his back, the kind that makes you wonder where someone is going. He stopped when he saw the small display of silk flower earrings on the table. He set the guitar down carefully — musicians always set their instruments down carefully — and leaned in to look.
+        </p>
+
+        <div class="article-pullquote">
+          "He looked at the orchids for a long time. Then he pointed. 'Those ones,' he said. 'Those are the colors of my eyes.'"
+        </div>
+
+        <p>
+          He was Spanish, we learned — a classical guitarist living in Brooklyn, far from home. He had been in New York for two years. He said he missed the colors of the Mediterranean in spring: that particular blue-pink that happens at sunrise over the sea. The silk orchid earrings — pale blue petals with the faintest blush at the edges, gold wire stems, a freshwater pearl drop — looked like exactly that.
+        </p>
+        <p>
+          He bought them for someone back home. He didn't say who. But he held them carefully in his palm for a moment before putting them in the box, and he said: <em>"She'll know what these mean."</em>
+        </p>
+        <p>
+          After he left, the thought stayed: what would it mean to make a flower specifically for the color of someone's eyes? Not a generic flower, not a standard design — but a piece that began with the most intimate physical detail a person has: the particular color of the light they see the world through.
+        </p>
+        <p>
+          The Eye Color Collection was born that afternoon. And so was Silora Orient as a brand — not just silk flowers made with craft, but silk flowers made with <em>intention</em>, for specific people, for specific stories.
+        </p>
+        <p>
+          We don't know his name. We never asked. But that Tuesday in March is where Silora Orient in New York truly begins.
+        </p>
+      </div>
+
+      <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); text-align: center;" class="reveal">
+        <p class="t-label" style="margin-bottom: 1rem;">The earrings from that afternoon</p>
+        <div style="aspect-ratio: 16/9; overflow: hidden; background: var(--cream); max-width: 560px; margin: 0 auto;">
+          <img src="images/orchid-collection.jpg" alt="Blue and pink silk orchid earrings — the first pair sold in New York" />
+        </div>
+        <p class="t-small" style="margin-top: 1rem; font-style: italic;">
+          The orchid earrings. Blue and blush, pearl drop, gold wire. The colors of a Spanish sunrise over the sea.
+        </p>
+      </div>
+
+      <div style="text-align: center; margin-top: 3rem;" class="reveal">
+        <a href="custom.html" class="btn btn-primary btn-arrow">Create Your Own Flower</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ MORE STORIES -->
+<section style="background: var(--cream); padding: var(--space-xl) 0;">
+  <div class="container">
+    <div style="margin-bottom: 3rem; text-align: center;">
+      <p class="t-label reveal">More from the Journal</p>
+      <div class="divider"></div>
+      <h2 class="t-headline reveal reveal-delay-1">Stories Worth Keeping</h2>
+    </div>
+
+    <div class="article-grid">
+
+      <div class="article-card reveal">
+        <div class="article-card-image img-bg-iris">
+          <img src="images/iris-brooch.jpg" alt="Purple iris brooch — why orchids became the symbol of Silora Orient" />
+        </div>
+        <div class="article-card-body">
+          <span class="article-tag">Craft · Meaning</span>
+          <h3 class="article-title">Why the Orchid Chose Us</h3>
+          <p class="article-excerpt">
+            We didn't choose the orchid. The orchid found us — through the precise way its petals hold dye, through the way it blooms in unexpected places, through what it says about rarity and individuality. This is why it became the symbol of Silora Orient.
+          </p>
+          <div class="article-meta">
+            <span class="article-date">March 2026</span>
+            <span class="article-read-link">Read →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="article-card reveal reveal-delay-1">
+        <div class="article-card-image img-bg-garden">
+          <img src="images/orchid-mixed-set.jpg" alt="A set of silk flower jewelry — from a studio in China to New York" />
+        </div>
+        <div class="article-card-body">
+          <span class="article-tag">Story · Origins</span>
+          <h3 class="article-title">From a Workshop in China to the Streets of New York</h3>
+          <p class="article-excerpt">
+            Five years of silk and wire in a small studio in China. Then a suitcase, a flight, and a city that received us before we had even unpacked. This is how Silora Orient crossed the ocean.
+          </p>
+          <div class="article-meta">
+            <span class="article-date">February 2026</span>
+            <span class="article-read-link">Read →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="article-card reveal reveal-delay-2">
+        <div class="article-card-image img-bg-pearl">
+          <img src="images/white-orchid-earrings.jpg" alt="White orchid earrings — the meaning of eye color jewelry" />
+        </div>
+        <div class="article-card-body">
+          <span class="article-tag">Philosophy · Design</span>
+          <h3 class="article-title">The Meaning of Eye-Color Jewelry</h3>
+          <p class="article-excerpt">
+            Eyes are the most private public thing about a person — visible to everyone, held by no one. When we make jewelry for the color of your eyes, we are making something that sees and is seen at the same time.
+          </p>
+          <div class="article-meta">
+            <span class="article-date">April 2026</span>
+            <span class="article-read-link">Read →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="article-card reveal">
+        <div class="article-card-image img-bg-orchid">
+          <img src="images/orchid-collection.jpg" alt="缠花 — the ancient Chinese silk winding art behind Silora Orient" />
+        </div>
+        <div class="article-card-body">
+          <span class="article-tag">Craft · Heritage</span>
+          <h3 class="article-title">缠花: The Ancient Art of the Wound Flower</h3>
+          <p class="article-excerpt">
+            Before there was Silora Orient, there was 缠花 — an art practiced in China for centuries, in which silk thread is wound around wire until flowers appear that seem to breathe. The history of our craft.
+          </p>
+          <div class="article-meta">
+            <span class="article-date">January 2026</span>
+            <span class="article-read-link">Read →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="article-card reveal reveal-delay-1">
+        <div class="article-card-image" style="background: linear-gradient(135deg, #F0EAD8 0%, #E8D8C4 100%);">
+          <img src="images/iris-brooch.jpg" alt="A silk flower made for a grandmother — the memory collection" style="object-position: center 20%;" />
+        </div>
+        <div class="article-card-body">
+          <span class="article-tag">Memory · People</span>
+          <h3 class="article-title">A Brooch for a Grandmother Who Loved the Garden</h3>
+          <p class="article-excerpt">
+            She asked for something purple. Her grandmother had grown irises for fifty years — rows of them, every spring, in a garden no one had seen but the family. We made her an iris that will last.
+          </p>
+          <div class="article-meta">
+            <span class="article-date">Coming Soon</span>
+            <span class="article-read-link">Soon →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="article-card reveal reveal-delay-2">
+        <div class="article-card-image" style="background: linear-gradient(135deg, var(--cream) 0%, var(--blush) 100%);">
+          <img src="images/orchid-mixed-set.jpg" alt="Mother and daughter matching silk flower sets — the Mother Collection story" />
+        </div>
+        <div class="article-card-body">
+          <span class="article-tag">Family · Gift</span>
+          <h3 class="article-title">Two Flowers from the Same Garden: The Mother &amp; Daughter Collection</h3>
+          <p class="article-excerpt">
+            A daughter asked us to make two pairs — one for her, one for her mother — that were the same but different. "Like us," she said. This is how the Mother Collection came to be.
+          </p>
+          <div class="article-meta">
+            <span class="article-date">Coming Soon</span>
+            <span class="article-read-link">Soon →</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ NEWSLETTER -->
+<section class="newsletter-section">
+  <div class="container">
+    <p class="t-label" style="color: var(--gold-light);">Stay Close</p>
+    <div class="divider" style="background: rgba(191,157,106,0.4);"></div>
+    <h2 style="font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 300; color: var(--ivory); max-width: 520px; margin: 0 auto 1rem; line-height: 1.3;">
+      New stories, new flowers —<br>sent quietly to your inbox.
+    </h2>
+    <p style="font-size: 0.9rem; color: rgba(250,247,242,0.5); max-width: 380px; margin: 0 auto; line-height: 1.7;">
+      We write when something is worth saying. Not often — but always with intention.
+    </p>
+    <div class="newsletter-form">
+      <input class="newsletter-input" type="email" placeholder="Your email address" />
+      <button class="newsletter-btn">Subscribe</button>
+    </div>
+    <p style="font-size: 0.72rem; color: rgba(250,247,242,0.25); margin-top: 1rem; letter-spacing: 0.05em;">
+      No noise. Only what matters.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================ FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="nav-logo" style="color: var(--ivory); margin-bottom: 1rem;">
+          Silora Orient
+          <span>Silk Flower Jewelry</span>
+        </div>
+        <p class="footer-tagline">
+          "For your eyes, your story, your memories — a silk flower jewel from the East, made just for you."
+        </p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="Pinterest">PT</a>
+          <a href="#" aria-label="WeChat">微</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title">Explore</p>
+        <ul class="footer-links">
+          <li><a href="collections.html">Collections</a></li>
+          <li><a href="collections.html#orchid">Orchid Custom</a></li>
+          <li><a href="collections.html#eye-color">Eye Color</a></li>
+          <li><a href="collections.html#memory">Mother &amp; Daughter</a></li>
+          <li><a href="collections.html#wedding">Wedding</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Studio</p>
+        <ul class="footer-links">
+          <li><a href="about.html">Our Story</a></li>
+          <li><a href="custom.html">Custom Order</a></li>
+          <li><a href="journal.html">Journal</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Contact</p>
+        <ul class="footer-links">
+          <li><a href="mailto:hello@siloraorient.com">hello@siloraorient.com</a></li>
+          <li><a href="#">Instagram DM</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Silora Orient. All rights reserved.</p>
+      <p class="footer-note">Handmade in the tradition of Chinese 缠花 craftsmanship</p>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
