@@ -7,54 +7,108 @@
   <meta name="description" content="Silora Orient's extended series — wisteria, plum blossom, iris brooches, the flavour orchid series, and more." />
   <link rel="stylesheet" href="styles.css" />
   <style>
-    /* Reuses all existing collection card / gallery / feature-block patterns */
-    .variant-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-      margin-top: 2rem;
+    /* ---- Waterfall grid ---- */
+    .waterfall {
+      columns: 3 300px;
+      column-gap: 1.5rem;
+      margin-top: 3rem;
     }
-    .variant-chip {
-      padding: 1rem 0.8rem;
+    .wf-card {
+      break-inside: avoid;
+      display: inline-block;
+      width: 100%;
+      margin-bottom: 1.5rem;
+      cursor: pointer;
+      overflow: hidden;
       background: var(--white);
-      border: 1px solid var(--border);
-      text-align: center;
-      transition: all 0.3s;
+      position: relative;
     }
-    .variant-chip:hover {
-      border-color: var(--gold);
-      background: rgba(191,157,106,0.04);
+    .wf-card:hover .wf-img img { transform: scale(1.04); }
+    .wf-card:hover .wf-overlay { opacity: 1; }
+    .wf-img { overflow: hidden; position: relative; }
+    .wf-img img { width: 100%; display: block; transition: transform 0.6s ease; }
+    .wf-overlay {
+      position: absolute; inset: 0;
+      background: rgba(42,39,36,0.45);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.3s;
     }
-    .variant-name-zh {
-      font-family: var(--font-serif);
-      font-size: 1.05rem;
-      font-weight: 400;
-      margin-bottom: 0.2rem;
-      color: var(--text-dark);
+    .wf-overlay span {
+      color: var(--ivory); font-family: var(--font-serif);
+      font-size: 0.9rem; letter-spacing: 0.15em; text-transform: uppercase;
+      border: 1px solid rgba(250,247,242,0.5); padding: 0.5rem 1.2rem;
     }
-    .variant-name-en {
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      color: var(--gold);
-      text-transform: uppercase;
-    }
-    .variant-palette {
-      font-size: 0.72rem;
-      color: var(--text-light);
-      margin-top: 0.3rem;
-      font-style: italic;
-    }
+    .wf-body { padding: 1.4rem 1.5rem 1.6rem; }
+    .wf-series { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem; }
+    .wf-title { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 300; color: var(--text-dark); margin-bottom: 0.3rem; line-height: 1.25; }
+    .wf-title-zh { font-size: 0.82rem; color: var(--text-light); margin-bottom: 0.7rem; }
+    .wf-tagline { font-size: 0.84rem; color: var(--text-mid); line-height: 1.65; }
+    .wf-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+    .wf-tag { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.25rem 0.6rem; border: 1px solid var(--border); color: var(--text-light); }
 
-    /* Section separator strip */
-    .section-intro {
-      padding: var(--space-xl) 0 var(--space-lg);
-    }
-    .section-intro + .section-intro {
-      border-top: 1px solid var(--border);
-    }
+    /* ---- Placeholder image bg when no img ---- */
+    .wf-img-placeholder { aspect-ratio: 4/3; }
+    .bg-plum { background: linear-gradient(135deg, #2a2728 0%, #4a3040 100%); }
+    .bg-wisteria { background: linear-gradient(135deg, #C4BAD4 0%, #8B7FA8 100%); }
 
+    /* ---- Story modal ---- */
+    .story-modal {
+      position: fixed; inset: 0; z-index: 2000;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
+      padding: 1rem;
+    }
+    .story-modal.open { opacity: 1; visibility: visible; }
+    .story-modal-bg {
+      position: absolute; inset: 0;
+      background: rgba(42,39,36,0.7); backdrop-filter: blur(8px);
+    }
+    .story-modal-box {
+      position: relative; z-index: 1;
+      background: var(--ivory); max-width: 760px; width: 100%;
+      max-height: 90vh; overflow-y: auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .story-modal-img { overflow: hidden; min-height: 320px; }
+    .story-modal-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .story-modal-img-placeholder { width: 100%; min-height: 320px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: rgba(191,157,106,0.4); }
+    .story-modal-body { padding: 2.5rem 2rem; display: flex; flex-direction: column; }
+    .story-modal-close {
+      position: absolute; top: 1rem; right: 1rem; z-index: 2;
+      background: var(--ivory); border: none; width: 36px; height: 36px;
+      cursor: pointer; font-size: 1.1rem; color: var(--text-mid);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .story-modal-series { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
+    .story-modal-title { font-family: var(--font-serif); font-size: 1.6rem; font-weight: 300; line-height: 1.2; margin-bottom: 0.25rem; }
+    .story-modal-title-zh { font-size: 0.85rem; color: var(--text-light); margin-bottom: 1.2rem; }
+    .story-modal-text { font-size: 0.9rem; line-height: 1.85; color: var(--text-mid); flex: 1; }
+    .story-modal-actions { margin-top: 1.8rem; display: flex; gap: 0.8rem; flex-wrap: wrap; }
+
+    /* ---- Pricing form inline ---- */
+    .pricing-form { display: none; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+    .pricing-form.visible { display: block; }
+    .pricing-form label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-mid); display: block; margin-bottom: 0.4rem; }
+    .pricing-form input[type="email"] {
+      width: 100%; padding: 0.7rem 1rem; border: 1px solid var(--border);
+      background: var(--white); font-family: var(--font-sans); font-size: 0.88rem;
+      color: var(--text-dark); margin-bottom: 0.75rem; box-sizing: border-box;
+      transition: border-color 0.2s;
+    }
+    .pricing-form input[type="email"]:focus { outline: none; border-color: var(--gold); }
+    .pricing-form-note { font-size: 0.75rem; color: var(--text-light); margin-bottom: 0.75rem; }
+    .pricing-form-success { font-family: var(--font-serif); font-size: 1rem; font-style: italic; color: var(--gold); padding: 1rem 0; display: none; }
+
+    @media (max-width: 640px) {
+      .story-modal-box { grid-template-columns: 1fr; }
+      .story-modal-img { min-height: 220px; }
+      .story-modal-body { padding: 1.5rem; }
+    }
     @media (max-width: 768px) {
-      .variant-grid { grid-template-columns: repeat(2, 1fr); }
+      .waterfall { columns: 2 240px; }
+    }
+    @media (max-width: 480px) {
+      .waterfall { columns: 1; }
     }
   </style>
 </head>
@@ -110,219 +164,35 @@
   </h1>
   <div class="divider"></div>
   <p class="page-hero-desc">
-    Beyond the signature series — more flowers, more stories. The full range of the Silora Orient studio, from wisteria to plum blossom, from iris brooches to the Flavour Orchid Series.
+    Beyond the signature series — every flower we have made, every colour we have named. Browse the full Silora Orient studio archive.
   </p>
 </div>
 
-<!-- ============================================================ FLAVOUR ORCHID SERIES -->
-<section class="section-intro" id="flavour-orchids">
+<!-- Waterfall -->
+<section style="background: var(--cream); padding: var(--space-xl) 0 calc(var(--space-xl) + 2rem);">
   <div class="container">
-    <div class="collection-header" style="display:flex; align-items:flex-end; justify-content:space-between; gap:2rem; flex-wrap:wrap; margin-bottom:3rem;">
-      <div>
-        <p class="t-label reveal">味道系列 · Orchid Colour Story</p>
-        <div class="divider divider-left"></div>
-        <h2 class="t-headline reveal reveal-delay-1">The Flavour Series</h2>
-        <p class="t-body reveal reveal-delay-2" style="max-width: 500px; margin-top: 0.8rem;">
-          Each orchid in this series is named after a memory of taste and season — dessert-inspired colour stories translated into silk and gold. Named in Chinese, felt universally: Peach Oolong, Starry Night, Golden Dream.
-        </p>
-      </div>
-      <button class="btn-pricing" data-product="The Flavour Series Orchid Earrings" data-i18n="pricing.btn">Request Pricing</button>
-    </div>
-
-    <!-- Full collection image -->
-    <div style="aspect-ratio: 1/1; max-width: 560px; margin: 0 auto 3rem; overflow: hidden; background: var(--cream);" class="reveal">
-      <img src="images/orchid-collection.jpg" alt="The Flavour Series — seven orchid earring colour stories laid out on a wooden board" />
-    </div>
-
-    <!-- Variant chips -->
-    <div class="variant-grid">
-      <div class="variant-chip reveal">
-        <div class="variant-name-zh">蜜桃乌龙</div>
-        <div class="variant-name-en">Peach Oolong</div>
-        <div class="variant-palette">warm peach · rose · soft amber</div>
-      </div>
-      <div class="variant-chip reveal reveal-delay-1">
-        <div class="variant-name-zh">绿野仙踪</div>
-        <div class="variant-name-en">Into the Forest</div>
-        <div class="variant-palette">sage · moss green · pale jade</div>
-      </div>
-      <div class="variant-chip reveal reveal-delay-2">
-        <div class="variant-name-zh">海盐芒果冰</div>
-        <div class="variant-name-en">Sea Salt Mango Ice</div>
-        <div class="variant-palette">bright yellow · warm cream · gold</div>
-      </div>
-      <div class="variant-chip reveal reveal-delay-3">
-        <div class="variant-name-zh">冰雪奇缘</div>
-        <div class="variant-name-en">Frozen Fantasy</div>
-        <div class="variant-palette">icy white · pale blue · silver</div>
-      </div>
-      <div class="variant-chip reveal">
-        <div class="variant-name-zh">星月夜</div>
-        <div class="variant-name-en">Starry Night</div>
-        <div class="variant-palette">deep navy · purple · pearl</div>
-      </div>
-      <div class="variant-chip reveal reveal-delay-1">
-        <div class="variant-name-zh">餐金旧梦</div>
-        <div class="variant-name-en">Golden Dream</div>
-        <div class="variant-palette">amber · deep gold · warm brown</div>
-      </div>
-      <div class="variant-chip reveal reveal-delay-2">
-        <div class="variant-name-zh">芋泥啵啵</div>
-        <div class="variant-name-en">Taro Bubble</div>
-        <div class="variant-palette">purple · dusty lavender · cream</div>
-      </div>
-      <div class="variant-chip reveal reveal-delay-3" style="border-style: dashed; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-        <div class="variant-name-en" style="margin-bottom:0.3rem;">Custom Colour</div>
-        <a href="custom.html" style="font-size:0.7rem; color:var(--gold); text-decoration:underline;">Create yours →</a>
-      </div>
-    </div>
-
-    <div style="text-align:center; margin-top:3rem;" class="reveal">
-      <p class="t-italic t-body" style="max-width:480px; margin:0 auto 1.5rem; font-size:1.05rem;">
-        "Each name is a mood. Each colour is a feeling you have had before, somewhere."
-      </p>
-      <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
-        <a href="custom.html" class="btn btn-primary btn-arrow">Order This Series</a>
-        <button class="btn-pricing" data-product="Flavour Series — Custom Colour">Request Pricing</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================ IRIS BROOCH -->
-<section style="background: var(--cream); padding: var(--space-xl) 0;" id="iris-series">
-  <div class="container">
-    <div class="feature-block">
-      <div class="feature-image img-bg-iris">
-        <img src="images/iris-brooch.jpg" alt="Handmade purple silk iris brooch with pearl and gold wire — Silora Orient" style="object-position: center top;" />
-      </div>
-      <div class="feature-content">
-        <p class="t-label reveal">鸢尾胸针系列 · Brooch</p>
-        <div class="divider divider-left"></div>
-        <h2 class="t-headline reveal reveal-delay-1">Iris Brooch Series</h2>
-        <p class="t-italic" style="font-family:var(--font-serif); font-size:1rem; color:var(--text-mid); margin-top:-0.5rem;" class="reveal">A sculpture you can wear</p>
-        <p class="t-body reveal reveal-delay-2" style="margin-top:0.5rem;">
-          Each iris brooch is hand-sculpted from dyed silk wound around gold wire — petals that curve the way real irises do, reaching upward with a quality that photographs cannot fully capture. The stem is a single curved gold wire finished with a freshwater baroque pearl.
-        </p>
-        <p class="t-body reveal reveal-delay-3">
-          Available in purple, white, powder blue, and blush. Custom colours on request. Each piece takes several hours to complete by hand.
-        </p>
-        <div class="collection-tags reveal reveal-delay-4">
-          <span class="collection-tag">Brooch</span>
-          <span class="collection-tag">Iris</span>
-          <span class="collection-tag">Pearl</span>
-          <span class="collection-tag">Gold Wire</span>
-          <span class="collection-tag">Custom Color</span>
-        </div>
-        <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:1.5rem;" class="reveal reveal-delay-4">
-          <a href="custom.html" class="btn btn-outline btn-arrow">Order Custom</a>
-          <button class="btn-pricing" data-product="Iris Brooch Series">Request Pricing</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================ WHITE ORCHID PEARL -->
-<section style="background: var(--ivory); padding: var(--space-xl) 0;" id="white-orchid">
-  <div class="container">
-    <div class="feature-block reverse">
-      <div class="feature-image img-bg-pearl">
-        <img src="images/white-orchid-earrings.jpg" alt="White silk orchid earrings with pearl and gold — the signature Silora Orient piece" />
-      </div>
-      <div class="feature-content">
-        <p class="t-label reveal">白兰 · 珍珠版 · Pearl Edition</p>
-        <div class="divider divider-left"></div>
-        <h2 class="t-headline reveal reveal-delay-1">White Orchid<br>Pearl Edition</h2>
-        <p class="t-body reveal reveal-delay-2" style="margin-top:0.5rem;">
-          Pure white silk orchid petals with gold-tone wire and a freshwater baroque pearl drop. The quietest piece in the collection — and often the one people wear most. It belongs everywhere.
-        </p>
-        <p class="t-body reveal reveal-delay-3">
-          The White Orchid is also available as a ring or brooch. Multiple sets of three are made at a time, ensuring consistent quality across matching pairs.
-        </p>
-        <div class="collection-tags reveal reveal-delay-4">
-          <span class="collection-tag">Earrings</span>
-          <span class="collection-tag">Ring</span>
-          <span class="collection-tag">Brooch</span>
-          <span class="collection-tag">White</span>
-          <span class="collection-tag">Pearl</span>
-        </div>
-        <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:1.5rem;" class="reveal reveal-delay-4">
-          <a href="custom.html" class="btn btn-outline btn-arrow">Order This Piece</a>
-          <button class="btn-pricing" data-product="White Orchid Pearl Edition">Request Pricing</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================ WISTERIA DREAMS -->
-<section style="background: var(--cream); padding: var(--space-xl) 0;" id="wisteria">
-  <div class="container">
-    <div style="text-align:center; margin-bottom:3rem;">
-      <p class="t-label reveal">紫藤梦 · Romance</p>
+    <div style="text-align:center; max-width: 520px; margin: 0 auto;">
+      <p class="t-label reveal">Six Series · One Craft</p>
       <div class="divider"></div>
-      <h2 class="t-headline reveal reveal-delay-1">Wisteria Dreams</h2>
-      <p class="t-body reveal reveal-delay-2" style="max-width:520px; margin:1rem auto 0;">
-        Cascading silk wisteria — a flower that blooms in abundance or not at all. The Wisteria collection captures the romantic weight of purple blossoms against spring light, translated into earrings and rings that feel like something remembered from a garden you loved.
+      <p class="t-body reveal reveal-delay-1" style="margin-top:0.5rem;">
+        Click any series to read its story and request a price.
       </p>
     </div>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;" class="reveal">
-      <div style="aspect-ratio:1/1; overflow:hidden; background:var(--cream-mid);">
-        <img src="images/orchid-mixed-set.jpg" alt="Wisteria Dreams — purple and yellow silk flower jewelry set" />
-      </div>
-      <div style="display:grid; grid-template-rows:1fr 1fr; gap:6px;">
-        <div style="overflow:hidden; background:linear-gradient(135deg,#C4BAD4,#A89CC0);">
-          <img src="images/iris-brooch.jpg" alt="Purple wisteria tones — silk flower earrings" />
-        </div>
-        <div style="overflow:hidden; background:var(--cream);">
-          <img src="images/white-orchid-earrings.jpg" alt="White orchid — wisteria series inspiration" />
-        </div>
-      </div>
-    </div>
-    <div style="text-align:center; margin-top:2.5rem; display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;" class="reveal">
-      <a href="custom.html" class="btn btn-outline btn-arrow">Request This Style</a>
-      <button class="btn-pricing" data-product="Wisteria Dreams Collection">Request Pricing</button>
+
+    <div class="waterfall" id="waterfall">
+      <!-- Cards injected by JS from COLLECTIONS data below -->
     </div>
   </div>
 </section>
 
-<!-- ============================================================ PLUM IN WINTER -->
-<section style="background: var(--text-dark); padding: var(--space-xl) 0; color: var(--ivory);" id="plum-blossom">
-  <div class="container">
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-lg); align-items:center;">
-      <div>
-        <p class="t-label" style="color:var(--gold-light);" class="reveal">寒梅 · Resilience</p>
-        <div class="divider divider-left" style="background:var(--gold);"></div>
-        <h2 style="font-family:var(--font-serif); font-size:clamp(2rem,3.5vw,3rem); font-weight:300; color:var(--ivory); line-height:1.2; margin-bottom:1rem;" class="reveal">Plum in Winter</h2>
-        <p style="font-family:var(--font-serif); font-style:italic; font-size:1rem; color:var(--gold-light); margin-bottom:1.5rem;" class="reveal">
-          The flower that blooms before spring arrives.
-        </p>
-        <p style="font-size:0.95rem; color:rgba(250,247,242,0.6); line-height:1.8; max-width:380px;" class="reveal">
-          The plum blossom is the flower of endurance — it blooms in snow, before anything else dares to. This collection is for people who carry their softness through hard seasons. White and blush silk petals, wire stems, and the quiet insistence of something beautiful that refuses to wait.
-        </p>
-        <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:2rem;" class="reveal">
-          <a href="custom.html" class="btn btn-gold btn-arrow">Request This Style</a>
-          <button class="btn-pricing" data-product="Plum in Winter Collection" style="border-color:rgba(191,157,106,0.3); color:rgba(250,247,242,0.5);">Request Pricing</button>
-        </div>
-      </div>
-      <div style="aspect-ratio:3/4; overflow:hidden;" class="reveal">
-        <img src="images/white-orchid-earrings.jpg" alt="White silk flower earrings — plum blossom in winter tones" />
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================ ADD MORE -->
-<section style="background: var(--cream); padding: var(--space-xl) 0; text-align:center;">
+<!-- CTA -->
+<section style="background: var(--ivory); padding: var(--space-xl) 0; text-align:center;">
   <div class="container">
     <p class="t-label reveal">Always Growing</p>
     <div class="divider"></div>
-    <h2 class="t-headline reveal reveal-delay-1" style="max-width:500px; margin:0 auto 1.5rem;">
-      New collections are added regularly.
-    </h2>
-    <p class="t-body reveal reveal-delay-2" style="max-width:440px; margin:0 auto 2rem;">
-      Follow along on Instagram for the first look at new series — or send us a message if you have a flower in mind that you don't see here yet.
+    <h2 class="t-headline reveal reveal-delay-1">Don't see what you have in mind?</h2>
+    <p class="t-body reveal reveal-delay-2" style="max-width:420px; margin:1rem auto 2rem;">
+      Every piece can be customised — colour, size, flower type, and finish. Tell us your idea and we'll make it.
     </p>
     <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;" class="reveal reveal-delay-3">
       <a href="custom.html" class="btn btn-primary btn-arrow">Begin a Custom Order</a>
@@ -331,7 +201,40 @@
   </div>
 </section>
 
-<!-- ============================================================ FOOTER -->
+<!-- Story Modal -->
+<div class="story-modal" id="storyModal" role="dialog" aria-modal="true">
+  <div class="story-modal-bg" id="modalBg"></div>
+  <div class="story-modal-box">
+    <button class="story-modal-close" id="modalClose" aria-label="Close">✕</button>
+    <div class="story-modal-img" id="modalImg"></div>
+    <div class="story-modal-body">
+      <p class="story-modal-series" id="modalSeries"></p>
+      <h2 class="story-modal-title" id="modalTitle"></h2>
+      <p class="story-modal-title-zh" id="modalTitleZh"></p>
+      <div class="story-modal-text" id="modalText"></div>
+      <div class="story-modal-actions">
+        <button class="btn btn-primary" id="modalPricingBtn">Request Pricing</button>
+        <a href="custom.html" class="btn btn-outline btn-arrow">Custom Order</a>
+      </div>
+      <!-- Pricing form -->
+      <div class="pricing-form" id="modalPricingForm">
+        <div id="pricingFormInner">
+          <label for="pricingEmail">Your Email</label>
+          <input type="email" id="pricingEmail" placeholder="your@email.com" required />
+          <label for="pricingEmailConfirm">Confirm Email</label>
+          <input type="email" id="pricingEmailConfirm" placeholder="your@email.com" required />
+          <p class="pricing-form-note">We'll reply within 24 hours with pricing and availability.</p>
+          <button class="btn btn-primary" id="pricingSubmitBtn" style="width:100%;">Send Inquiry</button>
+        </div>
+        <div class="pricing-form-success" id="pricingSuccess">
+          Thank you — we'll be in touch shortly. ✦
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
 <footer class="footer">
   <div class="container">
     <div class="footer-top">
@@ -347,11 +250,8 @@
       <div>
         <p class="footer-col-title" data-i18n="footer.explore">Explore</p>
         <ul class="footer-links">
-          <li><a href="collections.html"      data-i18n="nav.collections">Collections</a></li>
-          <li><a href="other-collections.html"data-i18n="nav.other_collections">Other Collections</a></li>
-          <li><a href="collections.html#orchid">Orchid Custom</a></li>
-          <li><a href="collections.html#eye-color">Eye Color</a></li>
-          <li><a href="collections.html#wedding">Wedding</a></li>
+          <li><a href="collections.html"       data-i18n="nav.collections">Collections</a></li>
+          <li><a href="other-collections.html" data-i18n="nav.other_collections">Other Collections</a></li>
         </ul>
       </div>
       <div>
@@ -366,7 +266,6 @@
       <div>
         <p class="footer-col-title" data-i18n="footer.contact">Contact</p>
         <ul class="footer-links">
-          <li><a href="mailto:hello@siloraorient.com">hello@siloraorient.com</a></li>
           <li><a href="contact.html" data-i18n="nav.contact">Contact Page</a></li>
         </ul>
       </div>
@@ -379,5 +278,205 @@
 </footer>
 
 <script src="main.js"></script>
+<script>
+// ============================================================
+// COLLECTIONS DATA — add new series here, page auto-updates
+// ============================================================
+const COLLECTIONS = [
+  {
+    id: 'flavour',
+    series: 'Taste · Memory · Colour',
+    series_zh: '味道 · 记忆 · 色彩',
+    title: 'The Flavour Series',
+    title_zh: '味道系列',
+    tagline: 'Seven orchid earring colours, each named after a memory of taste and season.',
+    tagline_zh: '七款兰花耳饰配色，每一款都以一段味觉与季节的记忆命名。',
+    story: 'Each orchid in this series is named after a flavour — not just a colour, but a feeling you have had before, somewhere. Peach Oolong: warm peach and rose with soft amber. Into the Forest: sage, moss green, pale jade. Sea Salt Mango Ice: bright yellow, warm cream, gold. Frozen Fantasy: icy white, pale blue, silver. Starry Night: deep navy, purple, pearl. Golden Dream: amber, deep gold, warm brown. Taro Bubble: purple, dusty lavender, cream.\n\nEach piece is wound by hand from dyed silk thread on gold wire, with a freshwater pearl drop. The colour combinations are exact — no two batches vary.',
+    story_zh: '这个系列的每一朵兰花，都以一种味道命名——不只是颜色，而是你曾经在某处感受过的情绪。蜜桃乌龙：温暖蜜桃与玫瑰，带着柔软琥珀。绿野仙踪：鼠尾草、苔藓绿、淡玉色。海盐芒果冰：明亮黄色、暖奶油、金色。冰雪奇缘：冰白、浅蓝、银色。星月夜：深海蓝、紫色、珍珠。餐金旧梦：琥珀、深金、暖棕。芋泥啵啵：紫色、淡雾薰衣草、奶白。\n\n每一枚均由手工将染色丝线绕于金丝骨架上，配以淡水珍珠垂坠。配色精准，每批无误差。',
+    image: 'images/orchid-collection.jpg',
+    tags: ['Earrings', 'Orchid', 'Seven Colours', 'Pearl'],
+    tall: true
+  },
+  {
+    id: 'white-orchid-pearl',
+    series: 'Pearl Edition',
+    series_zh: '珍珠版',
+    title: 'White Orchid Pearl',
+    title_zh: '白兰珍珠版',
+    tagline: 'Pure white silk orchid petals, baroque pearl. Made in matching sets of three.',
+    tagline_zh: '纯白丝绸兰花花瓣，配巴洛克淡水珍珠。三件一组匹配制作。',
+    story: 'The quietest piece in the collection — and often the one people reach for most. Pure white silk orchid petals wound around gold-tone wire, finished with a single freshwater baroque pearl drop.\n\nEach set of three is made together to ensure the petals match exactly in shape and density. The result is a piece that belongs everywhere: a morning at the desk, a concert in the evening, a long Sunday walk.\n\nAlso available as a ring or brooch. Custom petal count and pearl size on request.',
+    story_zh: '这是系列中最安静的一枚——却也是最常被人伸手拿起的。纯白丝绸兰花花瓣缠绕于金色金属丝骨架，配以单颗淡水巴洛克珍珠垂坠。\n\n每三枚成组制作，确保花瓣在形状和密度上完全一致。成品可以出现在任何场合：清晨的书桌前，傍晚的音乐厅，长长的周日散步。\n\n亦可定制为戒指或胸针。花瓣数量与珍珠大小均可定制。',
+    image: 'images/white-orchid-pearl-set.jpg',
+    tags: ['Earrings', 'Ring', 'Brooch', 'White', 'Pearl', 'Sets']
+  },
+  {
+    id: 'iris-brooch',
+    series: 'Brooch · Sculpture',
+    series_zh: '胸针 · 雕塑',
+    title: 'Iris Brooch Series',
+    title_zh: '鸢尾胸针系列',
+    tagline: 'A sculpture you can wear. Hand-wound iris petals on a single curved gold wire stem.',
+    tagline_zh: '可以佩戴的雕塑。手工缠绕的鸢尾花瓣，弯曲金丝茎杆，巴洛克珍珠。',
+    story: 'Each iris brooch is hand-sculpted from dyed silk wound around gold wire — petals that curve the way real irises do, reaching upward with a quality that photographs cannot fully capture. The stem is a single curved gold wire finished with a freshwater baroque pearl.\n\nThe iris is the flower of messages carried between worlds. In Chinese tradition it carries the meaning of \'elegant beauty\' and \'hope\'. In the Western tradition it is the flower of the rainbow — the bridge between earth and sky.\n\nAvailable in purple, white, powder blue, and blush. Each piece takes several hours to complete by hand. Custom colours on request.',
+    story_zh: '每一枚鸢尾胸针由手工将染色丝线缠绕于金丝骨架——花瓣以真实鸢尾的弧度向上伸展，这种质感是照片无法完全呈现的。茎杆为单根弯曲金丝，末端配以淡水巴洛克珍珠。\n\n鸢尾是在世界之间传递信息的花。在中国传统中，它象征"高雅之美"与"希望"。在西方传统中，它是彩虹之花——连接大地与天空的桥梁。\n\n提供紫色、白色、粉蓝色和浅玫瑰色。每枚作品需数小时手工完成。颜色可定制。',
+    image: 'images/iris-brooch-stem.jpg',
+    tags: ['Brooch', 'Iris', 'Pearl', 'Gold Wire', 'Sculpture']
+  },
+  {
+    id: 'yellow-orchid',
+    series: 'Mixed · Seasonal',
+    series_zh: '混搭 · 时节',
+    title: 'Yellow Orchid & Lavender',
+    title_zh: '黄蝶兰与薰衣草系列',
+    tagline: 'Warm yellow petals and violet gemstone, paired with tiny quatrefoil flowers.',
+    tagline_zh: '暖黄色花瓣与紫罗兰色宝石，搭配细小四叶花配件。',
+    story: 'This set began as a custom request — a customer wanted yellow, but not plain yellow: she wanted the warmth of late afternoon sun with the surprise of violet at the centre.\n\nThe result is a statement orchid earring in warm yellow silk with a violet amethyst drop, paired with tiny gold quatrefoil stud earrings. The two work together or separately — the studs alone are as quiet as a whisper; the orchid earring alone commands attention.\n\nA celebration of contrast: the warmth of yellow and the cool weight of lavender. Available as a set or individually.',
+    story_zh: '这套作品起源于一个定制需求——客户想要黄色，但不是普通的黄：她想要午后阳光的温暖，以及中心处紫罗兰色的惊喜。\n\n最终作品是一枚以暖黄色丝绸制成的兰花耳饰，搭配紫水晶垂坠，以及精小的金色四叶花耳钉。两件可搭配佩戴，也可单独使用——耳钉单独佩戴细如低语，兰花耳饰单独出现则令人注目。\n\n对比之美：黄的温暖与薰衣草的清凉重量。可作为套装或单件购入。',
+    image: 'images/orchid-yellow-lavender-set.jpg',
+    tags: ['Earrings', 'Yellow', 'Lavender', 'Set', 'Amethyst']
+  },
+  {
+    id: 'wisteria',
+    series: 'Romance · Spring',
+    series_zh: '浪漫 · 春',
+    title: 'Wisteria Dreams',
+    title_zh: '紫藤梦',
+    tagline: 'Cascading silk wisteria — a flower that blooms in abundance or not at all.',
+    tagline_zh: '倾泻的丝绸紫藤——要么盛放，要么全无。',
+    story: 'Wisteria blooms for two weeks in spring and then it is gone. That brevity — that insistence on giving everything in a short time — is what drew us to it.\n\nThe Wisteria collection captures the romantic weight of purple blossoms against spring light, translated into earrings and rings that feel like something remembered from a garden you loved. The cascading clusters are assembled petal by petal, each tiny bloom wound individually before being gathered into the full hanging spray.\n\nAvailable in purple, dusty lavender, and pale lilac. Custom length and colour on request.',
+    story_zh: '紫藤在春天只开两周，然后消失。正是这种短暂——这种在短暂时间内给予一切的执着——让我们着迷。\n\n紫藤梦系列捕捉了紫色花串在春光中浪漫的重量，转化为耳饰与戒指，像是来自你曾经爱过的某个花园的记忆。垂坠的花串逐瓣拼合，每一朵细小的花都是单独缠绕后再聚拢成完整的垂穗。\n\n提供紫色、哑光薰衣草和淡紫色。长度与颜色均可定制。',
+    image: null,
+    imgClass: 'bg-wisteria',
+    imgPlaceholder: '✿',
+    tags: ['Earrings', 'Ring', 'Wisteria', 'Purple', 'Cascade']
+  },
+  {
+    id: 'plum',
+    series: 'Resilience · Winter',
+    series_zh: '韧性 · 冬',
+    title: 'Plum in Winter',
+    title_zh: '寒梅',
+    tagline: 'The flower that blooms before spring arrives. White and blush silk petals, quiet gold wire.',
+    tagline_zh: '在春天来临之前开放的花。白色与浅玫瑰色丝绸花瓣，静谧金丝。',
+    story: 'The plum blossom is the flower of endurance — it blooms in snow, before anything else dares to. This collection is for people who carry their softness through hard seasons.\n\nWhite and blush silk petals, wire stems, and the quiet insistence of something beautiful that refuses to wait. The pieces in this collection are deliberately understated — they do not try to be the loudest thing in the room. They are for the person who already knows who they are.\n\nAvailable in white, pale blush, and a deep winter rose. Custom combinations on request.',
+    story_zh: '梅花是忍耐之花——它在雪中盛开，早于一切敢于开放的事物。这个系列属于那些在艰难季节中仍然保持柔软的人。\n\n白色与浅玫瑰色丝绸花瓣，金丝茎杆，以及那份美丽而不愿等待的静静执着。这个系列的作品刻意内敛——它们不试图成为房间里最响亮的声音。它们属于那些已经知道自己是谁的人。\n\n提供白色、淡玫瑰色和深冬玫瑰色。组合可定制。',
+    image: 'images/white-orchid-earrings.jpg',
+    tags: ['Earrings', 'Brooch', 'Plum', 'White', 'Blush', 'Winter']
+  }
+];
+
+// ---- Build waterfall ----
+(function buildWaterfall() {
+  const wf = document.getElementById('waterfall');
+  COLLECTIONS.forEach(c => {
+    const card = document.createElement('div');
+    card.className = 'wf-card reveal';
+    card.setAttribute('data-id', c.id);
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-label', 'Read ' + c.title + ' story');
+
+    const imgHtml = c.image
+      ? `<div class="wf-img"><img src="${c.image}" alt="${c.title}" loading="lazy" /><div class="wf-overlay"><span>Read Story</span></div></div>`
+      : `<div class="wf-img"><div class="wf-img-placeholder ${c.imgClass || ''}" style="display:flex;align-items:center;justify-content:center;font-size:3.5rem;color:rgba(191,157,106,0.4);">${c.imgPlaceholder || '✦'}</div><div class="wf-overlay"><span>Read Story</span></div></div>`;
+
+    card.innerHTML = imgHtml + `
+      <div class="wf-body">
+        <p class="wf-series">${c.series}</p>
+        <h3 class="wf-title">${c.title}</h3>
+        <p class="wf-title-zh">${c.title_zh}</p>
+        <p class="wf-tagline">${c.tagline}</p>
+        <div class="wf-tags">${c.tags.map(t=>`<span class="wf-tag">${t}</span>`).join('')}</div>
+      </div>`;
+
+    card.addEventListener('click', () => openModal(c.id));
+    card.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') openModal(c.id); });
+    wf.appendChild(card);
+  });
+})();
+
+// ---- Modal logic ----
+let currentCollection = null;
+
+function openModal(id) {
+  const c = COLLECTIONS.find(x => x.id === id);
+  if (!c) return;
+  currentCollection = c;
+
+  const lang = localStorage.getItem('silora-lang') || 'en';
+  const isZh = lang === 'zh';
+
+  document.getElementById('modalSeries').textContent  = isZh ? c.series_zh : c.series;
+  document.getElementById('modalTitle').textContent   = isZh ? c.title_zh : c.title;
+  document.getElementById('modalTitleZh').textContent = isZh ? c.title : c.title_zh;
+  document.getElementById('modalText').innerHTML      = (isZh ? c.story_zh : c.story).replace(/\n\n/g, '<br><br>');
+
+  const imgEl = document.getElementById('modalImg');
+  imgEl.innerHTML = c.image
+    ? `<img src="${c.image}" alt="${c.title}" />`
+    : `<div class="story-modal-img-placeholder ${c.imgClass || ''}">${c.imgPlaceholder || '✦'}</div>`;
+
+  // Reset pricing form
+  document.getElementById('modalPricingForm').classList.remove('visible');
+  document.getElementById('pricingFormInner').style.display = '';
+  document.getElementById('pricingSuccess').style.display = 'none';
+  document.getElementById('pricingEmail').value = '';
+  document.getElementById('pricingEmailConfirm').value = '';
+
+  document.getElementById('storyModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('storyModal').classList.remove('open');
+  document.body.style.overflow = '';
+  currentCollection = null;
+}
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modalBg').addEventListener('click', closeModal);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// Show pricing form
+document.getElementById('modalPricingBtn').addEventListener('click', function() {
+  document.getElementById('modalPricingForm').classList.add('visible');
+  this.style.display = 'none';
+  document.getElementById('pricingEmail').focus();
+});
+
+// Submit pricing inquiry
+document.getElementById('pricingSubmitBtn').addEventListener('click', async function() {
+  const email    = document.getElementById('pricingEmail').value.trim();
+  const confirm  = document.getElementById('pricingEmailConfirm').value.trim();
+  const c        = currentCollection;
+  if (!email) { document.getElementById('pricingEmail').focus(); return; }
+  if (email !== confirm) {
+    document.getElementById('pricingEmailConfirm').style.borderColor = 'var(--gold)';
+    document.getElementById('pricingEmailConfirm').placeholder = 'Emails do not match';
+    return;
+  }
+  this.textContent = 'Sending…';
+  this.disabled = true;
+  try {
+    await fetch('https://formspree.io/f/xlgopzqb', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: `Pricing Inquiry — ${c ? c.title : 'Other Collections'}`,
+        email,
+        series: c ? c.title : '',
+        series_zh: c ? c.title_zh : '',
+        message: `Pricing inquiry for: ${c ? c.title : 'Other Collections'} (${c ? c.title_zh : ''})`
+      })
+    });
+    document.getElementById('pricingFormInner').style.display = 'none';
+    document.getElementById('pricingSuccess').style.display = 'block';
+  } catch(err) {
+    this.textContent = 'Try Again';
+    this.disabled = false;
+  }
+});
+</script>
 </body>
 </html>
