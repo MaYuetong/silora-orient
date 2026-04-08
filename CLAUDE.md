@@ -61,8 +61,9 @@ Vercel auto-deploys within 30 seconds.
 
 Manual deploy (no GitHub push needed):
 ```bash
-npx vercel --token vcp_6UOjMAr8XTq39yfbxg4e4yGb1smib3iZGy3rdSFz5AKEwxUPuD37AUvi --scope yuetongma0107-6224s-projects --prod --yes
+npx vercel --token YOUR_VERCEL_TOKEN --scope yuetongma0107-6224s-projects --prod --yes
 ```
+*(Store the real token in GitHub Actions secret `VERCEL_TOKEN` — never hardcode it here)*
 
 ## Vercel / deployment IDs
 - Project ID: `prj_DN5UT9QgOIjH7iglkh8l7SunT3Mw`
