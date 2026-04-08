@@ -2,15 +2,15 @@
   "version": 2,
   "name": "silora-orient",
   "builds": [
-    {
-      "src": "**/*",
-      "use": "@vercel/static"
-    }
+    { "src": "api/*.js", "use": "@vercel/node" },
+    { "src": "*.html",   "use": "@vercel/static" },
+    { "src": "*.css",    "use": "@vercel/static" },
+    { "src": "main.js",  "use": "@vercel/static" },
+    { "src": "content/**", "use": "@vercel/static" },
+    { "src": "images/**",  "use": "@vercel/static" }
   ],
   "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
+    { "src": "/api/(.*)", "dest": "/api/$1" },
+    { "src": "/(.*)",     "dest": "/$1"     }
   ]
 }
