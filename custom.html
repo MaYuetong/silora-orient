@@ -734,6 +734,161 @@
   </div>
 </div>
 
+<!-- ============================================================ BOOKING -->
+<section class="booking-section">
+  <div class="container">
+    <div class="booking-inner reveal">
+
+      <div class="booking-header">
+        <p class="eyebrow">Schedule a conversation · 预约咨询</p>
+        <h2 class="booking-title">Begin with a conversation</h2>
+        <p class="booking-desc">
+          Every custom piece begins with a conversation — about your story, your memories, and the colors that feel like yours.
+          Book a 45-minute consultation below.
+          <br /><span class="booking-desc-zh">每件定制作品都从一次对话开始——关于你的故事、你的记忆，以及属于你的颜色。在下方预约45分钟咨询。</span>
+        </p>
+      </div>
+
+      <!-- Cal.com inline embed -->
+      <!-- Replace YOUR_CAL_USERNAME with your actual Cal.com username after account setup -->
+      <!-- 请将 YOUR_CAL_USERNAME 替换为你的真实Cal.com用户名 -->
+      <div id="cal-booking-embed" class="cal-embed-wrapper">
+        <!-- Placeholder shown until Cal.com is configured · 配置Cal.com前显示占位 -->
+        <div class="cal-placeholder">
+          <div class="cal-placeholder-icon">✦</div>
+          <p class="cal-placeholder-title">Consultation booking coming soon</p>
+          <p class="cal-placeholder-sub">While we set up online booking, reach us directly:</p>
+          <a href="mailto:hello@siloraorient.com" class="btn btn-outline" style="margin-top:1.5rem;">
+            hello@siloraorient.com
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ---- Booking section ---- */
+  .booking-section {
+    padding: var(--space-xl) 0;
+    background: var(--cream);
+    border-top: 1px solid var(--border);
+  }
+  .booking-inner {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  .booking-header {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+  }
+  .booking-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    font-weight: 400;
+    color: var(--text-dark);
+    margin: 0.5rem 0 1rem;
+  }
+  .booking-desc {
+    color: var(--text-mid);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .booking-desc-zh {
+    color: var(--text-light);
+    font-size: 0.85rem;
+  }
+  .cal-embed-wrapper {
+    min-height: 200px;
+  }
+  /* Placeholder style — hidden once Cal.com script loads */
+  .cal-placeholder {
+    text-align: center;
+    padding: 4rem 2rem;
+    border: 1px solid var(--border);
+    background: var(--ivory);
+  }
+  .cal-placeholder-icon {
+    font-size: 2rem;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+  .cal-placeholder-title {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+  }
+  .cal-placeholder-sub {
+    font-size: 0.85rem;
+    color: var(--text-light);
+  }
+</style>
+
+<script>
+  /* ----------------------------------------------------------------
+     Cal.com inline embed — activate after account setup
+     Instructions:
+       1. Create account at cal.com
+       2. Connect Google Calendar
+       3. Create event type: "Custom Jewelry Consultation" (45 min)
+       4. Replace YOUR_CAL_USERNAME below with your real username
+       5. Remove the .cal-placeholder div above once live
+     ---------------------------------------------------------------- */
+  (function activateCalEmbed() {
+    const CAL_USERNAME = 'YOUR_CAL_USERNAME'; // ← replace this
+    const EVENT_SLUG   = 'custom-consultation';
+
+    if (CAL_USERNAME === 'YOUR_CAL_USERNAME') return; // not yet configured
+
+    // Hide placeholder once Cal.com loads
+    const placeholder = document.querySelector('.cal-placeholder');
+    if (placeholder) placeholder.style.display = 'none';
+
+    (function (C, A, L) {
+      let p = function (a, ar) { a.q.push(ar); };
+      let d = C.document;
+      C.Cal = C.Cal || function () {
+        let cal = C.Cal; let ar = arguments;
+        if (!cal.loaded) {
+          cal.ns = {}; cal.q = cal.q || [];
+          d.head.appendChild(d.createElement('script')).src = A;
+          cal.loaded = true;
+        }
+        if (ar[0] === L) {
+          const api = function () { p(api, arguments); };
+          const namespace = ar[1];
+          api.q = api.q || [];
+          typeof namespace === 'string' ? (cal.ns[namespace] = api) && p(api, ar) : p(cal, ar);
+          return;
+        }
+        p(cal, ar);
+      };
+    })(window, 'https://app.cal.com/embed/embed.js', 'init');
+
+    Cal('init', { origin: 'https://cal.com' });
+    Cal('inline', {
+      elementOrSelector: '#cal-booking-embed',
+      calLink: CAL_USERNAME + '/' + EVENT_SLUG,
+      layout: 'month_view'
+    });
+    Cal('ui', {
+      styles: { branding: { brandColor: '#BF9D6A' } },
+      hideEventTypeDetails: false,
+    });
+
+    /* GA4 event when booking link is clicked */
+    document.getElementById('cal-booking-embed').addEventListener('click', function () {
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'booking_click', { event_category: 'engagement' });
+      }
+    }, { once: true });
+  })();
+</script>
+
 <!-- ============================================================ FOOTER -->
 <footer class="footer">
   <div class="container">
