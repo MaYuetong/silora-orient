@@ -6,6 +6,14 @@
   <title>Silora Orient — Silk Flower Jewels from the East</title>
   <meta name="description" content="Handmade silk flower jewelry inspired by Eastern aesthetics, memory, and personal stories. Now in New York." />
   <link rel="stylesheet" href="styles.css" />
+  <!-- Google Analytics 4 — replace G-XXXXXXXXXX with real Measurement ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
   <style>
     /* ---- Hero image placeholder colors ---- */
     .hero-image { background: linear-gradient(160deg, #EDE8DC 0%, #D4C9B8 100%); }
@@ -375,6 +383,54 @@
     </div>
   </div>
 </section>
+
+<!-- ============================================================ JOURNAL SUBSCRIPTION -->
+<section id="subscribe" style="background: var(--text-dark); padding: var(--space-xl) 0; position: relative; overflow: hidden;">
+  <div style="position: absolute; top: -10%; left: 50%; transform: translateX(-50%); font-family: var(--font-serif); font-size: 18rem; color: rgba(191,157,106,0.04); line-height: 1; pointer-events: none; white-space: nowrap; user-select: none;">✿</div>
+  <div class="container" style="position: relative; z-index: 1; max-width: 680px; text-align: center;">
+    <p class="t-label reveal" style="color: var(--gold-light);">Seasonal Journal</p>
+    <div class="divider"></div>
+    <h2 class="reveal reveal-delay-1" style="font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 3rem); font-weight: 300; color: var(--ivory); line-height: 1.25; margin-bottom: 1.2rem;">
+      Receive the Silora Journal<br>— four times a year
+    </h2>
+    <p class="reveal reveal-delay-2" style="font-size: 0.95rem; color: rgba(250,247,242,0.6); line-height: 1.8; max-width: 500px; margin: 0 auto 0.8rem;">
+      Each quarter, we send a letter from the studio: new inspirations, seasonal flowers, behind-the-scenes craft, and the first look at upcoming collections. Subscribers also receive a <strong style="color: var(--gold-light); font-weight: 400;">10% discount</strong> on all orders.
+    </p>
+    <p class="reveal reveal-delay-2" style="font-family: var(--font-serif); font-style: italic; font-size: 0.9rem; color: rgba(250,247,242,0.35); margin-bottom: 2.5rem;">每季寄出一封工作室来信：新灵感、新系列、独家折扣。</p>
+
+    <form id="subscribeForm" action="https://formspree.io/f/xlgopzqb" method="POST" class="reveal reveal-delay-3"
+          style="display: flex; gap: 0; max-width: 480px; margin: 0 auto; flex-wrap: wrap; gap: 0.6rem;">
+      <input type="hidden" name="_subject" value="New Journal Subscriber — Silora Orient" />
+      <input type="hidden" name="type" value="journal_subscription" />
+      <input type="email" name="email" required placeholder="your@email.com"
+             style="flex: 1; min-width: 220px; padding: 0.85rem 1.2rem; background: rgba(255,255,255,0.07); border: 1px solid rgba(191,157,106,0.35); color: var(--ivory); font-family: var(--font-sans); font-size: 0.85rem; outline: none; letter-spacing: 0.05em;"
+             onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(191,157,106,0.35)'" />
+      <button type="submit"
+              style="padding: 0.85rem 1.8rem; background: var(--gold); color: var(--white); border: none; font-family: var(--font-sans); font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; white-space: nowrap;"
+              onmouseover="this.style.background='var(--gold-light)'" onmouseout="this.style.background='var(--gold)'">
+        Subscribe
+      </button>
+    </form>
+    <p id="subscribeConfirm" style="display:none; margin-top:1.2rem; font-family: var(--font-serif); font-style: italic; color: var(--gold-light); font-size: 0.95rem;">
+      Thank you — your first letter is on its way. ✿
+    </p>
+    <p class="reveal reveal-delay-4" style="margin-top: 1.2rem; font-size: 0.7rem; color: rgba(250,247,242,0.25); letter-spacing: 0.08em;">
+      No spam. Unsubscribe any time. Discount code sent upon sign-up.
+    </p>
+  </div>
+</section>
+<script>
+  document.getElementById('subscribeForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    fetch(this.action, { method: 'POST', body: new FormData(this), headers: { 'Accept': 'application/json' } })
+      .then(r => {
+        if (r.ok) {
+          this.style.display = 'none';
+          document.getElementById('subscribeConfirm').style.display = 'block';
+        }
+      });
+  });
+</script>
 
 <!-- ============================================================ INSTAGRAM -->
 <div class="insta-strip">

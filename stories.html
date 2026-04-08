@@ -6,6 +6,14 @@
   <title>Customer Stories — Silora Orient</title>
   <meta name="description" content="Real stories from Silora Orient customers — the flowers they chose, the colors of their eyes, and the moments that made each piece." />
   <link rel="stylesheet" href="styles.css" />
+  <!-- Google Analytics 4 — replace G-XXXXXXXXXX with real Measurement ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
   <style>
     /* ── Featured story ─────────────────────────────────────────── */
     .featured-customer {
@@ -222,7 +230,7 @@
         Share your Silora Orient moment
       </h2>
       <p style="font-size:0.9rem; color:rgba(250,247,242,0.5); max-width:380px; margin:0 auto;">
-        Your story may appear here. Send us your words and photos — we will add them with care.
+        Written review = <strong style="color:var(--gold-light);">$5 off</strong> · With photo = <strong style="color:var(--gold-light);">$10 off</strong> your next order. Code sent by email within 2 days.
       </p>
     </div>
 
@@ -250,17 +258,17 @@
         <input name="mediaLink" type="text" class="form-input" placeholder="Google Drive, WeTransfer, or Instagram post URL" />
       </div>
       <div style="text-align:right;">
-        <button type="submit" class="btn btn-gold">Send My Story →</button>
+        <button type="submit" class="btn btn-gold">Send My Review →</button>
       </div>
     </form>
 
     <div class="submit-success" id="submitSuccess">
       <div class="submit-success-icon">✿</div>
       <p style="font-family:var(--font-serif); font-size:1.3rem; font-weight:300; color:var(--ivory); margin-top:1rem;">
-        Thank you. Your story is in our hands now.
+        Thank you. Your review is in our hands now.
       </p>
       <p style="font-size:0.82rem; color:rgba(250,247,242,0.45); margin-top:0.5rem;">
-        We will be in touch when it appears on the page.
+        Your discount code will arrive by email within 2 business days.
       </p>
     </div>
   </div>

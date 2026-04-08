@@ -6,6 +6,14 @@
   <title>Other Collections — Silora Orient</title>
   <meta name="description" content="Silora Orient's extended series — wisteria, plum blossom, iris brooches, the flavour orchid series, and more." />
   <link rel="stylesheet" href="styles.css" />
+  <!-- Google Analytics 4 — replace G-XXXXXXXXXX with real Measurement ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
   <style>
     /* ---- Waterfall grid ---- */
     .waterfall {
@@ -284,85 +292,56 @@
 // ============================================================
 const COLLECTIONS = [
   {
-    id: 'flavour',
-    series: 'Taste · Memory · Colour',
-    series_zh: '味道 · 记忆 · 色彩',
-    title: 'The Flavour Series',
-    title_zh: '味道系列',
-    tagline: 'Seven orchid earring colours, each named after a memory of taste and season.',
-    tagline_zh: '七款兰花耳饰配色，每一款都以一段味觉与季节的记忆命名。',
-    story: 'Each orchid in this series is named after a flavour — not just a colour, but a feeling you have had before, somewhere. Peach Oolong: warm peach and rose with soft amber. Into the Forest: sage, moss green, pale jade. Sea Salt Mango Ice: bright yellow, warm cream, gold. Frozen Fantasy: icy white, pale blue, silver. Starry Night: deep navy, purple, pearl. Golden Dream: amber, deep gold, warm brown. Taro Bubble: purple, dusty lavender, cream.\n\nEach piece is wound by hand from dyed silk thread on gold wire, with a freshwater pearl drop. The colour combinations are exact — no two batches vary.',
-    story_zh: '这个系列的每一朵兰花，都以一种味道命名——不只是颜色，而是你曾经在某处感受过的情绪。蜜桃乌龙：温暖蜜桃与玫瑰，带着柔软琥珀。绿野仙踪：鼠尾草、苔藓绿、淡玉色。海盐芒果冰：明亮黄色、暖奶油、金色。冰雪奇缘：冰白、浅蓝、银色。星月夜：深海蓝、紫色、珍珠。餐金旧梦：琥珀、深金、暖棕。芋泥啵啵：紫色、淡雾薰衣草、奶白。\n\n每一枚均由手工将染色丝线绕于金丝骨架上，配以淡水珍珠垂坠。配色精准，每批无误差。',
+    id: 'phalaenopsis',
+    series: '四时之景 · Jewellery Series',
+    series_zh: '蝴蝶兰系列缠花珠宝',
+    title: 'Phalaenopsis — Seven Colourways',
+    title_zh: '蝴蝶兰系列（耳钉·戒指·挂坠）',
+    tagline: 'Seven colour stories named after a sensory memory. The flower alone is enough.',
+    tagline_zh: '七款以感官体验命名的配色故事。花型本身已是最好的设计。',
+    story: 'The Phalaenopsis orchid was chosen for this series because of its naturally extraordinary form — a graceful, wing-like silhouette that speaks for itself. No extra leaves, no decorative tendrils, no beads. The flower alone is enough.\n\nThe entire design philosophy rests on colour. Each piece was created in a carefully considered palette and paired with complementary gemstone accents: shell pearls (贝壳珠) for soft luminous warmth; layered shell pearls (叠贝珠) for rich textured depth; crystals and semi-precious stones for brilliance.\n\nSeven named colourways — each a distinct mood named after a sensory experience:\nHoney Peach Oolong (蜜桃乌龙) · Into the Emerald Forest (绿野仙踪) · Sea Salt Mango Ice (海盐芒果冰) · Frozen Wonderland (冰雪奇缘) · Gilded Dreams (澛金旧梦) · Starry Moon Night (星月夜) · Taro Waves (芋泥啵啵)\n\nAvailable as earrings (耳钉), rings (戒指), and pendants (挂坠). Clip-on (耳夹) versions also available.',
+    story_zh: '蝴蝶兰拥有天然优雅、辨识度极高的花型，宛如翩翩蝴蝶展翅，本身就是最好的设计。因此，这个系列没有额外添加叶片或珠串，只保留最纯粹的一朵花。\n\n整体设计重心落在色彩上，搭配不同珠宝：贝壳珠（柔和温润的光泽）、叠贝珠（有层次感的质地）、水晶与宝石（璀璨的色彩与光芒）。\n\n共七款配色，每款以一种感官体验命名：\n蜜桃乌龙 · 绿野仙踪 · 海盐芒果冰 · 冰雪奇缘 · 澛金旧梦 · 星月夜 · 芋泥啵啵\n\n涵盖耳钉、戒指与挂坠，提供耳夹款式。',
     image: 'images/orchid-collection.jpg',
-    tags: ['Earrings', 'Orchid', 'Seven Colours', 'Pearl'],
-    tall: true
+    tags: ['耳钉 Earrings', '耳夹 Clip-on', '戒指 Ring', '挂坠 Pendant', '七色 7 Colours']
   },
   {
-    id: 'white-orchid-pearl',
-    series: 'Pearl Edition',
-    series_zh: '珍珠版',
-    title: 'White Orchid Pearl',
-    title_zh: '白兰珍珠版',
-    tagline: 'Pure white silk orchid petals, baroque pearl. Made in matching sets of three.',
-    tagline_zh: '纯白丝绸兰花花瓣，配巴洛克淡水珍珠。三件一组匹配制作。',
-    story: 'The quietest piece in the collection — and often the one people reach for most. Pure white silk orchid petals wound around gold-tone wire, finished with a single freshwater baroque pearl drop.\n\nEach set of three is made together to ensure the petals match exactly in shape and density. The result is a piece that belongs everywhere: a morning at the desk, a concert in the evening, a long Sunday walk.\n\nAlso available as a ring or brooch. Custom petal count and pearl size on request.',
-    story_zh: '这是系列中最安静的一枚——却也是最常被人伸手拿起的。纯白丝绸兰花花瓣缠绕于金色金属丝骨架，配以单颗淡水巴洛克珍珠垂坠。\n\n每三枚成组制作，确保花瓣在形状和密度上完全一致。成品可以出现在任何场合：清晨的书桌前，傍晚的音乐厅，长长的周日散步。\n\n亦可定制为戒指或胸针。花瓣数量与珍珠大小均可定制。',
-    image: 'images/white-orchid-pearl-set.jpg',
-    tags: ['Earrings', 'Ring', 'Brooch', 'White', 'Pearl', 'Sets']
-  },
-  {
-    id: 'iris-brooch',
-    series: 'Brooch · Sculpture',
-    series_zh: '胸针 · 雕塑',
-    title: 'Iris Brooch Series',
-    title_zh: '鸢尾胸针系列',
-    tagline: 'A sculpture you can wear. Hand-wound iris petals on a single curved gold wire stem.',
-    tagline_zh: '可以佩戴的雕塑。手工缠绕的鸢尾花瓣，弯曲金丝茎杆，巴洛克珍珠。',
-    story: 'Each iris brooch is hand-sculpted from dyed silk wound around gold wire — petals that curve the way real irises do, reaching upward with a quality that photographs cannot fully capture. The stem is a single curved gold wire finished with a freshwater baroque pearl.\n\nThe iris is the flower of messages carried between worlds. In Chinese tradition it carries the meaning of \'elegant beauty\' and \'hope\'. In the Western tradition it is the flower of the rainbow — the bridge between earth and sky.\n\nAvailable in purple, white, powder blue, and blush. Each piece takes several hours to complete by hand. Custom colours on request.',
-    story_zh: '每一枚鸢尾胸针由手工将染色丝线缠绕于金丝骨架——花瓣以真实鸢尾的弧度向上伸展，这种质感是照片无法完全呈现的。茎杆为单根弯曲金丝，末端配以淡水巴洛克珍珠。\n\n鸢尾是在世界之间传递信息的花。在中国传统中，它象征"高雅之美"与"希望"。在西方传统中，它是彩虹之花——连接大地与天空的桥梁。\n\n提供紫色、白色、粉蓝色和浅玫瑰色。每枚作品需数小时手工完成。颜色可定制。',
+    id: 'crystal-curtain',
+    series: '四时之景 · 却下水晶帘',
+    series_zh: '发簪 · 胸针',
+    title: 'Crystal Curtain',
+    title_zh: '却下水晶帘（发簪·胸针）',
+    tagline: 'A Tang Dynasty poem rendered in silk, crystal, and gold. A still autumn night, a luminous moon.',
+    tagline_zh: '李白诗意，以丝绸、水晶与金丝重现。静秋夜色，月光如帘。',
+    story: 'The title is drawn from a Tang Dynasty poem by Li Bai:\n\n"She rolls back the crystal curtain,\nAnd gazes through its jade-clear folds at the autumn moon."\n— 却下水晶帘，玲珑望秋月\n\nAt the centre sits a large, translucent round disc — a moon rendered in semi-opaque white material, its surface carrying the faint luminosity of moonlight through cloud. Around it, small five-petal flowers in lavender and blue-white bloom along gold copper wire, their petals shading from soft purple at the edges to white at the centre — the cool, otherworldly palette of a night sky.\n\nGold wire curls outward freely like uncurling fern fronds, and a cascade of crystal-clear chain tassels (水晶流苏) hangs from the lower arc — catching light with every movement, evoking the shimmer of moonbeams passing through a crystal curtain.\n\nPresented as a hairpin set (发簪) alongside a companion brooch, together recreating the full scene: a still autumn night, a luminous moon, and the poet\'s quiet longing.',
+    story_zh: '作品名取自李白的诗句：「却下水晶帘，玲珑望秋月。」\n\n中央是一枚大型半透明圆形月片，表面透出淡淡的月光质感；周围，薰衣草紫与蓝白色渐变的五瓣小花沿金色铜丝绽放，花瓣边缘深紫向花心渐白，是夜空独有的清冷色调。\n\n金色铜丝自由向外延伸如蕨类舒展的弧线，下方垂落一串水晶透明链条流苏——随风摇曳时折射光线，正是月光透过水晶帘的意象。\n\n整套以发簪形式呈现，搭配一枚胸针，共同还原诗中的静秋夜色——宁静、剔透、如诗如画。',
     image: 'images/iris-brooch-stem.jpg',
-    tags: ['Brooch', 'Iris', 'Pearl', 'Gold Wire', 'Sculpture']
+    tags: ['发簪 Hairpin', '胸针 Brooch', '水晶 Crystal', '月光 Moonlight', '古诗 Tang Poetry']
   },
   {
-    id: 'yellow-orchid',
-    series: 'Mixed · Seasonal',
-    series_zh: '混搭 · 时节',
-    title: 'Yellow Orchid & Lavender',
-    title_zh: '黄蝶兰与薰衣草系列',
-    tagline: 'Warm yellow petals and violet gemstone, paired with tiny quatrefoil flowers.',
-    tagline_zh: '暖黄色花瓣与紫罗兰色宝石，搭配细小四叶花配件。',
-    story: 'This set began as a custom request — a customer wanted yellow, but not plain yellow: she wanted the warmth of late afternoon sun with the surprise of violet at the centre.\n\nThe result is a statement orchid earring in warm yellow silk with a violet amethyst drop, paired with tiny gold quatrefoil stud earrings. The two work together or separately — the studs alone are as quiet as a whisper; the orchid earring alone commands attention.\n\nA celebration of contrast: the warmth of yellow and the cool weight of lavender. Available as a set or individually.',
-    story_zh: '这套作品起源于一个定制需求——客户想要黄色，但不是普通的黄：她想要午后阳光的温暖，以及中心处紫罗兰色的惊喜。\n\n最终作品是一枚以暖黄色丝绸制成的兰花耳饰，搭配紫水晶垂坠，以及精小的金色四叶花耳钉。两件可搭配佩戴，也可单独使用——耳钉单独佩戴细如低语，兰花耳饰单独出现则令人注目。\n\n对比之美：黄的温暖与薰衣草的清凉重量。可作为套装或单件购入。',
+    id: 'osmanthus',
+    series: '四时之景 · 月桂流金',
+    series_zh: '桂花系列（花窗胸针·发簪·发冠）',
+    title: 'Osmanthus — Moonlit Gold',
+    title_zh: '月桂流金（花窗胸针·发簪·发冠）',
+    tagline: 'Autumn made wearable. Gold osmanthus clusters, deep olive leaves, the palette of October\'s moon-viewing season.',
+    tagline_zh: '可佩戴的秋天。金黄桂花簇，墨绿金边叶，十月赏月的色彩。',
+    story: 'The Osmanthus series is titled 四时之景·月桂流金 — "Scenes of the Four Seasons: Moonlit Osmanthus in Flowing Gold". It is built around a core philosophy of Chānhuā: to understand nature deeply, then render it with vision rather than imitation.\n\nIn nature, osmanthus blossoms are tiny — easily overlooked on the branch. Here they are intentionally enlarged so that the four-petal structure becomes the centrepiece the viewer can truly appreciate. Clusters of gold and amber blooms are arranged alongside deep olive-green leaves shaded with metallic gold — autumn made wearable.\n\nThree design principles: Scale — petals enlarged to make the four-petal form the visual hero. Structure — precise four-petal clusters, evoking the density of a blossoming branch. Colour — rich golden yellow against autumn-bronze green (秋香绿), the palette of October\'s moon-viewing season.\n\nThree forms: Lattice brooches (花窗胸针) — osmanthus blooms from woven bamboo-lattice bases in heart and arch shapes. Hairpin (发簪) — a U-shaped gold pin with osmanthus, green leaves, freshwater pearls, amber beads, and a white jade disc (the moon behind the flowers). Hair crown (发冠·月桂流金) — a curved gold frame with jade beads, leaf pendants, and a statement osmanthus cluster.',
+    story_zh: '桂花系列以「四时之景·月桂流金」命名，围绕缠花创作哲学展开：深入理解自然，再以艺术眼光重新诠释，而非照搬。\n\n自然界的桂花极小，容易被忽视。在这个系列中，花朵被有意放大，让四瓣结构成为可以被清晰欣赏的视觉焦点。金黄色桂花簇与墨绿色金边叶片相搭，是可佩戴的秋天。\n\n三大设计原则：大小（花瓣放大，四瓣造型成主角）、结构（精细花簇，还原枝头繁花的密度）、色彩（金黄搭秋香绿，十月赏月季节的色彩）。\n\n三种形式：花窗胸针（桂花从竹编镂空底座中绽放，心形与椭圆形两款）、发簪（金色U型，配桂花、绿叶、珍珠、琥珀珠与白玉月片）、发冠月桂流金（金色弧形框架，串联白玉珠、翡翠叶挂坠与琥珀珠）。',
     image: 'images/orchid-yellow-lavender-set.jpg',
-    tags: ['Earrings', 'Yellow', 'Lavender', 'Set', 'Amethyst']
+    tags: ['花窗胸针 Brooch', '发簪 Hairpin', '发冠 Hair Crown', '桂花 Osmanthus', '秋 Autumn']
   },
   {
-    id: 'wisteria',
-    series: 'Romance · Spring',
-    series_zh: '浪漫 · 春',
-    title: 'Wisteria Dreams',
-    title_zh: '紫藤梦',
-    tagline: 'Cascading silk wisteria — a flower that blooms in abundance or not at all.',
-    tagline_zh: '倾泻的丝绸紫藤——要么盛放，要么全无。',
-    story: 'Wisteria blooms for two weeks in spring and then it is gone. That brevity — that insistence on giving everything in a short time — is what drew us to it.\n\nThe Wisteria collection captures the romantic weight of purple blossoms against spring light, translated into earrings and rings that feel like something remembered from a garden you loved. The cascading clusters are assembled petal by petal, each tiny bloom wound individually before being gathered into the full hanging spray.\n\nAvailable in purple, dusty lavender, and pale lilac. Custom length and colour on request.',
-    story_zh: '紫藤在春天只开两周，然后消失。正是这种短暂——这种在短暂时间内给予一切的执着——让我们着迷。\n\n紫藤梦系列捕捉了紫色花串在春光中浪漫的重量，转化为耳饰与戒指，像是来自你曾经爱过的某个花园的记忆。垂坠的花串逐瓣拼合，每一朵细小的花都是单独缠绕后再聚拢成完整的垂穗。\n\n提供紫色、哑光薰衣草和淡紫色。长度与颜色均可定制。',
-    image: null,
-    imgClass: 'bg-wisteria',
-    imgPlaceholder: '✿',
-    tags: ['Earrings', 'Ring', 'Wisteria', 'Purple', 'Cascade']
-  },
-  {
-    id: 'plum',
-    series: 'Resilience · Winter',
-    series_zh: '韧性 · 冬',
-    title: 'Plum in Winter',
-    title_zh: '寒梅',
-    tagline: 'The flower that blooms before spring arrives. White and blush silk petals, quiet gold wire.',
-    tagline_zh: '在春天来临之前开放的花。白色与浅玫瑰色丝绸花瓣，静谧金丝。',
-    story: 'The plum blossom is the flower of endurance — it blooms in snow, before anything else dares to. This collection is for people who carry their softness through hard seasons.\n\nWhite and blush silk petals, wire stems, and the quiet insistence of something beautiful that refuses to wait. The pieces in this collection are deliberately understated — they do not try to be the loudest thing in the room. They are for the person who already knows who they are.\n\nAvailable in white, pale blush, and a deep winter rose. Custom combinations on request.',
-    story_zh: '梅花是忍耐之花——它在雪中盛开，早于一切敢于开放的事物。这个系列属于那些在艰难季节中仍然保持柔软的人。\n\n白色与浅玫瑰色丝绸花瓣，金丝茎杆，以及那份美丽而不愿等待的静静执着。这个系列的作品刻意内敛——它们不试图成为房间里最响亮的声音。它们属于那些已经知道自己是谁的人。\n\n提供白色、淡玫瑰色和深冬玫瑰色。组合可定制。',
-    image: 'images/white-orchid-earrings.jpg',
-    tags: ['Earrings', 'Brooch', 'Plum', 'White', 'Blush', 'Winter']
+    id: 'lily-moonlight',
+    series: '四时之景 · 月下逢',
+    series_zh: '月光下的小百合（发簪·胸针·戒指·耳饰）',
+    title: 'Lily in Moonlight',
+    title_zh: '月光下的小百合·月下逢',
+    tagline: 'White silk petals with blue-ombre edges. Yellow amber and white jade. Flowing luminosity — 流光感.',
+    tagline_zh: '白色花瓣蓝色渐变边缘。琥珀珠与玉珠。蚕丝在光线下的流光感。',
+    story: 'This piece is inspired by a couplet from Du Fu\'s poem:\n\n"If not upon the summit of Jade Mountain,\nThen we shall meet beneath the moon at Yaotai."\n— 若非群玉山头见，会向瑶台月下逢\n\nThe lily is rendered in white silk with delicate blue-ombre edges — petals that fade from pure white at the centre to the cool blue of a night sky at the tips. Each bloom is held open by fine gold copper wire that curves freely outward like tendrils, catching the light as real moonlight would catch on a living stem.\n\nYellow amber beads (琥珀珠) and white jade beads (玉珠) are scattered along the gold wire — warm against cool, earth against sky — evoking the contrast of candlelight and moonlight in a classical Chinese night scene.\n\nThe dyeing technique emphasises what the maker calls \'flowing luminosity\' (流光感): a shimmering, shifting quality in the silk that suggests moonlight moving gently across petals.\n\nThe collection is presented as a full set: hairpin (发簪), brooches (胸针), ring, and earrings — both clip-on (耳夹) and drop earring (耳挂) styles — allowing the wearer to carry the entire moonlit garden.',
+    story_zh: '这件作品灵感来自杜甫的诗句：「若非群玉山头见，会向瑶台月下逢。」\n\n白色蚕丝花瓣边缘渐染蓝色，从花心纯白过渡到花尖的夜空蓝，金色铜丝自由延伸如藤蔓，在光线下熠熠生辉。\n\n黄色琥珀珠与白色玉珠点缀其间——暖与冷、土地与天空的对比，重现中国古典夜色中烛光与月光交织的意境。\n\n染色工艺着重强调「流光感」——蚕丝在光线下呈现流动、微微变幻的光泽，如同月光轻抚花瓣的瞬间。\n\n整个系列以套装形式呈现，包括发簪、胸针、戒指与耳饰（耳夹与耳挂均有款式），让佩戴者将整座月下花园随身携带。',
+    image: 'images/lily-moon-encounter.jpg',
+    tags: ['耳夹 Clip-on', '耳挂 Drop Earring', '发簪 Hairpin', '胸针 Brooch', '流光感 Luminosity']
   }
 ];
 

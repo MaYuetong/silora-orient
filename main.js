@@ -161,21 +161,62 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  /* ---- Newsletter form ---- */
+  /* ---- Newsletter form — Mailchimp API ---- */
   const newsletterForm = document.querySelector('.newsletter-form');
   const newsletterBtn  = document.querySelector('.newsletter-btn');
 
   if (newsletterForm && newsletterBtn) {
-    newsletterBtn.addEventListener('click', function () {
+    newsletterBtn.addEventListener('click', async function () {
       const input = newsletterForm.querySelector('input[type="email"]');
-      if (input && input.value.includes('@')) {
-        newsletterBtn.textContent = '✓ Thank you';
-        newsletterBtn.style.background = '#A8B89C';
-        input.value = '';
-        input.placeholder = 'You\'re on the list.';
-      } else if (input) {
-        input.style.border = '1px solid var(--blush-deep)';
-        input.placeholder = 'Please enter a valid email';
+      const email = input ? input.value.trim() : '';
+
+      if (!email.includes('@')) {
+        if (input) {
+          input.style.border = '1px solid var(--gold)';
+          input.placeholder = 'Please enter a valid email · 请输入有效邮箱';
+        }
+        return;
+      }
+
+      const originalText  = newsletterBtn.textContent;
+      newsletterBtn.textContent = '...';
+      newsletterBtn.disabled    = true;
+
+      try {
+        const res = await fetch('/api/subscribe', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ email })
+        });
+
+        if (res.ok) {
+          newsletterBtn.textContent    = '✓ Thank you · 感谢订阅';
+          newsletterBtn.style.background = '#A8B89C';
+          if (input) {
+            input.value       = '';
+            input.placeholder = "You're on the list · 已加入订阅列表";
+            input.style.border = '';
+          }
+          /* GA4 conversion event */
+          if (typeof gtag !== 'undefined') {
+            gtag('event', 'newsletter_signup', { event_category: 'engagement' });
+          }
+        } else {
+          throw new Error('subscription failed');
+        }
+      } catch {
+        newsletterBtn.textContent = 'Try again · 请重试';
+        newsletterBtn.disabled    = false;
+      }
+    });
+  }
+
+  /* ---- GA4: contact form submission ---- */
+  const contactForm = document.querySelector('form[action*="formspree"]');
+  if (contactForm) {
+    contactForm.addEventListener('submit', function () {
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'contact_form_submit', { event_category: 'engagement' });
       }
     });
   }
@@ -476,8 +517,13 @@ function injectModals() {
 }
 
 /* ---- Init on DOM ready ---- */
+function buildUploadPreview(inpId,prevId){var inp=document.getElementById(inpId),prev=document.getElementById(prevId);if(!inp||!prev)return;inp.addEventListener('change',function(){prev.innerHTML='';Array.from(this.files).forEach(function(f){var d=document.createElement('div');d.className='upload-preview-item';var ck='<div class="upload-preview-check">\u2713</div>';if(f.type.startsWith('image/')){var r=new FileReader();r.onload=function(e){d.innerHTML='<img src="'+e.target.result+'" alt="preview"/>'+ck;};r.readAsDataURL(f);}else{d.innerHTML='<div class="upload-preview-name">'+f.name+'</div>'+ck;}prev.appendChild(d);});});}
+
 document.addEventListener('DOMContentLoaded', function () {
   injectModals();
   initLangSwitchers();
   loadTranslations();
+  buildUploadPreview('eyePhotoInput','eyePhotoPreview');
+  buildUploadPreview('inspirationInput','inspirationPreview');
+  buildUploadPreview('reviewPhotoInput','reviewPhotoPreview');
 });
