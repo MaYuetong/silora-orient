@@ -167,13 +167,13 @@
 
 <!-- Page Hero -->
 <div class="page-hero">
-  <p class="t-label page-hero-label">四时之景 · Scenes of the Four Seasons</p>
+  <p class="t-label page-hero-label">缠花珠宝 · Silk Thread Jewellery</p>
   <h1 class="t-display page-hero-title" style="font-size: clamp(2.5rem, 5vw, 5rem);">
-    The Craft Series
+    All Series
   </h1>
   <div class="divider"></div>
   <p class="page-hero-desc">
-    Five collections rooted in classical Chinese poetry — Phalaenopsis, Crystal Curtain, Osmanthus, Lily, and Lotus. Each piece is a wearable poem, named from a Tang or Song Dynasty verse.
+    Four series, one craft — 兰花系列 · 花的系列 · 定制系列 · 亲情系列. Every piece hand-wound in silk, conceived from classical Chinese poetry, seasonal nature, and personal memory.
   </p>
 </div>
 
@@ -291,10 +291,19 @@
 // ============================================================
 // COLLECTIONS DATA — add new series here, page auto-updates
 // ============================================================
+// Category order: orchid → flowers → kinship → custom
+const CATEGORY_LABELS = {
+  orchid:  { en: '兰花系列 · Orchid Series',  zh: '兰花系列' },
+  flowers: { en: '花的系列 · Flower Series',   zh: '花的系列 · 四时之景' },
+  kinship: { en: '亲情系列 · Kinship Series',  zh: '亲情系列' },
+  custom:  { en: '定制系列 · Bespoke',          zh: '定制系列' },
+};
+
 const COLLECTIONS = [
   {
     id: 'phalaenopsis',
-    series: '四时之景 · Jewellery Series',
+    category: 'orchid',
+    series: '兰花系列 · Orchid Jewellery',
     series_zh: '蝴蝶兰系列缠花珠宝',
     title: 'Phalaenopsis — Seven Colourways',
     title_zh: '蝴蝶兰系列（耳钉·戒指·挂坠）',
@@ -307,7 +316,8 @@ const COLLECTIONS = [
   },
   {
     id: 'crystal-curtain',
-    series: '四时之景 · 却下水晶帘',
+    category: 'flowers',
+    series: '花的系列 · 却下水晶帘',
     series_zh: '发簪 · 胸针',
     title: 'Crystal Curtain',
     title_zh: '却下水晶帘（发簪·胸针）',
@@ -315,12 +325,13 @@ const COLLECTIONS = [
     tagline_zh: '李白诗意，以丝绸、水晶与金丝重现。静秋夜色，月光如帘。',
     story: 'The title is drawn from a Tang Dynasty poem by Li Bai:\n\n"She rolls back the crystal curtain,\nAnd gazes through its jade-clear folds at the autumn moon."\n— 却下水晶帘，玲珑望秋月\n\nAt the centre sits a large, translucent round disc — a moon rendered in semi-opaque white material, its surface carrying the faint luminosity of moonlight through cloud. Around it, small five-petal flowers in lavender and blue-white bloom along gold copper wire, their petals shading from soft purple at the edges to white at the centre — the cool, otherworldly palette of a night sky.\n\nGold wire curls outward freely like uncurling fern fronds, and a cascade of crystal-clear chain tassels (水晶流苏) hangs from the lower arc — catching light with every movement, evoking the shimmer of moonbeams passing through a crystal curtain.\n\nPresented as a hairpin set (发簪) alongside a companion brooch, together recreating the full scene: a still autumn night, a luminous moon, and the poet\'s quiet longing.',
     story_zh: '作品名取自李白的诗句：「却下水晶帘，玲珑望秋月。」\n\n中央是一枚大型半透明圆形月片，表面透出淡淡的月光质感；周围，薰衣草紫与蓝白色渐变的五瓣小花沿金色铜丝绽放，花瓣边缘深紫向花心渐白，是夜空独有的清冷色调。\n\n金色铜丝自由向外延伸如蕨类舒展的弧线，下方垂落一串水晶透明链条流苏——随风摇曳时折射光线，正是月光透过水晶帘的意象。\n\n整套以发簪形式呈现，搭配一枚胸针，共同还原诗中的静秋夜色——宁静、剔透、如诗如画。',
-    image: 'images/iris-brooch-stem.jpg',
+    image: 'images/crystal-curtain.jpg',
     tags: ['发簪 Hairpin', '胸针 Brooch', '水晶 Crystal', '月光 Moonlight', '古诗 Tang Poetry']
   },
   {
     id: 'osmanthus',
-    series: '四时之景 · 月桂流金',
+    category: 'flowers',
+    series: '花的系列 · 月桂流金',
     series_zh: '桂花系列（花窗胸针·发簪·发冠）',
     title: 'Osmanthus — Moonlit Gold',
     title_zh: '月桂流金（花窗胸针·发簪·发冠）',
@@ -328,12 +339,13 @@ const COLLECTIONS = [
     tagline_zh: '可佩戴的秋天。金黄桂花簇，墨绿金边叶，十月赏月的色彩。',
     story: 'The Osmanthus series is titled 四时之景·月桂流金 — "Scenes of the Four Seasons: Moonlit Osmanthus in Flowing Gold". It is built around a core philosophy of Chānhuā: to understand nature deeply, then render it with vision rather than imitation.\n\nIn nature, osmanthus blossoms are tiny — easily overlooked on the branch. Here they are intentionally enlarged so that the four-petal structure becomes the centrepiece the viewer can truly appreciate. Clusters of gold and amber blooms are arranged alongside deep olive-green leaves shaded with metallic gold — autumn made wearable.\n\nThree design principles: Scale — petals enlarged to make the four-petal form the visual hero. Structure — precise four-petal clusters, evoking the density of a blossoming branch. Colour — rich golden yellow against autumn-bronze green (秋香绿), the palette of October\'s moon-viewing season.\n\nThree forms: Lattice brooches (花窗胸针) — osmanthus blooms from woven bamboo-lattice bases in heart and arch shapes. Hairpin (发簪) — a U-shaped gold pin with osmanthus, green leaves, freshwater pearls, amber beads, and a white jade disc (the moon behind the flowers). Hair crown (发冠·月桂流金) — a curved gold frame with jade beads, leaf pendants, and a statement osmanthus cluster.',
     story_zh: '桂花系列以「四时之景·月桂流金」命名，围绕缠花创作哲学展开：深入理解自然，再以艺术眼光重新诠释，而非照搬。\n\n自然界的桂花极小，容易被忽视。在这个系列中，花朵被有意放大，让四瓣结构成为可以被清晰欣赏的视觉焦点。金黄色桂花簇与墨绿色金边叶片相搭，是可佩戴的秋天。\n\n三大设计原则：大小（花瓣放大，四瓣造型成主角）、结构（精细花簇，还原枝头繁花的密度）、色彩（金黄搭秋香绿，十月赏月季节的色彩）。\n\n三种形式：花窗胸针（桂花从竹编镂空底座中绽放，心形与椭圆形两款）、发簪（金色U型，配桂花、绿叶、珍珠、琥珀珠与白玉月片）、发冠月桂流金（金色弧形框架，串联白玉珠、翡翠叶挂坠与琥珀珠）。',
-    image: 'images/orchid-yellow-lavender-set.jpg',
+    image: 'images/osmanthus-1.jpg',
     tags: ['花窗胸针 Brooch', '发簪 Hairpin', '发冠 Hair Crown', '桂花 Osmanthus', '秋 Autumn']
   },
   {
     id: 'lily-moonlight',
-    series: '四时之景 · 月下逢',
+    category: 'flowers',
+    series: '花的系列 · 月下逢',
     series_zh: '月光下的小百合（发簪·胸针·戒指·耳饰）',
     title: 'Lily in Moonlight',
     title_zh: '月光下的小百合·月下逢',
@@ -341,12 +353,13 @@ const COLLECTIONS = [
     tagline_zh: '白色花瓣蓝色渐变边缘。琥珀珠与玉珠。蚕丝在光线下的流光感。',
     story: 'This piece is inspired by a couplet from Du Fu\'s poem:\n\n"If not upon the summit of Jade Mountain,\nThen we shall meet beneath the moon at Yaotai."\n— 若非群玉山头见，会向瑶台月下逢\n\nThe lily is rendered in white silk with delicate blue-ombre edges — petals that fade from pure white at the centre to the cool blue of a night sky at the tips. Each bloom is held open by fine gold copper wire that curves freely outward like tendrils, catching the light as real moonlight would catch on a living stem.\n\nYellow amber beads (琥珀珠) and white jade beads (玉珠) are scattered along the gold wire — warm against cool, earth against sky — evoking the contrast of candlelight and moonlight in a classical Chinese night scene.\n\nThe dyeing technique emphasises what the maker calls \'flowing luminosity\' (流光感): a shimmering, shifting quality in the silk that suggests moonlight moving gently across petals.\n\nThe collection is presented as a full set: hairpin (发簪), brooches (胸针), ring, and earrings — both clip-on (耳夹) and drop earring (耳挂) styles — allowing the wearer to carry the entire moonlit garden.',
     story_zh: '这件作品灵感来自杜甫的诗句：「若非群玉山头见，会向瑶台月下逢。」\n\n白色蚕丝花瓣边缘渐染蓝色，从花心纯白过渡到花尖的夜空蓝，金色铜丝自由延伸如藤蔓，在光线下熠熠生辉。\n\n黄色琥珀珠与白色玉珠点缀其间——暖与冷、土地与天空的对比，重现中国古典夜色中烛光与月光交织的意境。\n\n染色工艺着重强调「流光感」——蚕丝在光线下呈现流动、微微变幻的光泽，如同月光轻抚花瓣的瞬间。\n\n整个系列以套装形式呈现，包括发簪、胸针、戒指与耳饰（耳夹与耳挂均有款式），让佩戴者将整座月下花园随身携带。',
-    image: 'images/lily-moon-encounter.jpg',
+    image: 'images/lily-moonlight.jpg',
     tags: ['耳夹 Clip-on', '耳挂 Drop Earring', '发簪 Hairpin', '胸针 Brooch', '流光感 Luminosity']
   },
   {
     id: 'lotus-wind',
-    series: '四时之景 · 一一风荷举',
+    category: 'flowers',
+    series: '花的系列 · 一一风荷举',
     series_zh: '夏莲系列（发簪·胸针·戒指·耳饰）',
     title: 'Lotus in the Wind',
     title_zh: '一一风荷举（发簪·胸针·戒指·耳饰）',
@@ -358,13 +371,64 @@ const COLLECTIONS = [
     imgClass: 'bg-lotus',
     imgPlaceholder: '✿',
     tags: ['发簪 Hairpin', '胸针 Brooch', '耳夹 Clip-on', '耳挂 Drop Earring', '珍珠 Pearl', '夏 Summer']
+  },
+  {
+    id: 'kinship',
+    category: 'kinship',
+    series: '亲情系列 · Kinship',
+    series_zh: '亲情系列缠花珠宝',
+    title: 'Kinship — Bonds of Silk',
+    title_zh: '亲情系列（定制礼品·亲子款）',
+    tagline: 'Pieces made to carry a relationship — mother and daughter, grandmother and grandchild. Silk thread binding two hearts.',
+    tagline_zh: '为一段关系而生的珠宝——母女、祖孙。蚕丝将两颗心连结。',
+    story: 'The Kinship Series was born from a simple truth: some of the most meaningful jewellery is not made for the wearer alone, but for the bond between two people.\n\nEach piece in this series is conceived as a gift — from mother to daughter, from grandmother to granddaughter, from one generation to the next. The craft of Chānhuā, which requires patience, repetition, and an intimate understanding of the receiver, makes it a natural language of love.\n\nDesigns in this series often come in paired sets: matching motifs in different colourways, or complementary pieces that speak to each other across a relationship. A plum blossom for the elder, a cherry blossom for the young. Osmanthus for autumn, lotus for summer — each season a different chapter of a shared life.\n\nCommission a Kinship piece to mark a birthday, a graduation, a wedding anniversary, a new arrival, or simply the quiet, enduring fact of a bond that needs no occasion.',
+    story_zh: '亲情系列源于一个简单的真理：最有意义的珠宝，往往不只是为了佩戴者本身，而是为了两个人之间的情感而存在。\n\n这个系列的每一件作品都是作为礼物而生——母亲送给女儿，祖母送给孙女，从一代传给下一代。缠花这门需要耐心、反复与深刻理解收礼人的手艺，天然就是一种爱的语言。\n\n亲情系列的设计常以成对套装的形式呈现：相同图案、不同配色，或相互呼应的款式——年长者配梅花，年轻者配樱花；桂花代表秋天，莲花代表夏天——每一个季节，都是共同生命中不同的篇章。\n\n定制一件亲情款，可以纪念生日、毕业、结婚纪念日、新生命的到来，或者仅仅是——那份不需要任何理由的、绵长的情感。',
+    image: null,
+    imgClass: 'bg-plum',
+    imgPlaceholder: '❀',
+    tags: ['礼品 Gift', '亲子款 Mother-Daughter', '成对 Paired', '定制 Bespoke', '纪念 Commemoration']
+  },
+  {
+    id: 'custom-order',
+    category: 'custom',
+    series: '定制系列 · Bespoke',
+    series_zh: '个人定制缠花',
+    title: 'Bespoke — Your Story in Silk',
+    title_zh: '定制系列（你的故事，你的珠宝）',
+    tagline: 'A piece made entirely around you — your flower, your stone, your memory, your story.',
+    tagline_zh: '完全围绕你而生的珠宝——你的花，你的石，你的记忆，你的故事。',
+    story: 'The Bespoke Commission service is where Chānhuā becomes entirely personal.\n\nYou choose your flower — orchid, osmanthus, lotus, lily, or something else entirely. You describe your colour memory. You share the story you want this piece to carry. The studio then works with you through a dedicated consultation to design something that exists nowhere else in the world.\n\nEvery custom commission begins with a conversation. Not a form — a conversation. Because the most important thing a bespoke piece needs to carry is the exact feeling you have when you think of the person or memory it represents.\n\nCommissions are accepted in six tiers, from a simple single-flower stud to a fully multi-piece collection. All custom work includes a personalised story card documenting the design decisions and the meaning behind the piece — so that the story is never lost.',
+    story_zh: '定制委托，是缠花变得完全属于你的时刻。\n\n你选择你的花——兰花、桂花、莲花、百合，或者完全不同的其他。你描述你的色彩记忆。你分享你希望这件珠宝承载的故事。工作室随后与你展开专属沟通，设计出一件世界上独一无二的作品。\n\n每一件定制委托都从一次对话开始。不是表格——是对话。因为定制款最需要承载的，是你想到那个人或那段记忆时心里的那种确切感受。\n\n定制委托分六个层级，从简单的单花耳钉到完整的多件套系列均可承接。所有定制作品均附一张个人故事卡，记录设计过程与意义，让故事永不流失。',
+    image: null,
+    imgClass: 'bg-wisteria',
+    imgPlaceholder: '✦',
+    tags: ['定制 Bespoke', '一对一 1-on-1', '个人故事 Personal Story', '礼品 Gift', '六级定价 6-Tier Pricing'],
+    ctaLink: 'custom.html',
+    ctaLabel: 'Begin Commission →'
   }
 ];
 
-// ---- Build waterfall ----
+// ---- Build waterfall with category headers ----
 (function buildWaterfall() {
   const wf = document.getElementById('waterfall');
+  const lang = localStorage.getItem('silora-lang') || 'en';
+  const isZh = lang === 'zh';
+  let lastCat = null;
+
   COLLECTIONS.forEach(c => {
+    // Insert category divider when category changes
+    if (c.category !== lastCat) {
+      lastCat = c.category;
+      const label = CATEGORY_LABELS[c.category];
+      if (label) {
+        const divider = document.createElement('div');
+        divider.className = 'wf-category-header';
+        divider.style.cssText = 'column-span:all;padding:2rem 0 0.5rem;margin-top:1rem;border-top:1px solid var(--border);';
+        divider.innerHTML = `<p style="font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin:0;">${isZh ? label.zh : label.en}</p>`;
+        wf.appendChild(divider);
+      }
+    }
+
     const card = document.createElement('div');
     card.className = 'wf-card reveal';
     card.setAttribute('data-id', c.id);
@@ -372,9 +436,10 @@ const COLLECTIONS = [
     card.setAttribute('tabindex', '0');
     card.setAttribute('aria-label', 'Read ' + c.title + ' story');
 
+    const overlayLabel = c.ctaLabel || 'Read Story';
     const imgHtml = c.image
-      ? `<div class="wf-img"><img src="${c.image}" alt="${c.title}" loading="lazy" /><div class="wf-overlay"><span>Read Story</span></div></div>`
-      : `<div class="wf-img"><div class="wf-img-placeholder ${c.imgClass || ''}" style="display:flex;align-items:center;justify-content:center;font-size:3.5rem;color:rgba(191,157,106,0.4);">${c.imgPlaceholder || '✦'}</div><div class="wf-overlay"><span>Read Story</span></div></div>`;
+      ? `<div class="wf-img"><img src="${c.image}" alt="${c.title}" loading="lazy" /><div class="wf-overlay"><span>${overlayLabel}</span></div></div>`
+      : `<div class="wf-img"><div class="wf-img-placeholder ${c.imgClass || ''}" style="display:flex;align-items:center;justify-content:center;font-size:3.5rem;color:rgba(191,157,106,0.4);">${c.imgPlaceholder || '✦'}</div><div class="wf-overlay"><span>${overlayLabel}</span></div></div>`;
 
     card.innerHTML = imgHtml + `
       <div class="wf-body">
@@ -385,8 +450,12 @@ const COLLECTIONS = [
         <div class="wf-tags">${c.tags.map(t=>`<span class="wf-tag">${t}</span>`).join('')}</div>
       </div>`;
 
-    card.addEventListener('click', () => openModal(c.id));
-    card.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') openModal(c.id); });
+    if (c.ctaLink) {
+      card.addEventListener('click', () => window.location.href = c.ctaLink);
+    } else {
+      card.addEventListener('click', () => openModal(c.id));
+    }
+    card.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') { c.ctaLink ? window.location.href = c.ctaLink : openModal(c.id); } });
     wf.appendChild(card);
   });
 })();
