@@ -58,6 +58,7 @@
     .wf-img-placeholder { aspect-ratio: 4/3; }
     .bg-plum { background: linear-gradient(135deg, #2a2728 0%, #4a3040 100%); }
     .bg-wisteria { background: linear-gradient(135deg, #C4BAD4 0%, #8B7FA8 100%); }
+    .bg-lotus    { background: linear-gradient(135deg, #C8DBC0 0%, #7DAA8F 100%); }
 
     /* ---- Story modal ---- */
     .story-modal {
@@ -166,13 +167,13 @@
 
 <!-- Page Hero -->
 <div class="page-hero">
-  <p class="t-label page-hero-label">The Studio Archive</p>
+  <p class="t-label page-hero-label">四时之景 · Scenes of the Four Seasons</p>
   <h1 class="t-display page-hero-title" style="font-size: clamp(2.5rem, 5vw, 5rem);">
-    Other Collections
+    The Craft Series
   </h1>
   <div class="divider"></div>
   <p class="page-hero-desc">
-    Beyond the signature series — every flower we have made, every colour we have named. Browse the full Silora Orient studio archive.
+    Five collections rooted in classical Chinese poetry — Phalaenopsis, Crystal Curtain, Osmanthus, Lily, and Lotus. Each piece is a wearable poem, named from a Tang or Song Dynasty verse.
   </p>
 </div>
 
@@ -180,10 +181,10 @@
 <section style="background: var(--cream); padding: var(--space-xl) 0 calc(var(--space-xl) + 2rem);">
   <div class="container">
     <div style="text-align:center; max-width: 520px; margin: 0 auto;">
-      <p class="t-label reveal">Six Series · One Craft</p>
+      <p class="t-label reveal">五大系列 · Five Series · One Craft</p>
       <div class="divider"></div>
       <p class="t-body reveal reveal-delay-1" style="margin-top:0.5rem;">
-        Click any series to read its story and request a price.
+        Each series is rooted in classical Chinese poetry. Click any card to read its story and request a price.
       </p>
     </div>
 
@@ -342,6 +343,21 @@ const COLLECTIONS = [
     story_zh: '这件作品灵感来自杜甫的诗句：「若非群玉山头见，会向瑶台月下逢。」\n\n白色蚕丝花瓣边缘渐染蓝色，从花心纯白过渡到花尖的夜空蓝，金色铜丝自由延伸如藤蔓，在光线下熠熠生辉。\n\n黄色琥珀珠与白色玉珠点缀其间——暖与冷、土地与天空的对比，重现中国古典夜色中烛光与月光交织的意境。\n\n染色工艺着重强调「流光感」——蚕丝在光线下呈现流动、微微变幻的光泽，如同月光轻抚花瓣的瞬间。\n\n整个系列以套装形式呈现，包括发簪、胸针、戒指与耳饰（耳夹与耳挂均有款式），让佩戴者将整座月下花园随身携带。',
     image: 'images/lily-moon-encounter.jpg',
     tags: ['耳夹 Clip-on', '耳挂 Drop Earring', '发簪 Hairpin', '胸针 Brooch', '流光感 Luminosity']
+  },
+  {
+    id: 'lotus-wind',
+    series: '四时之景 · 一一风荷举',
+    series_zh: '夏莲系列（发簪·胸针·戒指·耳饰）',
+    title: 'Lotus in the Wind',
+    title_zh: '一一风荷举（发簪·胸针·戒指·耳饰）',
+    tagline: 'Pale green and blush-white petals caught mid-breath. Freshwater pearls and jade among summer lotus.',
+    tagline_zh: '淡绿与藕白花瓣，凝固于夏风一息。淡水珍珠与翡翠珠点缀于花间，清凉如荷下静水。',
+    story: 'This collection is inspired by a line from Zhou Bangyan\'s Song Dynasty ci-poem 《苏幕遮》:\n\n"The water\'s surface — round and clear — lotus after lotus rising gently in the wind."\n— 水面清圆，一一风荷举\n\nThe poem captures a single suspended moment: the exact instant when a lotus petal lifts on a summer breeze and hangs there, weightless, before settling again. This collection is built around that pause.\n\nPale green and blush-white silk petals are wound with precision around copper wire frames, their tips curved gently upward as if caught mid-breath — frozen in the moment of rising. Each petal edge carries the faintest gradient of green to ivory, the colour of summer lotus in actual morning light.\n\nFreshwater pearls (淡水珍珠) and delicate jade beads (翡翠珠) nestle among the petals — their cool, still lustre suggesting the water beneath: deep, clear, holding the heat of summer at a distance.\n\nThe full collection includes hairpin (发簪), brooches (胸针), ring (戒指), and earrings — both clip-on (耳夹) and drop earring styles (耳挂).',
+    story_zh: '这件作品灵感来自周邦彦《苏幕遮》中的一句词：「水面清圆，一一风荷举。」\n\n这句词捕捉了一个停顿的瞬间：莲花花瓣在夏风中轻轻扬起，悬在半空，凝固于起落之间的一息。这个系列正是为了定格这一瞬间而生。\n\n淡绿与藕白蚕丝花瓣缠绕于铜丝骨架，花尖轻轻上翘，如同凝固于风中一息——停留在上升的瞬间。每片花瓣边缘带着从绿到牙白的淡淡渐变，是夏日清晨荷花真实的色泽。\n\n淡水珍珠与翡翠珠点缀花间——清凉、静谧的光泽如同花下的湖水：深邃、清澈，将夏日的热意隔于远处。\n\n整套系列包括发簪、胸针、戒指与耳饰（耳夹与耳挂均有款式）。',
+    image: null,
+    imgClass: 'bg-lotus',
+    imgPlaceholder: '✿',
+    tags: ['发簪 Hairpin', '胸针 Brooch', '耳夹 Clip-on', '耳挂 Drop Earring', '珍珠 Pearl', '夏 Summer']
   }
 ];
 

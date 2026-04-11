@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SILORA ORIENT — Brand Operating Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold: #BF9D6A; --gold-light: #D4B482; --ivory: #FAF7F2; --cream: #F2EDE5;
+      --text-dark: #2A2724; --text-mid: #5C5650; --text-light: #9C9690; --border: #E8E2D8;
+      --critical: #C0392B; --critical-bg: #FDEDEB;
+      --important: #B7770D; --important-bg: #FEF9E7;
+      --routine-bg: #F2EDE5;
+      --done: #1E8449; --done-bg: #EAFAF1;
+      --blocked: #C0392B; --blocked-bg: #FDEDEB;
+      --pending: #2471A3; --pending-bg: #EBF5FB;
+      --panel-radius: 10px; --shadow: 0 2px 12px rgba(42,39,36,0.07);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--ivory); color: var(--text-dark); font-family: 'Jost', sans-serif; font-weight: 400; min-height: 100vh; padding-bottom: 60px; }
+
+    /* ── Top bar ── */
+    .topbar { background: var(--text-dark); color: var(--ivory); display: flex; align-items: center; justify-content: space-between; padding: 14px 28px; position: sticky; top: 0; z-index: 100; gap: 12px; }
+    .topbar-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-light); white-space: nowrap; }
+    .topbar-title { font-size: 0.75rem; letter-spacing: 0.08em; color: var(--text-light); text-transform: uppercase; }
+    .topbar-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .timestamp { font-size: 0.72rem; color: var(--text-light); }
+    .btn-top { background: transparent; border: 1px solid rgba(191,157,106,0.4); color: var(--gold-light); border-radius: 6px; padding: 6px 12px; font-family: 'Jost', sans-serif; font-size: 0.72rem; letter-spacing: 0.06em; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+    .btn-top:hover { background: rgba(191,157,106,0.12); border-color: var(--gold-light); }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 28px 20px; display: flex; flex-direction: column; gap: 16px; }
+
+    /* ── Panel ── */
+    .panel { background: #fff; border: 1px solid var(--border); border-radius: var(--panel-radius); box-shadow: var(--shadow); overflow: hidden; }
+    .panel-header { display: flex; align-items: center; gap: 12px; padding: 16px 22px; background: var(--cream); cursor: pointer; user-select: none; border-bottom: 1px solid var(--border); transition: background 0.15s; }
+    .panel-header:hover { background: #EDE8E0; }
+    .panel-icon { font-size: 1.1rem; }
+    .panel-title { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 600; letter-spacing: 0.04em; color: var(--text-dark); flex: 1; }
+    .panel-subtitle { font-size: 0.72rem; color: var(--text-light); letter-spacing: 0.04em; text-transform: uppercase; }
+    .chevron { font-size: 0.8rem; color: var(--text-light); transition: transform 0.25s ease; }
+    .panel.collapsed .chevron { transform: rotate(-90deg); }
+    .panel-body { padding: 22px; display: block; }
+    .panel.collapsed .panel-body { display: none; }
+
+    .section { margin-bottom: 28px; }
+    .section:last-child { margin-bottom: 0; }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; font-weight: 600; color: var(--text-mid); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+
+    /* ── Phase bars ── */
+    .phase-bars { display: flex; flex-direction: column; gap: 12px; }
+    .phase-row { display: flex; align-items: center; gap: 14px; }
+    .phase-label { font-size: 0.8rem; font-weight: 500; color: var(--text-dark); width: 68px; flex-shrink: 0; }
+    .phase-track { flex: 1; height: 8px; background: var(--cream); border-radius: 99px; overflow: hidden; border: 1px solid var(--border); }
+    .phase-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--gold), var(--gold-light)); transition: width 0.6s ease; }
+    .phase-pct { font-size: 0.75rem; color: var(--text-light); width: 36px; text-align: right; flex-shrink: 0; }
+    .phase-note { font-size: 0.72rem; color: var(--text-mid); flex: 1.5; }
+
+    /* ── Tables ── */
+    .data-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+    .data-table th { background: var(--cream); color: var(--text-mid); font-weight: 500; letter-spacing: 0.04em; text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); font-size: 0.72rem; text-transform: uppercase; }
+    .data-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--text-dark); vertical-align: middle; }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: var(--ivory); }
+
+    /* ── Badges ── */
+    .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 20px; font-size: 0.68rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+    .badge-critical { background: var(--critical-bg); color: var(--critical); }
+    .badge-important { background: var(--important-bg); color: var(--important); }
+    .badge-routine { background: var(--routine-bg); color: var(--text-mid); }
+    .badge-done { background: var(--done-bg); color: var(--done); }
+    .badge-blocked { background: var(--blocked-bg); color: var(--blocked); }
+    .badge-pending { background: var(--pending-bg); color: var(--pending); }
+    .badge-claude { background: #EDE8F5; color: #6C3483; }
+
+    /* ── Alerts ── */
+    .alert { border-radius: 8px; padding: 12px 16px; font-size: 0.8rem; margin-bottom: 10px; display: flex; align-items: flex-start; gap: 10px; }
+    .alert-icon { flex-shrink: 0; font-size: 1rem; }
+    .alert-critical { background: var(--critical-bg); color: var(--critical); border-left: 3px solid var(--critical); }
+    .alert-warning  { background: var(--important-bg); color: var(--important); border-left: 3px solid var(--important); }
+    .alert-note     { background: var(--pending-bg); color: var(--pending); border-left: 3px solid var(--pending); }
+
+    /* ── Next actions ── */
+    .next-actions { display: flex; flex-direction: column; gap: 8px; }
+    .next-action { display: flex; align-items: center; gap: 12px; background: var(--cream); border-radius: 8px; padding: 12px 16px; border: 1px solid var(--border); }
+    .next-action-num { width: 26px; height: 26px; background: var(--gold); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; flex-shrink: 0; }
+    .next-action-text { flex: 1; font-size: 0.82rem; color: var(--text-dark); }
+    .next-action-time { font-size: 0.72rem; color: var(--text-light); flex-shrink: 0; }
+
+    /* ── Task items ── */
+    .task-group { margin-bottom: 20px; }
+    .task-group-label { font-size: 0.72rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-light); margin-bottom: 8px; padding: 0 4px; }
+    .task-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 6px; background: #fff; transition: box-shadow 0.15s; }
+    .task-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .task-item.done { opacity: 0.7; }
+    .task-check { width: 18px; height: 18px; border: 2px solid var(--border); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s; margin-top: 2px; }
+    .task-check.done { background: var(--done); border-color: var(--done); }
+    .task-check.blocked { background: var(--blocked-bg); border-color: var(--blocked); cursor: not-allowed; }
+    .task-check-mark { color: #fff; font-size: 0.65rem; display: none; }
+    .task-check.done .task-check-mark { display: block; }
+    .task-content { flex: 1; min-width: 0; }
+    .task-name { font-size: 0.82rem; color: var(--text-dark); line-height: 1.4; }
+    .task-item.done .task-name { text-decoration: line-through; color: var(--text-light); }
+    .task-meta { display: flex; gap: 8px; margin-top: 5px; flex-wrap: wrap; }
+
+    /* ── Editable note ── */
+    .task-note {
+      font-size: 0.72rem; color: var(--text-light); margin-top: 5px;
+      border: 1px dashed transparent; border-radius: 4px; padding: 3px 5px;
+      cursor: text; transition: border-color 0.15s; outline: none;
+      min-height: 20px; display: block;
+    }
+    .task-note:empty::before { content: attr(data-placeholder); color: var(--border); }
+    .task-note:hover { border-color: var(--border); }
+    .task-note:focus { border-color: var(--gold); color: var(--text-mid); background: var(--ivory); }
+
+    .task-actions { display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; align-items: flex-end; }
+    .task-btn { background: none; border: 1px solid var(--border); color: var(--text-mid); border-radius: 6px; padding: 4px 10px; font-size: 0.7rem; font-family: 'Jost', sans-serif; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+    .task-btn:hover { background: var(--cream); border-color: var(--gold); color: var(--gold); }
+    .task-btn.undo { color: var(--text-light); font-size: 0.68rem; }
+    .task-btn.delete { color: var(--critical); border-color: var(--critical-bg); font-size: 0.68rem; }
+    .task-btn.delete:hover { background: var(--critical-bg); }
+    .task-btn.blocked-btn { color: var(--blocked); border-color: var(--critical-bg); cursor: not-allowed; opacity: 0.6; }
+
+    /* ── Quick-add task ── */
+    .quick-add {
+      display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+      background: var(--cream); border: 1px solid var(--border); border-radius: 8px;
+      padding: 12px 14px; margin-bottom: 20px;
+    }
+    .quick-add input, .quick-add select {
+      font-family: 'Jost', sans-serif; font-size: 0.8rem; color: var(--text-dark);
+      background: #fff; border: 1px solid var(--border); border-radius: 6px;
+      padding: 6px 10px; outline: none; transition: border-color 0.15s;
+    }
+    .quick-add input { flex: 1; min-width: 180px; }
+    .quick-add input:focus, .quick-add select:focus { border-color: var(--gold); }
+    .quick-add-btn {
+      background: var(--gold); color: #fff; border: none; border-radius: 6px;
+      padding: 6px 14px; font-family: 'Jost', sans-serif; font-size: 0.8rem;
+      cursor: pointer; transition: background 0.15s; white-space: nowrap;
+    }
+    .quick-add-btn:hover { background: var(--gold-light); }
+
+    /* ── Pipeline funnel — editable ── */
+    .pipeline-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 20px; }
+    .pipeline-card { background: var(--cream); border: 1px solid var(--border); border-radius: var(--panel-radius); padding: 18px; }
+    .pipeline-card-title { font-family: 'Cormorant Garamond', serif; font-size: 0.9rem; font-weight: 600; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 14px; }
+    .funnel { display: flex; flex-direction: column; gap: 4px; }
+    .funnel-row { display: flex; align-items: center; gap: 8px; }
+    .funnel-label { font-size: 0.75rem; color: var(--text-mid); flex: 1; }
+    .funnel-count {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600;
+      color: var(--text-dark); width: 44px; text-align: right; cursor: pointer;
+      border-radius: 4px; padding: 0 4px; transition: background 0.15s;
+    }
+    .funnel-count:hover { background: rgba(191,157,106,0.12); }
+    .funnel-count-input {
+      width: 44px; text-align: right; font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-weight: 600; border: 1px solid var(--gold);
+      border-radius: 4px; padding: 0 4px; background: #fff; color: var(--text-dark); outline: none;
+    }
+    .funnel-arrow { color: var(--text-light); font-size: 0.7rem; margin-left: 12px; }
+    .pipeline-hint { font-size: 0.68rem; color: var(--text-light); margin-top: 10px; text-align: right; }
+
+    /* ── KPI row ── */
+    .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; margin-bottom: 20px; }
+    .kpi-card { background: var(--cream); border: 1px solid var(--border); border-radius: 8px; padding: 14px; text-align: center; }
+    .kpi-value { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; color: var(--text-dark); line-height: 1; }
+    .kpi-label { font-size: 0.68rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 5px; }
+
+    /* ── Supplier cards ── */
+    .supplier-cards { display: flex; flex-direction: column; gap: 14px; }
+    .supplier-card { border: 1px solid var(--border); border-radius: var(--panel-radius); overflow: hidden; }
+    .supplier-card-header { background: var(--cream); padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .supplier-card-body { padding: 16px 18px; }
+    .stage-track { display: flex; gap: 6px; margin-bottom: 14px; }
+    .stage-pip { flex: 1; height: 6px; border-radius: 99px; background: var(--border); }
+    .stage-pip.done { background: var(--gold); }
+    .stage-pip.active { background: var(--gold-light); opacity: 0.5; }
+    .stage-labels { display: flex; font-size: 0.65rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 12px; }
+    .stage-labels span { flex: 1; text-align: center; }
+    .supplier-next { font-size: 0.78rem; color: var(--text-mid); background: var(--ivory); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; }
+    .supplier-next strong { color: var(--text-dark); }
+
+    /* ── Contact log ── */
+    .contact-log-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; margin-bottom: 14px; }
+    .contact-log-table th { background: var(--cream); color: var(--text-mid); font-weight: 500; text-transform: uppercase; font-size: 0.68rem; letter-spacing: 0.04em; padding: 7px 10px; border-bottom: 1px solid var(--border); text-align: left; }
+    .contact-log-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-dark); }
+    .contact-log-table tr:last-child td { border-bottom: none; }
+    .contact-log-table tr:hover td { background: var(--ivory); }
+    .log-empty { font-size: 0.78rem; color: var(--text-light); padding: 12px 0; text-align: center; }
+    .log-delete { background: none; border: none; color: var(--border); cursor: pointer; font-size: 0.9rem; transition: color 0.15s; padding: 0 4px; }
+    .log-delete:hover { color: var(--critical); }
+    .log-add-form { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-end; background: var(--cream); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; }
+    .log-add-form input, .log-add-form select {
+      font-family: 'Jost', sans-serif; font-size: 0.78rem; color: var(--text-dark);
+      background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 6px 9px; outline: none; flex: 1; min-width: 100px;
+    }
+    .log-add-form input:focus, .log-add-form select:focus { border-color: var(--gold); }
+    .log-add-form label { font-size: 0.68rem; color: var(--text-light); display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 90px; }
+    .log-add-btn { background: var(--gold); color: #fff; border: none; border-radius: 6px; padding: 6px 14px; font-family: 'Jost', sans-serif; font-size: 0.78rem; cursor: pointer; transition: background 0.15s; align-self: flex-end; white-space: nowrap; }
+    .log-add-btn:hover { background: var(--gold-light); }
+
+    /* ── Weekly checklist ── */
+    .weekly-check { display: flex; flex-direction: column; gap: 6px; }
+    .weekly-item { display: flex; align-items: center; gap: 10px; font-size: 0.8rem; color: var(--text-mid); cursor: pointer; }
+    .weekly-item input[type="checkbox"] { accent-color: var(--gold); width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; }
+    .weekly-item.checked { color: var(--done); text-decoration: line-through; opacity: 0.7; }
+    .weekly-reset { background: none; border: 1px solid var(--border); color: var(--text-light); border-radius: 6px; padding: 5px 12px; font-family: 'Jost', sans-serif; font-size: 0.72rem; cursor: pointer; margin-top: 10px; transition: all 0.15s; }
+    .weekly-reset:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── Signals ── */
+    .signals { display: flex; flex-direction: column; gap: 8px; }
+    .signal { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; border-radius: 8px; font-size: 0.8rem; border: 1px solid transparent; }
+    .signal-ok   { background: var(--done-bg);      border-color: #A9DFBF; color: var(--done); }
+    .signal-warn { background: var(--important-bg); border-color: #F9E79F; color: var(--important); }
+    .signal-info { background: var(--pending-bg);   border-color: #AED6F1; color: var(--pending); }
+
+    /* ── Activation queue ── */
+    .activation-row.done-row td { opacity: 0.4; }
+    .activation-row.done-row { text-decoration: none; }
+
+    /* ── Export bar ── */
+    .export-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--text-dark); border-top: 1px solid rgba(255,255,255,0.08); padding: 10px 20px; display: flex; justify-content: center; gap: 10px; z-index: 200; }
+    .btn-export { background: transparent; border: 1px solid rgba(191,157,106,0.35); color: var(--gold-light); border-radius: 6px; padding: 8px 16px; font-family: 'Jost', sans-serif; font-size: 0.75rem; letter-spacing: 0.05em; cursor: pointer; transition: background 0.2s; }
+    .btn-export:hover { background: rgba(191,157,106,0.12); border-color: var(--gold-light); }
+
+    /* ── Toast ── */
+    .toast { position: fixed; bottom: 70px; left: 50%; transform: translateX(-50%); background: var(--text-dark); color: var(--ivory); padding: 10px 20px; border-radius: 8px; font-size: 0.78rem; box-shadow: 0 4px 16px rgba(0,0,0,0.2); opacity: 0; pointer-events: none; transition: opacity 0.25s; z-index: 300; white-space: nowrap; }
+    .toast.show { opacity: 1; }
+
+    /* ── Print ── */
+    @media print {
+      .topbar, .export-bar, .task-btn, .btn-top, .quick-add, .log-add-form, .weekly-reset { display: none !important; }
+      .panel.collapsed .panel-body { display: block !important; }
+      body { padding-bottom: 0; }
+      .panel { box-shadow: none; break-inside: avoid; }
+    }
+    @media (max-width: 640px) {
+      .topbar { padding: 12px 16px; }
+      .topbar-brand { font-size: 0.95rem; }
+      .container { padding: 16px 12px; }
+      .panel-body { padding: 16px; }
+      .pipeline-grid { grid-template-columns: 1fr; }
+      .kpi-row { grid-template-columns: repeat(2, 1fr); }
+      .phase-note { display: none; }
+      .quick-add { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <div class="topbar-brand">Silora Orient</div>
+    <div class="topbar-title">Brand Operating Dashboard</div>
+  </div>
+  <div class="topbar-right">
+    <span class="timestamp" id="ts">—</span>
+    <button class="btn-top" onclick="exportPDF()">⬇ PDF</button>
+    <button class="btn-top" onclick="exportCSV()">⬇ CSV</button>
+    <button class="btn-top" onclick="exportObsidian()">⬇ Obsidian</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ══ PANEL 1: PROJECT STATUS ══ -->
+  <div class="panel" id="panel-1">
+    <div class="panel-header" onclick="togglePanel('panel-1')">
+      <span class="panel-icon">📊</span>
+      <div style="flex:1">
+        <div class="panel-title">Project Status</div>
+        <div class="panel-subtitle">Phases · Claude tasks · Founder activation queue · Next actions</div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="panel-body">
+      <div class="section">
+        <div class="section-title">Phase Progress</div>
+        <div class="phase-bars">
+          <div class="phase-row"><div class="phase-label">Phase 1</div><div class="phase-track"><div class="phase-fill" style="width:80%"></div></div><div class="phase-pct">80%</div><div class="phase-note">✅ Code complete — 6 founder activations pending</div></div>
+          <div class="phase-row"><div class="phase-label">Phase 2</div><div class="phase-track"><div class="phase-fill" style="width:15%"></div></div><div class="phase-pct">15%</div><div class="phase-note">⏳ Doc complete — blocked on Phase 1 activation</div></div>
+          <div class="phase-row"><div class="phase-label">Phase 3</div><div class="phase-track"><div class="phase-fill" style="width:12%"></div></div><div class="phase-pct">12%</div><div class="phase-note">📋 Blueprint complete — awaiting prerequisites</div></div>
+          <div class="phase-row"><div class="phase-label">Phase 4</div><div class="phase-track"><div class="phase-fill" style="width:0%"></div></div><div class="phase-pct">0%</div><div class="phase-note">🔮 Not yet planned</div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Claude Task Status</div>
+        <table class="data-table"><thead><tr><th>Task</th><th>Status</th><th>Date</th><th>Note</th></tr></thead><tbody id="claude-tasks-table"></tbody></table>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Risks & Blockers</div>
+        <div class="alert alert-critical"><span class="alert-icon">🔴</span><span><strong>BLOCKER</strong> — Phase 1 not yet activated. Phase 2 and 3 cannot start.</span></div>
+        <div class="alert alert-warning"><span class="alert-icon">🟡</span><span><strong>RISK</strong> — Mailchimp free tier caps at 500 subscribers. Monitor approaching 400.</span></div>
+        <div class="alert alert-note"><span class="alert-icon">ℹ️</span><span><strong>NOTE</strong> — Phase 3 Next.js dashboard needs a developer. Not yet engaged.</span></div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Founder Activation Queue</div>
+        <table class="data-table">
+          <thead><tr><th>#</th><th>Action</th><th>Priority</th><th>Time</th><th>Depends on</th><th></th></tr></thead>
+          <tbody id="activation-queue-table"></tbody>
+        </table>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Next 3 Actions</div>
+        <div class="next-actions">
+          <div class="next-action"><div class="next-action-num">1</div><div class="next-action-text">🔥 Set GA4 Measurement ID in all 9 HTML files → push to git</div><div class="next-action-time">20 min</div></div>
+          <div class="next-action"><div class="next-action-num">2</div><div class="next-action-text">🔥 Create Mailchimp account → set 3 Vercel env vars → redeploy</div><div class="next-action-time">1 hr</div></div>
+          <div class="next-action"><div class="next-action-num">3</div><div class="next-action-text">🔥 Build Airtable base — 3 tables per admin/airtable-schema.md</div><div class="next-action-time">2–3 hr</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PANEL 2: TASK CHECKLIST ══ -->
+  <div class="panel collapsed" id="panel-2">
+    <div class="panel-header" onclick="togglePanel('panel-2')">
+      <span class="panel-icon">✅</span>
+      <div style="flex:1">
+        <div class="panel-title">Task Checklist</div>
+        <div class="panel-subtitle">B2C · B2B · Content · Suppliers · Ad-hoc — all actionable items</div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="panel-body">
+      <!-- Quick add -->
+      <div class="quick-add">
+        <input type="text" id="qa-name" placeholder="New task description…" onkeydown="if(event.key==='Enter')addTask()" />
+        <select id="qa-group">
+          <option value="Ad-hoc">Ad-hoc</option>
+          <option value="B2C Sales">B2C Sales</option>
+          <option value="B2B Sales">B2B Sales</option>
+          <option value="Content">Content</option>
+          <option value="Suppliers">Suppliers</option>
+        </select>
+        <select id="qa-priority">
+          <option value="critical">🔥 Critical</option>
+          <option value="important" selected>🟡 Important</option>
+          <option value="routine">⭕ Routine</option>
+        </select>
+        <button class="quick-add-btn" onclick="addTask()">+ Add Task</button>
+      </div>
+      <div id="tasks-body"></div>
+    </div>
+  </div>
+
+  <!-- ══ PANEL 3: SALES PIPELINE ══ -->
+  <div class="panel collapsed" id="panel-3">
+    <div class="panel-header" onclick="togglePanel('panel-3')">
+      <span class="panel-icon">💰</span>
+      <div style="flex:1">
+        <div class="panel-title">Sales Pipeline</div>
+        <div class="panel-subtitle">B2C commissions · B2B partners · Conversion rates · Revenue</div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="panel-body">
+      <div class="section">
+        <div class="section-title">Revenue Summary</div>
+        <div class="kpi-row" id="kpi-row"></div>
+      </div>
+      <div class="section">
+        <div class="section-title">Funnel Overview <span style="font-size:0.68rem;color:var(--text-light);font-family:'Jost',sans-serif;font-weight:400;letter-spacing:0">&nbsp;— click any number to edit</span></div>
+        <div class="pipeline-grid" id="pipeline-grid"></div>
+      </div>
+      <div class="section">
+        <div class="section-title">Weekly Goals</div>
+        <table class="data-table"><thead><tr><th>Goal</th><th>Target</th><th>Current</th><th>Status</th></tr></thead><tbody id="goals-table"></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PANEL 4: SUPPLIER COORD ══ -->
+  <div class="panel collapsed" id="panel-4">
+    <div class="panel-header" onclick="togglePanel('panel-4')">
+      <span class="panel-icon">🛠</span>
+      <div style="flex:1">
+        <div class="panel-title">Supplier Coordination</div>
+        <div class="panel-subtitle">Active projects · Contact log · Photo standards</div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="panel-body">
+      <div class="section">
+        <div class="section-title">Active Projects</div>
+        <div class="supplier-cards" id="supplier-cards"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Supplier Contact Log</div>
+        <table class="contact-log-table" id="contact-log-table">
+          <thead><tr><th>Date</th><th>Supplier</th><th>Topic</th><th>Outcome</th><th>Next Step</th><th></th></tr></thead>
+          <tbody id="contact-log-body"></tbody>
+        </table>
+        <div class="log-add-form">
+          <label>Supplier<input type="text" id="log-supplier" placeholder="Supplier name" /></label>
+          <label>Topic<input type="text" id="log-topic" placeholder="e.g. Color approval" /></label>
+          <label>Outcome<input type="text" id="log-outcome" placeholder="e.g. Approved sapphire blue" /></label>
+          <label>Next Step<input type="text" id="log-next" placeholder="e.g. Send production brief" /></label>
+          <button class="log-add-btn" onclick="addContactLog()">+ Log Contact</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Photo Quality Standards</div>
+        <table class="data-table">
+          <thead><tr><th>Standard</th><th>Requirement</th></tr></thead>
+          <tbody>
+            <tr><td>Resolution</td><td>Min 1200×1200px · preferred 3000×3000px</td></tr>
+            <tr><td>Background</td><td>Ivory #FAF7F2 or natural linen · no pure white</td></tr>
+            <tr><td>Lighting</td><td>Natural diffused or studio softbox · no harsh shadows</td></tr>
+            <tr><td>Focus</td><td>Tack sharp on focal element · gemstones show reflections</td></tr>
+            <tr><td>Angles</td><td>Hero · 45° · Detail (macro) · Flat lay</td></tr>
+            <tr><td>Format</td><td>JPG for web · RAW or TIFF for archive</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PANEL 5: STRATEGY & REVIEW ══ -->
+  <div class="panel collapsed" id="panel-5">
+    <div class="panel-header" onclick="togglePanel('panel-5')">
+      <span class="panel-icon">📈</span>
+      <div style="flex:1">
+        <div class="panel-title">Strategy & Review</div>
+        <div class="panel-subtitle">Metrics · Content performance · Signals · Weekly checklist</div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="panel-body">
+      <div class="section">
+        <div class="section-title">Key Metrics</div>
+        <table class="data-table"><thead><tr><th>Metric</th><th>Current</th><th>Last Week</th><th>Change</th><th>Target</th></tr></thead><tbody id="metrics-table"></tbody></table>
+      </div>
+      <div class="section">
+        <div class="section-title">Content Performance</div>
+        <table class="data-table">
+          <thead><tr><th>Content Type</th><th>Multiplier</th><th>Signal</th></tr></thead>
+          <tbody>
+            <tr><td>Customer Stories</td><td>2.1×</td><td>✅ Create more</td></tr>
+            <tr><td>Journal entries</td><td>1.8×</td><td>✅ Maintain cadence</td></tr>
+            <tr><td>Collections pages</td><td>1.2×</td><td>⭕ Stable</td></tr>
+            <tr><td>Home page</td><td>1.0×</td><td>⭕ Baseline</td></tr>
+            <tr><td>Contact page</td><td>0.8×</td><td>🔄 Review CTA copy</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="section">
+        <div class="section-title">Strategy Signals</div>
+        <div class="signals">
+          <div class="signal signal-warn">🟡 No GA4 data yet — activate GA4 Measurement ID to unlock real traffic signals</div>
+          <div class="signal signal-warn">🟡 Zero commissions tracked — activate Airtable (Phase 1 P0-C) to see pipeline</div>
+          <div class="signal signal-ok">✅ Customer stories drive 2× engagement — prioritize story intake in Phase 2</div>
+          <div class="signal signal-info">ℹ️ Stylists target 42% response rate — highest B2B channel — allocate outreach here first</div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-title">Weekly Review Checklist <span style="font-size:0.68rem;color:var(--text-light);font-family:'Jost',sans-serif;font-weight:400;letter-spacing:0">&nbsp;— Every Monday · 15–20 min</span></div>
+        <div class="weekly-check" id="weekly-check"></div>
+        <button class="weekly-reset" onclick="resetWeekly()">↺ Reset for new week</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="export-bar">
+  <button class="btn-export" onclick="exportPDF()">⬇ PDF Export</button>
+  <button class="btn-export" onclick="exportCSV()">⬇ CSV Tasks</button>
+  <button class="btn-export" onclick="exportObsidian()">⬇ Obsidian Export</button>
+</div>
+<div class="toast" id="toast"></div>
+
+<!-- ══ DASHBOARD DATA — edit numbers here ══ -->
+<script>
+const DASHBOARD_DATA = {
+  claudeTasks: [
+    { id:"INFRA", name:"Deploy pipeline fix",          status:"claude", date:"Apr 6, 2026",  note:"vercel.json + CommonJS" },
+    { id:"P0-A",  name:"GA4 analytics setup",          status:"pending",date:"Apr 7, 2026",  note:"🔄 Founder: replace G-XXXXXXXXXX in 9 HTML files" },
+    { id:"P0-B",  name:"Mailchimp subscribe API",      status:"pending",date:"Apr 7, 2026",  note:"🔄 Founder: set 3 Vercel env vars" },
+    { id:"P0-C",  name:"Airtable schema",              status:"pending",date:"Apr 7, 2026",  note:"🔄 Founder: build base from admin/airtable-schema.md" },
+    { id:"P1-A",  name:"Zapier setup guide",           status:"pending",date:"Apr 8, 2026",  note:"🔄 Founder: configure 2 Zaps in Zapier" },
+    { id:"P1-B",  name:"Cal.com booking embed",        status:"pending",date:"Apr 8, 2026",  note:"🔄 Founder: replace YOUR_CAL_USERNAME in custom.html" },
+    { id:"P1-C",  name:"Stripe payment links",         status:"pending",date:"Apr 8, 2026",  note:"🔄 Founder: create 15 links in Stripe" },
+    { id:"1.2.A", name:"Mailchimp welcome emails",     status:"pending",date:"Apr 8, 2026",  note:"🔄 Founder: activate Customer Journey in Mailchimp" },
+    { id:"BOD",   name:"Brand Operating Dashboard",    status:"claude", date:"Apr 10, 2026", note:"6 spec files + dashboard.html" },
+    { id:"COL",   name:"Collections site improvements + Lotus series", status:"claude", date:"Apr 11, 2026", note:"5th series added · pricing fixed · hairpin/crown types · 四时之景 crossover" },
+    { id:"UN",    name:"UN Exhibition proposal saved", status:"claude", date:"Apr 11, 2026", note:"admin/un-exhibition-proposal.md — B2B institutional outreach" },
+  ],
+  activationQueue: [
+    { num:1, action:"Replace G-XXXXXXXXXX with real GA4 ID in all 9 HTML files → push", priority:"critical", time:"20 min", dep:"None" },
+    { num:2, action:"Create Mailchimp → set 3 Vercel env vars → redeploy",              priority:"critical", time:"1 hr",   dep:"None" },
+    { num:3, action:"Build Airtable base per admin/airtable-schema.md",                 priority:"critical", time:"2–3 hr", dep:"None" },
+    { num:4, action:"Configure 2 Zapier Zaps per admin/zapier-setup.md",                priority:"important",time:"1–2 hr", dep:"Step 3" },
+    { num:5, action:"Create Cal.com → replace YOUR_CAL_USERNAME in custom.html → push", priority:"important",time:"30 min", dep:"None" },
+    { num:6, action:"Create Stripe → 15 payment links per admin/stripe-payment-links.md",priority:"important",time:"2–3 hr",dep:"None" },
+    { num:7, action:"Activate Mailchimp welcome journey per admin/mailchimp-welcome.md", priority:"important",time:"2–3 hr", dep:"Steps 2+3" },
+    { num:8, action:"Research 50 B2B records → enter in Airtable",                      priority:"routine",  time:"4–5 hr", dep:"Step 3" },
+  ],
+  tasks: [
+    // B2C Sales
+    { group:"B2C Sales", id:"B2C-01",  name:"Contact 10 new leads this week — DM or email",       priority:"critical",  status:"pending", owner:"Founder", due:"This week",   note:"Personalize to their aesthetic" },
+    { group:"B2C Sales", id:"B2C-02",  name:"Send 3 new commission quotes",                        priority:"critical",  status:"pending", owner:"Founder", due:"This week",   note:"Use admin/stripe-payment-links.md for pricing" },
+    { group:"B2C Sales", id:"B2C-03",  name:"Follow up with 5 pending leads (no reply in 3 days)", priority:"important", status:"pending", owner:"Founder", due:"This week",   note:"Keep it short: 'Still thinking about the piece?'" },
+    { group:"B2C Sales", id:"B2C-S01", name:"Create Stripe account + 15 payment links",            priority:"critical",  status:"pending", owner:"Founder", due:"ASAP",        note:"admin/stripe-payment-links.md" },
+    { group:"B2C Sales", id:"B2C-S02", name:"Create Cal.com → replace YOUR_CAL_USERNAME",          priority:"important", status:"pending", owner:"Founder", due:"ASAP",        note:"Push after change; Vercel auto-deploys" },
+    // B2B Sales
+    { group:"B2B Sales", id:"B2B-UN1", name:"Follow up: UN Chinese Language Day exhibition (Apr 20)", priority:"critical",  status:"pending", owner:"Founder", due:"Apr 15, 2026", note:"admin/un-exhibition-proposal.md — contact UN cultural office to confirm participation" },
+    { group:"B2B Sales", id:"B2B-UN2", name:"Prepare UN exhibition physical pieces + display",       priority:"important", status:"pending", owner:"Founder", due:"Apr 18, 2026", note:"Select pieces currently in NYC · print bilingual display cards · bring studio intro panel" },
+    { group:"B2B Sales", id:"B2B-01",  name:"Research 10 new NYC B2B targets this week",           priority:"critical",  status:"pending", owner:"Founder", due:"This week",   note:"See docs/phase-2-status.md for search terms" },
+    { group:"B2B Sales", id:"B2B-S01", name:"Build Airtable base with B2B Partners table",         priority:"critical",  status:"blocked", owner:"Founder", due:"ASAP",        note:"admin/airtable-schema.md — 27 fields" },
+    { group:"B2B Sales", id:"B2B-S03", name:"Research + enter 50 initial B2B targets in Airtable", priority:"important", status:"blocked", owner:"Founder", due:"After Airtable",note:"15 boutiques · 10 concept · 10 galleries · 10 cultural · 5 stylists" },
+    // Content
+    { group:"Content",   id:"C-01",    name:"Draft 1 journal entry this month",                    priority:"important", status:"pending", owner:"Founder", due:"This month",  note:"Topics: craft process, material sourcing, inspiration" },
+    { group:"Content",   id:"C-04",    name:"Upload 3 new product photos this month",              priority:"important", status:"pending", owner:"Founder", due:"This month",  note:"/images/ — filename: [collection]-[item]-[angle].jpg" },
+    { group:"Content",   id:"C-S01",   name:"Activate Mailchimp Customer Journey (3-email welcome)",priority:"critical",  status:"blocked", owner:"Founder", due:"After Mailchimp",note:"admin/mailchimp-welcome.md step by step" },
+    // Completed
+    { group:"Completed", id:"INFRA",   name:"Vercel deploy pipeline fix",                          priority:"routine",   status:"done",    owner:"Claude",  due:"—",           note:"Apr 6 — vercel.json + CommonJS" },
+    { group:"Completed", id:"P0-A-c",  name:"GA4 script added to all 9 HTML pages",               priority:"routine",   status:"done",    owner:"Claude",  due:"—",           note:"Apr 7 — placeholder ID; awaiting real ID" },
+    { group:"Completed", id:"P0-B-c",  name:"Mailchimp subscribe API (api/subscribe.js)",          priority:"routine",   status:"done",    owner:"Claude",  due:"—",           note:"Apr 7 — env vars needed from founder" },
+    { group:"Completed", id:"BOD-c",   name:"Brand Operating Dashboard spec (6 files)",            priority:"routine",   status:"done",    owner:"Claude",  due:"—",           note:"Apr 10 — docs/brand-operating-dashboard.md + 5 files" },
+    { group:"Completed", id:"COL-c",   name:"Collections site improvements (5 series + custom form)",priority:"routine",  status:"done",    owner:"Claude",  due:"—",           note:"Apr 11 — Lotus added · pricing tiers $300–$2000+ · hairpin/crown types · 四时之景 teaser" },
+    { group:"Completed", id:"UN-c",    name:"UN Exhibition proposal — admin/un-exhibition-proposal.md",priority:"routine", status:"done",    owner:"Claude",  due:"—",           note:"Apr 11 — institutional B2B proposal for UN Chinese Language Day Apr 20" },
+  ],
+  pipeline: {
+    b2c: { inquiry:0, consulting:0, quoted:0, deposit:0, production:0, delivered:0 },
+    b2b: { discovered:0, qualified:0, outreach:0, replied:0, proposal:0, partner:0 },
+    revenue: { deposits:0, balances:0, workshops:0 },
+    weeklyGoals: [
+      { goal:"New B2C leads contacted",    target:10, current:0 },
+      { goal:"Commission quotes sent",     target:3,  current:0 },
+      { goal:"New B2B targets researched", target:10, current:0 },
+      { goal:"B2B outreach emails sent",   target:5,  current:0 },
+      { goal:"Product photos uploaded",    target:3,  current:0 },
+    ]
+  },
+  supplierProjects: [
+    { name:"Sapphire Orchid", emoji:"💎", client:"Pending commission", stages:[0,0,0,0,0,0], next:"Confirm sapphire color palette with supplier", owner:"Founder" },
+    { name:"Rose Gold Memory", emoji:"🌹", client:"Pending commission", stages:[1,0,0,0,0,0], next:"Approve rose gold shade samples", owner:"Founder" },
+  ],
+  metrics: [
+    { label:"Newsletter subscribers", current:"—", lastWk:"—", change:"—", target:"50 (Phase 2)" },
+    { label:"New inquiries this week", current:"—", lastWk:"—", change:"—", target:"5 / week" },
+    { label:"Consultations booked",   current:"—", lastWk:"—", change:"—", target:"2 / week" },
+    { label:"Revenue MTD",            current:"$0",lastWk:"$0",change:"—", target:"—" },
+    { label:"B2B replies received",   current:"—", lastWk:"—", change:"—", target:"3 / week" },
+    { label:"Workshop signups",       current:"—", lastWk:"—", change:"—", target:"10 / event" },
+  ],
+  weeklyItems: [
+    "Review GA4: top 3 pages, top traffic source, event counts",
+    "Review Mailchimp: new subscribers, welcome email open rates",
+    "Review Airtable: new inquiries, commission stage changes",
+    "Update Panel 3 pipeline numbers (click any funnel number to edit)",
+    "Act on 1 strategy signal this week",
+    "Export dashboard PDF → save to Obsidian weekly review note",
+    "Update 'Next 3 Actions' in Panel 1",
+  ],
+};
+</script>
+
+<!-- ══ ENGINE ══ -->
+<script>
+/* ── localStorage helpers ── */
+const ls = {
+  get: (k, d={}) => { try { return JSON.parse(localStorage.getItem(k)) || d; } catch(e){ return d; } },
+  set: (k, v) => localStorage.setItem(k, JSON.stringify(v)),
+};
+
+/* ── Auto-date timestamp ── */
+document.getElementById('ts').textContent =
+  'Updated: ' + new Date().toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
+
+/* ── Toast ── */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+/* ── Panel toggle (with localStorage persistence) ── */
+function togglePanel(id) {
+  document.getElementById(id).classList.toggle('collapsed');
+  const state = {};
+  ['panel-1','panel-2','panel-3','panel-4','panel-5'].forEach(p => {
+    state[p] = document.getElementById(p).classList.contains('collapsed');
+  });
+  ls.set('silora-panels', state);
+}
+(function loadPanels() {
+  const state = ls.get('silora-panels');
+  Object.entries(state).forEach(([id, col]) => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('collapsed', col);
+  });
+})();
+
+/* ── Badges ── */
+function priorityBadge(p) {
+  if (p==='critical') return '<span class="badge badge-critical">🔥 Critical</span>';
+  if (p==='important') return '<span class="badge badge-important">🟡 Important</span>';
+  return '<span class="badge badge-routine">⭕ Routine</span>';
+}
+function statusBadge(s) {
+  if (s==='done')    return '<span class="badge badge-done">✅ Done</span>';
+  if (s==='blocked') return '<span class="badge badge-blocked">🚫 Blocked</span>';
+  if (s==='claude')  return '<span class="badge badge-claude">🤖 Claude</span>';
+  return '<span class="badge badge-pending">🔄 Pending</span>';
+}
+
+/* ─────────────────────────────────────────────
+   PANEL 1 — Claude tasks + Activation queue
+───────────────────────────────────────────── */
+(function renderClaudeTasks() {
+  const tbody = document.getElementById('claude-tasks-table');
+  DASHBOARD_DATA.claudeTasks.forEach(t => {
+    const s = t.status === 'claude' ? 'claude' : 'pending';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td><strong>${t.id}</strong> — ${t.name}</td><td>${statusBadge(s)}</td><td style="color:var(--text-light);font-size:0.75rem">${t.date}</td><td style="color:var(--text-mid);font-size:0.75rem">${t.note}</td>`;
+    tbody.appendChild(tr);
+  });
+})();
+
+(function renderActivationQueue() {
+  const tbody = document.getElementById('activation-queue-table');
+  const saved = ls.get('silora-activation', {});
+  DASHBOARD_DATA.activationQueue.forEach(a => {
+    const isDone = !!saved[a.num];
+    const tr = document.createElement('tr');
+    tr.className = 'activation-row' + (isDone ? ' done-row' : '');
+    tr.id = 'act-row-' + a.num;
+    tr.innerHTML = `
+      <td style="color:var(--text-light)">${a.num}</td>
+      <td>${a.action}</td>
+      <td>${priorityBadge(a.priority)}</td>
+      <td style="color:var(--text-mid);white-space:nowrap">${a.time}</td>
+      <td style="color:var(--text-light);font-size:0.75rem">${a.dep}</td>
+      <td>${isDone
+        ? `<button class="task-btn undo" onclick="toggleActivation(${a.num})">↩ Undo</button>`
+        : `<button class="task-btn" onclick="toggleActivation(${a.num})">Mark Done</button>`
+      }</td>`;
+    tbody.appendChild(tr);
+  });
+})();
+
+function toggleActivation(num) {
+  const saved = ls.get('silora-activation', {});
+  const isDone = !!saved[num];
+  if (isDone) { delete saved[num]; } else { saved[num] = true; }
+  ls.set('silora-activation', saved);
+  const row = document.getElementById('act-row-' + num);
+  if (!isDone) {
+    row.classList.add('done-row');
+    row.querySelector('td:last-child').innerHTML = `<button class="task-btn undo" onclick="toggleActivation(${num})">↩ Undo</button>`;
+    showToast('Action ' + num + ' marked done ✓');
+  } else {
+    row.classList.remove('done-row');
+    row.querySelector('td:last-child').innerHTML = `<button class="task-btn" onclick="toggleActivation(${num})">Mark Done</button>`;
+    showToast('Action ' + num + ' unmarked');
+  }
+}
+
+/* ─────────────────────────────────────────────
+   PANEL 2 — Task checklist + Quick-add
+───────────────────────────────────────────── */
+function getTaskState()  { return ls.get('silora-tasks', {}); }
+function getNoteState()  { return ls.get('silora-notes', {}); }
+function getAdHocTasks() { return ls.get('silora-adhoc', []); }
+
+function saveNote(id, val) {
+  const notes = getNoteState();
+  notes[id] = val;
+  ls.set('silora-notes', notes);
+}
+
+function renderTasks() {
+  const container = document.getElementById('tasks-body');
+  container.innerHTML = '';
+  const taskState = getTaskState();
+  const noteState  = getNoteState();
+
+  // Combine static + ad-hoc tasks
+  const allTasks = [...DASHBOARD_DATA.tasks, ...getAdHocTasks()];
+  const groups = {};
+  allTasks.forEach(t => { if(!groups[t.group]) groups[t.group]=[]; groups[t.group].push(t); });
+
+  Object.entries(groups).forEach(([group, tasks]) => {
+    const groupEl = document.createElement('div');
+    groupEl.className = 'task-group';
+    groupEl.innerHTML = `<div class="task-group-label">${group}</div>`;
+
+    tasks.forEach(t => {
+      const savedDone = taskState[t.id]?.done;
+      const isDone    = savedDone || t.status === 'done';
+      const isBlocked = t.status === 'blocked' && !isDone;
+      const isAdHoc   = !!t.adhoc;
+      const checkClass = isDone ? 'done' : (isBlocked ? 'blocked' : '');
+      const currentNote = noteState[t.id] !== undefined ? noteState[t.id] : (t.note || '');
+
+      const item = document.createElement('div');
+      item.className = 'task-item' + (isDone ? ' done' : '');
+      item.id = 'task-' + t.id;
+      item.innerHTML = `
+        <div class="task-check ${checkClass}" onclick="toggleTask('${t.id}','${t.status}')">
+          <span class="task-check-mark">✓</span>
+        </div>
+        <div class="task-content">
+          <div class="task-name">${t.name}</div>
+          <div class="task-meta">
+            ${priorityBadge(t.priority)}
+            <span class="badge" style="background:var(--cream);color:var(--text-mid)">${t.owner||'Founder'}</span>
+            ${t.due && t.due!=='—' ? `<span class="badge" style="background:var(--cream);color:var(--text-light)">📅 ${t.due}</span>` : ''}
+            ${isDone && taskState[t.id]?.date ? `<span class="badge badge-done">✓ ${taskState[t.id].date}</span>` : ''}
+          </div>
+          <div class="task-note"
+               contenteditable="true"
+               data-placeholder="Add a note…"
+               data-id="${t.id}"
+               onblur="saveNote('${t.id}', this.textContent.trim())"
+               onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();this.blur();}"
+          >${escHtml(currentNote)}</div>
+        </div>
+        <div class="task-actions">
+          ${isBlocked
+            ? `<button class="task-btn blocked-btn" disabled>🚫 Blocked</button>`
+            : isDone
+              ? `<button class="task-btn undo" onclick="toggleTask('${t.id}','${t.status}')">↩ Undo</button>`
+              : `<button class="task-btn" onclick="toggleTask('${t.id}','${t.status}')">Mark Done</button>`
+          }
+          ${isAdHoc ? `<button class="task-btn delete" onclick="deleteAdHoc('${t.id}')">✕</button>` : ''}
+        </div>`;
+      groupEl.appendChild(item);
+    });
+    container.appendChild(groupEl);
+  });
+}
+
+function escHtml(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function toggleTask(id, origStatus) {
+  if (origStatus === 'blocked') return;
+  const taskState = getTaskState();
+  const isDone = taskState[id]?.done || DASHBOARD_DATA.tasks.find(t=>t.id===id)?.status === 'done';
+  if (!isDone) {
+    taskState[id] = { done:true, date: new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) };
+    ls.set('silora-tasks', taskState);
+    showToast('Task marked complete ✓');
+  } else {
+    delete taskState[id];
+    ls.set('silora-tasks', taskState);
+    showToast('Task unmarked');
+  }
+  renderTasks();
+}
+
+function addTask() {
+  const name = document.getElementById('qa-name').value.trim();
+  if (!name) { document.getElementById('qa-name').focus(); return; }
+  const group    = document.getElementById('qa-group').value;
+  const priority = document.getElementById('qa-priority').value;
+  const adhoc    = getAdHocTasks();
+  const id       = 'adhoc-' + Date.now();
+  adhoc.push({ id, group, name, priority, status:'pending', owner:'Founder', due:'', note:'', adhoc:true });
+  ls.set('silora-adhoc', adhoc);
+  document.getElementById('qa-name').value = '';
+  renderTasks();
+  showToast('Task added ✓');
+}
+
+function deleteAdHoc(id) {
+  const adhoc = getAdHocTasks().filter(t => t.id !== id);
+  ls.set('silora-adhoc', adhoc);
+  renderTasks();
+  showToast('Task removed');
+}
+
+renderTasks();
+
+/* ─────────────────────────────────────────────
+   PANEL 3 — Pipeline (click-to-edit numbers)
+───────────────────────────────────────────── */
+function getPipelineState() {
+  const saved = ls.get('silora-pipeline', {});
+  // Merge saved over defaults
+  const p = DASHBOARD_DATA.pipeline;
+  return {
+    b2c: { ...p.b2c, ...saved.b2c },
+    b2b: { ...p.b2b, ...saved.b2b },
+    revenue: { ...p.revenue, ...saved.revenue },
+  };
+}
+function savePipelineField(section, key, val) {
+  const saved = ls.get('silora-pipeline', {});
+  if (!saved[section]) saved[section] = {};
+  saved[section][key] = val;
+  ls.set('silora-pipeline', saved);
+}
+
+function makeEditableCount(section, key, val) {
+  const span = document.createElement('span');
+  span.className = 'funnel-count';
+  span.title = 'Click to edit';
+  span.textContent = val;
+  span.addEventListener('click', () => {
+    const input = document.createElement('input');
+    input.type = 'number'; input.min = '0'; input.className = 'funnel-count-input';
+    input.value = span.textContent;
+    span.replaceWith(input);
+    input.focus(); input.select();
+    function commit() {
+      const v = Math.max(0, parseInt(input.value)||0);
+      savePipelineField(section, key, v);
+      span.textContent = v;
+      input.replaceWith(span);
+      refreshKPIs();
+    }
+    input.addEventListener('blur', commit);
+    input.addEventListener('keydown', e => { if(e.key==='Enter') commit(); if(e.key==='Escape'){ input.replaceWith(span); } });
+  });
+  return span;
+}
+
+function renderPipeline() {
+  const grid = document.getElementById('pipeline-grid');
+  grid.innerHTML = '';
+  const p = getPipelineState();
+
+  function buildFunnel(title, rows) {
+    const card = document.createElement('div');
+    card.className = 'pipeline-card';
+    const titleEl = document.createElement('div');
+    titleEl.className = 'pipeline-card-title'; titleEl.textContent = title;
+    card.appendChild(titleEl);
+    const funnel = document.createElement('div');
+    funnel.className = 'funnel';
+    rows.forEach((r, i) => {
+      const row = document.createElement('div'); row.className = 'funnel-row';
+      const label = document.createElement('div'); label.className = 'funnel-label'; label.textContent = r.label;
+      row.appendChild(label);
+      row.appendChild(makeEditableCount(r.section, r.key, r.val));
+      funnel.appendChild(row);
+      if (i < rows.length - 1) {
+        const arr = document.createElement('div'); arr.className = 'funnel-arrow'; arr.textContent = '↓';
+        funnel.appendChild(arr);
+      }
+    });
+    const hint = document.createElement('div');
+    hint.className = 'pipeline-hint'; hint.textContent = '↑ tap any number to update';
+    card.appendChild(funnel);
+    card.appendChild(hint);
+    return card;
+  }
+
+  grid.appendChild(buildFunnel('B2C Commission Pipeline', [
+    { label:'New inquiries', section:'b2c', key:'inquiry',    val:p.b2c.inquiry },
+    { label:'Consulting',    section:'b2c', key:'consulting',  val:p.b2c.consulting },
+    { label:'Quote sent',    section:'b2c', key:'quoted',      val:p.b2c.quoted },
+    { label:'Deposit paid',  section:'b2c', key:'deposit',     val:p.b2c.deposit },
+    { label:'In production', section:'b2c', key:'production',  val:p.b2c.production },
+    { label:'Delivered',     section:'b2c', key:'delivered',   val:p.b2c.delivered },
+  ]));
+  grid.appendChild(buildFunnel('B2B Partner Pipeline', [
+    { label:'Discovered',    section:'b2b', key:'discovered',  val:p.b2b.discovered },
+    { label:'Qualified',     section:'b2b', key:'qualified',   val:p.b2b.qualified },
+    { label:'Outreach sent', section:'b2b', key:'outreach',    val:p.b2b.outreach },
+    { label:'Replied',       section:'b2b', key:'replied',     val:p.b2b.replied },
+    { label:'Proposal sent', section:'b2b', key:'proposal',    val:p.b2b.proposal },
+    { label:'Partner ✓',     section:'b2b', key:'partner',     val:p.b2b.partner },
+  ]));
+}
+
+function refreshKPIs() {
+  const p = getPipelineState();
+  const row = document.getElementById('kpi-row');
+  row.innerHTML = '';
+  const total = p.revenue.deposits + p.revenue.balances + p.revenue.workshops;
+  const active = p.b2c.inquiry + p.b2c.consulting + p.b2c.quoted + p.b2c.deposit + p.b2c.production;
+  [
+    { val:'$'+p.revenue.deposits, label:'Deposits MTD' },
+    { val:'$'+p.revenue.balances, label:'Balances MTD' },
+    { val:'$'+total,              label:'Total Revenue' },
+    { val:active,                 label:'Active Commissions' },
+    { val:p.b2b.outreach,         label:'B2B Outreach Sent' },
+    { val:p.b2b.replied,          label:'B2B Replies' },
+  ].forEach(k => {
+    const card = document.createElement('div');
+    card.className = 'kpi-card';
+    card.innerHTML = `<div class="kpi-value">${k.val}</div><div class="kpi-label">${k.label}</div>`;
+    row.appendChild(card);
+  });
+}
+
+renderPipeline();
+refreshKPIs();
+
+/* Goals table */
+(function renderGoals() {
+  const tbody = document.getElementById('goals-table');
+  DASHBOARD_DATA.pipeline.weeklyGoals.forEach(g => {
+    const pct = g.target > 0 ? Math.round((g.current/g.target)*100) : 0;
+    const status = g.current===0 ? '⬜ Not started' : (g.current>=g.target ? '✅ Done' : `🔄 ${pct}%`);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${g.goal}</td><td>${g.target}</td><td>${g.current}</td><td>${status}</td>`;
+    tbody.appendChild(tr);
+  });
+})();
+
+/* ─────────────────────────────────────────────
+   PANEL 4 — Supplier cards + Contact log
+───────────────────────────────────────────── */
+(function renderSupplierCards() {
+  const container = document.getElementById('supplier-cards');
+  const labels = ['Materials','Colors','Samples','Photos','Packaging','Timeline'];
+  DASHBOARD_DATA.supplierProjects.forEach(proj => {
+    const card = document.createElement('div');
+    card.className = 'supplier-card';
+    const firstPending = proj.stages.findIndex(x=>x===0);
+    const pipHtml = proj.stages.map((s,i) =>
+      `<div class="stage-pip ${s===1?'done':(i===firstPending?'active':'')}" title="${labels[i]}"></div>`
+    ).join('');
+    card.innerHTML = `
+      <div class="supplier-card-header">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600">${proj.emoji} ${proj.name}</div>
+        <span class="badge badge-pending">${proj.client}</span>
+      </div>
+      <div class="supplier-card-body">
+        <div class="stage-track">${pipHtml}</div>
+        <div class="stage-labels">${labels.map(l=>`<span>${l}</span>`).join('')}</div>
+        <div class="supplier-next"><strong>Next:</strong> ${proj.next} <span style="color:var(--text-light);font-size:0.72rem">· ${proj.owner}</span></div>
+      </div>`;
+    container.appendChild(card);
+  });
+})();
+
+function renderContactLog() {
+  const logs = ls.get('silora-contact-log', []);
+  const tbody = document.getElementById('contact-log-body');
+  tbody.innerHTML = '';
+  if (logs.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" class="log-empty">No contacts logged yet. Use the form below to add an entry.</td></tr>';
+    return;
+  }
+  logs.forEach((entry, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="white-space:nowrap;color:var(--text-light);font-size:0.72rem">${entry.date}</td>
+      <td><strong>${escHtml(entry.supplier)}</strong></td>
+      <td>${escHtml(entry.topic)}</td>
+      <td>${escHtml(entry.outcome)}</td>
+      <td>${escHtml(entry.next)}</td>
+      <td><button class="log-delete" onclick="deleteContactLog(${i})" title="Delete">✕</button></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function addContactLog() {
+  const supplier = document.getElementById('log-supplier').value.trim();
+  const topic    = document.getElementById('log-topic').value.trim();
+  const outcome  = document.getElementById('log-outcome').value.trim();
+  const next     = document.getElementById('log-next').value.trim();
+  if (!supplier || !topic) { showToast('Supplier and Topic are required'); return; }
+  const logs = ls.get('silora-contact-log', []);
+  logs.unshift({
+    date: new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),
+    supplier, topic, outcome, next
+  });
+  ls.set('silora-contact-log', logs);
+  ['log-supplier','log-topic','log-outcome','log-next'].forEach(id => document.getElementById(id).value='');
+  renderContactLog();
+  showToast('Contact logged ✓');
+}
+
+function deleteContactLog(i) {
+  const logs = ls.get('silora-contact-log', []);
+  logs.splice(i, 1);
+  ls.set('silora-contact-log', logs);
+  renderContactLog();
+  showToast('Entry removed');
+}
+
+renderContactLog();
+
+/* ─────────────────────────────────────────────
+   PANEL 5 — Metrics + Weekly checklist (persisted)
+───────────────────────────────────────────── */
+(function renderMetrics() {
+  const tbody = document.getElementById('metrics-table');
+  DASHBOARD_DATA.metrics.forEach(m => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${m.label}</td><td><strong>${m.current}</strong></td><td style="color:var(--text-light)">${m.lastWk}</td><td style="color:var(--text-light)">${m.change}</td><td style="color:var(--text-light);font-size:0.75rem">${m.target}</td>`;
+    tbody.appendChild(tr);
+  });
+})();
+
+function renderWeekly() {
+  const container = document.getElementById('weekly-check');
+  const saved = ls.get('silora-weekly', {});
+  container.innerHTML = '';
+  DASHBOARD_DATA.weeklyItems.forEach((text, i) => {
+    const checked = !!saved[i];
+    const label = document.createElement('label');
+    label.className = 'weekly-item' + (checked ? ' checked' : '');
+    label.innerHTML = `<input type="checkbox" ${checked?'checked':''} /> ${escHtml(text)}`;
+    label.querySelector('input').addEventListener('change', function() {
+      const s = ls.get('silora-weekly', {});
+      if (this.checked) { s[i] = true; } else { delete s[i]; }
+      ls.set('silora-weekly', s);
+      label.classList.toggle('checked', this.checked);
+    });
+    container.appendChild(label);
+  });
+}
+
+function resetWeekly() {
+  ls.set('silora-weekly', {});
+  renderWeekly();
+  showToast('Checklist reset for new week ↺');
+}
+
+renderWeekly();
+
+/* ─────────────────────────────────────────────
+   EXPORTS
+───────────────────────────────────────────── */
+function exportPDF() {
+  ['panel-1','panel-2','panel-3','panel-4','panel-5'].forEach(id =>
+    document.getElementById(id).classList.remove('collapsed'));
+  setTimeout(() => window.print(), 200);
+}
+
+function exportCSV() {
+  const taskState = getTaskState();
+  const noteState = getNoteState();
+  const allTasks = [...DASHBOARD_DATA.tasks, ...getAdHocTasks()];
+  const rows = [['Task ID','Group','Task','Priority','Status','Owner','Due','Note']];
+  allTasks.forEach(t => {
+    const isDone = taskState[t.id]?.done || t.status==='done';
+    const note = noteState[t.id] !== undefined ? noteState[t.id] : (t.note||'');
+    rows.push([t.id, t.group, '"'+t.name+'"', t.priority, isDone?'done':t.status, t.owner||'Founder', t.due||'', '"'+note+'"']);
+  });
+  const blob = new Blob([rows.map(r=>r.join(',')).join('\n')], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'silora-tasks-'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+  showToast('CSV downloaded ✓');
+}
+
+function exportObsidian() {
+  const taskState = getTaskState();
+  const noteState = getNoteState();
+  const p = getPipelineState();
+  const dateStr = new Date().toISOString().slice(0,10);
+  const allTasks = [...DASHBOARD_DATA.tasks, ...getAdHocTasks()];
+  const groups = {};
+  allTasks.forEach(t => { if(!groups[t.group]) groups[t.group]=[]; groups[t.group].push(t); });
+
+  let md = `---
+tags: [silora-orient, dashboard, weekly-review]
+date: ${dateStr}
+source: silora-orient-dashboard
+---
+
+# SILORA ORIENT — Dashboard Export · ${dateStr}
+
+## Pipeline Snapshot
+| | Count |
+|---|---|
+| B2C Inquiries | ${p.b2c.inquiry} |
+| B2C Quoted | ${p.b2c.quoted} |
+| B2C Deposits | ${p.b2c.deposit} |
+| B2B Outreach | ${p.b2b.outreach} |
+| B2B Replies | ${p.b2b.replied} |
+| Revenue MTD | $${p.revenue.deposits+p.revenue.balances+p.revenue.workshops} |
+
+## Tasks
+`;
+  Object.entries(groups).forEach(([g, tasks]) => {
+    md += `\n### ${g}\n`;
+    tasks.forEach(t => {
+      const isDone = taskState[t.id]?.done || t.status==='done';
+      const note = noteState[t.id] !== undefined ? noteState[t.id] : (t.note||'');
+      md += `- [${isDone?'x':' '}] ${t.name}`;
+      if (note) md += `\n  - _Note: ${note}_`;
+      md += '\n';
+    });
+  });
+
+  const logs = ls.get('silora-contact-log', []);
+  if (logs.length) {
+    md += '\n## Supplier Contact Log\n| Date | Supplier | Topic | Outcome | Next Step |\n|---|---|---|---|---|\n';
+    logs.forEach(l => md += `| ${l.date} | ${l.supplier} | ${l.topic} | ${l.outcome} | ${l.next} |\n`);
+  }
+
+  md += `\n---\n_Exported from SILORA ORIENT Dashboard · ${dateStr}_\n`;
+  const blob = new Blob([md], {type:'text/markdown'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'silora-dashboard-'+dateStr+'.md';
+  a.click();
+  showToast('Obsidian note downloaded ✓');
+}
+</script>
+</body>
+</html>
