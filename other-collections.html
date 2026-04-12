@@ -303,6 +303,7 @@ const CATEGORY_LABELS = {
 const COLLECTIONS = [
   {
     id: 'phalaenopsis',
+    published: true,
     category: 'orchid',
     series: '兰花系列 · Orchid Jewellery',
     series_zh: '蝴蝶兰系列缠花珠宝',
@@ -319,6 +320,7 @@ const COLLECTIONS = [
   },
   {
     id: 'crystal-curtain',
+    published: false,   // 等图片上传后改为 true
     category: 'flowers',
     series: '花的系列 · 却下水晶帘',
     series_zh: '发簪 · 胸针',
@@ -335,6 +337,7 @@ const COLLECTIONS = [
   },
   {
     id: 'osmanthus',
+    published: false,   // 等图片上传后改为 true
     category: 'flowers',
     series: '花的系列 · 月桂流金',
     series_zh: '桂花系列（花窗胸针·发簪·发冠）',
@@ -351,6 +354,7 @@ const COLLECTIONS = [
   },
   {
     id: 'lily-moonlight',
+    published: false,   // 等图片上传后改为 true
     category: 'flowers',
     series: '花的系列 · 月下逢',
     series_zh: '月光下的小百合（发簪·胸针·戒指·耳饰）',
@@ -367,6 +371,7 @@ const COLLECTIONS = [
   },
   {
     id: 'lotus-wind',
+    published: false,   // 等图片上传后改为 true
     category: 'flowers',
     series: '花的系列 · 一一风荷举',
     series_zh: '夏莲系列（发簪·胸针·戒指·耳饰）',
@@ -385,6 +390,7 @@ const COLLECTIONS = [
   },
   {
     id: 'kinship',
+    published: false,   // 等内容和图片准备好后改为 true
     category: 'kinship',
     series: '亲情系列 · Kinship',
     series_zh: '亲情系列缠花珠宝',
@@ -403,6 +409,7 @@ const COLLECTIONS = [
   },
   {
     id: 'custom-order',
+    published: true,
     category: 'custom',
     series: '定制系列 · Bespoke',
     series_zh: '个人定制缠花',
@@ -430,7 +437,7 @@ const COLLECTIONS = [
   const isZh = lang === 'zh';
   let lastCat = null;
 
-  COLLECTIONS.forEach(c => {
+  COLLECTIONS.filter(c => c.published).forEach(c => {
     // Insert category divider when category changes
     if (c.category !== lastCat) {
       lastCat = c.category;
