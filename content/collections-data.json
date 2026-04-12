@@ -1,86 +1,140 @@
 {
-  "_instructions": "To add a new collection, copy one entry below and fill in your details. Images go in /images/[collection-folder]/. Run 'npx vercel deploy' to publish. See HOW-TO-UPDATE.md for full guide.",
+  "_note": "SILORA ORIENT — 4 Series Catalog (legacy data file, kept for reference). Active data is in collections.json.",
+  "_series_overview": {
+    "orchid":  "兰花系列 — The special flower. Orchid's unique silhouette, 9 colorways.",
+    "seasons": "四时之景 — Four Seasons. Spring/Summer/Autumn/Winter poetry pieces.",
+    "kinship": "亲情系列 — Family bonds. Three generations, mother-daughter, custom gifts.",
+    "custom":  "定制系列 — Bespoke. Choose flower → color → jewel → tell your story."
+  },
 
   "collections": [
+
     {
-      "id": "flavor-orchids",
-      "name": "The Flavour Series",
-      "name_zh": "味道系列",
-      "subtitle": "Orchid earrings named like feelings",
-      "subtitle_zh": "以味道命名的蝴蝶兰耳饰",
-      "description": "Each piece in the Flavour Series is named after a memory of taste and season — dessert-inspired colour stories translated into silk and gold. Every name is a mood. Every colour is a feeling you have had before, somewhere.",
-      "description_zh": "味道系列的每一枚耳饰，都以一种味觉记忆命名——将甜蜜与季节的色彩，转化为丝绸与金线。每个名字是一种情绪，每种颜色，是你曾经拥有过的某种感受。",
-      "tag": "Orchid · Colour Story",
-      "tag_zh": "蝴蝶兰 · 色彩故事",
+      "id": "orchid-phalaenopsis",
+      "series": "orchid",
+      "name": "Phalaenopsis — Nine Colorways",
+      "name_zh": "蝴蝶兰 · 九色系",
+      "subtitle": "The orchid was chosen for one reason: no other flower has this silhouette.",
+      "subtitle_zh": "选择兰花，只因没有任何花拥有这样的花型。",
+      "tag": "兰花系列 · The Orchid",
+      "tag_zh": "兰花系列 · 特别的花",
+      "image_folder": "images",
+      "images": ["orchid-collection.jpg", "white-orchid-earrings.jpg"],
+      "price": "耳钉 $79/pr · 耳挂 $60 · 戒指/挂坠 from $80",
+      "published": true,
+      "variants": [
+        { "name": "蜜桃乌龙", "name_en": "Honey Peach Oolong", "palette": "warm peach, rose, amber" },
+        { "name": "绿野仙踪", "name_en": "Emerald Forest",     "palette": "sage, moss, pale jade" },
+        { "name": "海盐芒果冰","name_en": "Sea Salt Mango Ice", "palette": "bright yellow, gold, cream" },
+        { "name": "冰雪奇缘", "name_en": "Frozen Wonderland",  "palette": "icy white, pale blue, silver" },
+        { "name": "澛金旧梦", "name_en": "Gilded Dreams",      "palette": "amber, deep gold, warm brown" },
+        { "name": "星月夜",   "name_en": "Starry Moon Night",  "palette": "deep navy, purple, pearl" },
+        { "name": "芋泥啵啵", "name_en": "Taro Waves",         "palette": "purple, dusty lavender, cream" },
+        { "name": "薰衣草",   "name_en": "Lavender Mist",      "palette": "soft lilac, misty violet, silver" },
+        { "name": "深海蓝",   "name_en": "Deep Ocean",         "palette": "midnight blue, teal, white pearl" }
+      ]
+    },
+
+    {
+      "id": "four-seasons-spring",
+      "series": "seasons",
+      "season": "spring",
+      "name": "Lily in Moonlight",
+      "name_zh": "月下逢 · 百合",
+      "subtitle": "White silk with blue-ombre edges. Amber and jade. Spring moonlight.",
+      "subtitle_zh": "白色蚕丝渐染蓝边，琥珀珠与玉珠，春夜月光的流光感。",
+      "tag": "四时之景 · 春 Spring",
+      "tag_zh": "四时之景 · 春",
+      "image_folder": "images",
+      "images": ["lily-moonlight.jpg"],
+      "price": "from $80",
+      "published": true,
+      "poetry": "「若非群玉山头见，会向瑶台月下逢。」— Du Fu"
+    },
+
+    {
+      "id": "four-seasons-summer",
+      "series": "seasons",
+      "season": "summer",
+      "name": "Lotus Rising",
+      "name_zh": "一一风荷举 · 荷花",
+      "subtitle": "Pale green and blush-white petals, frozen mid-rise. Freshwater pearls and jade.",
+      "subtitle_zh": "淡绿与藕白花瓣，凝固于上升一息之间。淡水珍珠与翡翠珠。",
+      "tag": "四时之景 · 夏 Summer",
+      "tag_zh": "四时之景 · 夏",
+      "image_folder": "images",
+      "images": ["lotus-rising.jpg"],
+      "price": "from $80",
+      "published": true,
+      "poetry": "「水面清圆，一一风荷举。」— Zhou Bangyan"
+    },
+
+    {
+      "id": "four-seasons-autumn",
+      "series": "seasons",
+      "season": "autumn",
+      "name": "Osmanthus in Gold",
+      "name_zh": "月桂流金 · 桂花",
+      "subtitle": "Gold osmanthus clusters, deep olive leaves. Autumn made wearable.",
+      "subtitle_zh": "金黄桂花簇，墨绿金边叶，可佩戴的秋天。",
+      "tag": "四时之景 · 秋 Autumn",
+      "tag_zh": "四时之景 · 秋",
+      "image_folder": "images",
+      "images": ["osmanthus-1.jpg", "osmanthus-2.jpg"],
+      "price": "from $80",
+      "published": true,
+      "poetry": "「月桂流金」— Featured CCTV Spring Festival Gala 2026"
+    },
+
+    {
+      "id": "four-seasons-winter",
+      "series": "seasons",
+      "season": "winter",
+      "name": "Crystal Curtain",
+      "name_zh": "却下水晶帘",
+      "subtitle": "A Li Bai poem in silk and crystal. A still winter night.",
+      "subtitle_zh": "李白诗意，以丝绸与水晶重现。静冬夜色。",
+      "tag": "四时之景 · 冬 Winter",
+      "tag_zh": "四时之景 · 冬",
+      "image_folder": "images",
+      "images": ["crystal-curtain.jpg"],
+      "price": "from $80",
+      "published": true,
+      "poetry": "「却下水晶帘，玲珑望秋月。」— Li Bai"
+    },
+
+    {
+      "id": "kinship",
+      "series": "kinship",
+      "name": "Kinship — Tell Us Your Story",
+      "name_zh": "亲情系列 · 三代的故事",
+      "subtitle": "Three generations. A grandmother's hands, a daughter's eyes.",
+      "subtitle_zh": "告诉我们三代人的故事。",
+      "tag": "亲情系列 · Kinship",
+      "tag_zh": "亲情系列",
+      "image_folder": "images",
+      "images": [],
+      "price": "from $80",
+      "published": false,
+      "_note": "Publish when founder provides story and image"
+    },
+
+    {
+      "id": "custom-order",
+      "series": "custom",
+      "name": "Bespoke — Begin with the Flower",
+      "name_zh": "定制系列 · 先选花形，再选颜色",
+      "subtitle": "Choose your flower. Then its color. Then its jewels. Then tell us your story.",
+      "subtitle_zh": "选择花形，再选颜色，再选珠宝，最后告诉我们你的故事。",
+      "tag": "定制系列 · Bespoke",
+      "tag_zh": "定制系列",
       "image_folder": "images",
       "images": ["orchid-collection.jpg"],
-      "variants": [
-        { "name": "蜜桃乌龙", "name_en": "Peach Oolong", "palette": "warm peach, rose, soft amber" },
-        { "name": "绿野仙踪", "name_en": "Into the Forest", "palette": "sage, moss green, pale jade" },
-        { "name": "海盐芒果冰", "name_en": "Sea Salt Mango Ice", "palette": "bright yellow, warm cream, gold" },
-        { "name": "冰雪奇缘", "name_en": "Frozen Fantasy", "palette": "icy white, pale blue, silver" },
-        { "name": "星月夜", "name_en": "Starry Night", "palette": "deep navy, purple, pearl" },
-        { "name": "餐金旧梦", "name_en": "Golden Dream", "palette": "amber, deep gold, warm brown" },
-        { "name": "芋泥啵啵", "name_en": "Taro Bubble", "palette": "purple, dusty lavender, cream" }
-      ],
-      "show_on_main": false
-    },
-    {
-      "id": "wisteria",
-      "name": "Wisteria Dreams",
-      "name_zh": "紫藤梦",
-      "subtitle": "For the ones who love softly and deeply",
-      "subtitle_zh": "为那些温柔而深情之人",
-      "description": "Cascading silk wisteria — a flower that blooms in abundance or not at all. The Wisteria collection captures the romantic weight of purple blossoms against spring light, translated into earrings, rings, and brooches that feel like something remembered from a garden you loved.",
-      "description_zh": "如瀑布般垂落的紫藤——这种花，要么盛放，要么沉寂。紫藤系列捕捉了春光中紫色花朵的浪漫重量，将它们化为耳饰、戒指与胸针，携带着你曾深爱的某座花园的记忆。",
-      "tag": "Wisteria · Romance",
-      "tag_zh": "紫藤 · 浪漫",
-      "image_folder": "images",
-      "images": ["orchid-mixed-set.jpg"],
-      "show_on_main": false
-    },
-    {
-      "id": "plum-blossom",
-      "name": "Plum in Winter",
-      "name_zh": "寒梅",
-      "subtitle": "The flower that blooms before spring arrives",
-      "subtitle_zh": "在春天来临之前绽放的花",
-      "description": "The plum blossom is the flower of endurance — it blooms in snow, before anything else dares to. This collection is for people who carry their softness through hard seasons. White and blush silk petals, wire stems, and the quiet insistence of something beautiful that refuses to wait.",
-      "description_zh": "梅花是坚韧之花——它在雪中绽放，先于万物。这个系列献给那些在艰难季节中依然温柔的人。白色与淡粉色的丝绸花瓣，金属丝茎，以及美丽之物拒绝等待的宁静执着。",
-      "tag": "Plum Blossom · Resilience",
-      "tag_zh": "梅花 · 坚韧",
-      "image_folder": "images",
-      "images": ["white-orchid-earrings.jpg"],
-      "show_on_main": false
-    },
-    {
-      "id": "iris-series",
-      "name": "Iris Brooch Series",
-      "name_zh": "鸢尾胸针系列",
-      "subtitle": "A sculpture you can wear",
-      "subtitle_zh": "可以佩戴的雕塑",
-      "description": "Each iris brooch is hand-sculpted from dyed silk wound around gold wire — petals that curve the way real irises do, reaching upward with a quality that photographs cannot fully capture. Available in purple, white, blue, and custom colors. Freshwater pearl included.",
-      "description_zh": "每一枚鸢尾胸针，都是用染色丝绸缠绕在金丝上手工雕塑而成——花瓣如真实鸢尾般弯曲，向上伸展，那种质感是照片无法完全捕捉的。提供紫色、白色、蓝色及定制色。配淡水珍珠。",
-      "tag": "Brooch · Iris",
-      "tag_zh": "胸针 · 鸢尾",
-      "image_folder": "images",
-      "images": ["iris-brooch.jpg"],
-      "featured": true,
-      "show_on_main": false
-    },
-    {
-      "id": "pearl-orchid-white",
-      "name": "White Orchid · Pearl Edition",
-      "name_zh": "白兰 · 珍珠版",
-      "subtitle": "The purest version of the signature piece",
-      "subtitle_zh": "经典款的最纯粹版本",
-      "description": "Pure white silk orchid petals with gold-tone wire and a freshwater baroque pearl drop. The White Orchid is the quietest piece in the collection — and often the one people wear most. It belongs everywhere: at a gallery opening, at a morning coffee, at a wedding where you want to let the bride shine.",
-      "description_zh": "纯白色丝绸蝴蝶兰花瓣，配金色金属丝与淡水巴洛克珍珠坠。白兰是系列中最安静的一枚——也往往是人们佩戴最频繁的一枚。它属于一切场合：画廊开幕、清晨咖啡，或是那些你想让新娘成为焦点的婚礼。",
-      "tag": "Orchid · Pearl · White",
-      "tag_zh": "蝴蝶兰 · 珍珠 · 白",
-      "image_folder": "images",
-      "images": ["white-orchid-earrings.jpg"],
-      "show_on_main": false
+      "price": "from $140",
+      "published": true,
+      "cta_link": "custom.html",
+      "custom_flow": ["flower", "color", "jewels", "story", "submit"]
     }
+
   ]
 }

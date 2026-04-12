@@ -33,8 +33,8 @@
     }
     .wf-card:hover .wf-img img { transform: scale(1.04); }
     .wf-card:hover .wf-overlay { opacity: 1; }
-    .wf-img { overflow: hidden; position: relative; }
-    .wf-img img { width: 100%; display: block; transition: transform 0.6s ease; }
+    .wf-img { overflow: hidden; position: relative; aspect-ratio: 4/3; background: var(--cream); }
+    .wf-img img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform 0.6s ease; }
     .wf-overlay {
       position: absolute; inset: 0;
       background: rgba(42,39,36,0.45);
@@ -233,7 +233,9 @@
           <input type="email" id="pricingEmail" placeholder="your@email.com" required />
           <label for="pricingEmailConfirm">Confirm Email</label>
           <input type="email" id="pricingEmailConfirm" placeholder="your@email.com" required />
-          <p class="pricing-form-note">We'll reply within 24 hours with pricing and availability.</p>
+          <label for="pricingLocation" style="margin-top:0.5rem;">City, State / Province, Country</label>
+          <input type="text" id="pricingLocation" placeholder="e.g. New York, NY, United States" style="width:100%;padding:0.7rem 1rem;border:1px solid var(--border);background:#fff;font-family:var(--font-sans);font-size:0.88rem;color:var(--text-dark);margin-bottom:0.75rem;box-sizing:border-box;" />
+          <p class="pricing-form-note">We use your location to estimate shipping cost and regional price. We'll reply within 24 hours.</p>
           <button class="btn btn-primary" id="pricingSubmitBtn" style="width:100%;">Send Inquiry</button>
         </div>
         <div class="pricing-form-success" id="pricingSuccess">
@@ -404,7 +406,7 @@ function buildWaterfall() {
 
     const overlayLabel = c.ctaLabel || 'Read Story';
     const imgHtml = c.image
-      ? `<div class="wf-img"><img src="${c.image}" alt="${c.title}" loading="lazy" /><div class="wf-overlay"><span>${overlayLabel}</span></div></div>`
+      ? `<div class="wf-img"><img src="${c.image}" alt="${c.title}" onerror="this.style.display='none'" /><div class="wf-overlay"><span>${overlayLabel}</span></div></div>`
       : `<div class="wf-img"><div class="wf-img-placeholder ${c.imgClass || ''}" style="display:flex;align-items:center;justify-content:center;font-size:3.5rem;color:rgba(191,157,106,0.4);">${c.imgPlaceholder || '✦'}</div><div class="wf-overlay"><span>${overlayLabel}</span></div></div>`;
 
     const priceStr = c.price ? (isZh && c.price_zh ? c.price_zh : c.price) : '';
@@ -481,6 +483,7 @@ document.getElementById('modalPricingBtn').addEventListener('click', function() 
 document.getElementById('pricingSubmitBtn').addEventListener('click', async function() {
   const email    = document.getElementById('pricingEmail').value.trim();
   const confirm  = document.getElementById('pricingEmailConfirm').value.trim();
+  const location = document.getElementById('pricingLocation').value.trim();
   const c        = currentCollection;
   if (!email) { document.getElementById('pricingEmail').focus(); return; }
   if (email !== confirm) {
@@ -497,9 +500,10 @@ document.getElementById('pricingSubmitBtn').addEventListener('click', async func
       body: JSON.stringify({
         _subject: `Pricing Inquiry — ${c ? c.title : 'Other Collections'}`,
         email,
+        location: location || 'Not provided',
         series: c ? c.title : '',
         series_zh: c ? c.title_zh : '',
-        message: `Pricing inquiry for: ${c ? c.title : 'Other Collections'} (${c ? c.title_zh : ''})`
+        message: `Pricing inquiry for: ${c ? c.title : 'Other Collections'} (${c ? c.title_zh : ''})\nLocation: ${location || 'Not provided'}`
       })
     });
     document.getElementById('pricingFormInner').style.display = 'none';
