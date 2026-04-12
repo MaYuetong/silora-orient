@@ -282,8 +282,8 @@
       <div class="section">
         <div class="section-title">Phase Progress</div>
         <div class="phase-bars">
-          <div class="phase-row"><div class="phase-label">Phase 1</div><div class="phase-track"><div class="phase-fill" style="width:80%"></div></div><div class="phase-pct">80%</div><div class="phase-note">✅ Code complete — 6 founder activations pending</div></div>
-          <div class="phase-row"><div class="phase-label">Phase 2</div><div class="phase-track"><div class="phase-fill" style="width:15%"></div></div><div class="phase-pct">15%</div><div class="phase-note">⏳ Doc complete — blocked on Phase 1 activation</div></div>
+          <div class="phase-row"><div class="phase-label">Phase 1</div><div class="phase-track"><div class="phase-fill" style="width:90%"></div></div><div class="phase-pct">90%</div><div class="phase-note">✅ Code + site fully built — 6 founder tool activations pending (GA4, Mailchimp, Airtable, Zapier, Cal.com, Stripe)</div></div>
+          <div class="phase-row"><div class="phase-label">Phase 2</div><div class="phase-track"><div class="phase-fill" style="width:15%"></div></div><div class="phase-pct">15%</div><div class="phase-note">⏳ Doc complete — blocked on Phase 1 activation · UN exhibition Apr 20 is Phase 2 B2B</div></div>
           <div class="phase-row"><div class="phase-label">Phase 3</div><div class="phase-track"><div class="phase-fill" style="width:12%"></div></div><div class="phase-pct">12%</div><div class="phase-note">📋 Blueprint complete — awaiting prerequisites</div></div>
           <div class="phase-row"><div class="phase-label">Phase 4</div><div class="phase-track"><div class="phase-fill" style="width:0%"></div></div><div class="phase-pct">0%</div><div class="phase-note">🔮 Not yet planned</div></div>
         </div>
@@ -310,11 +310,32 @@
       </div>
 
       <div class="section">
-        <div class="section-title">Next 3 Actions</div>
+        <div class="section-title">What's Complete — Site is Fully Live ✅</div>
+        <div style="background:var(--done-bg);border:1px solid #A9DFBF;border-radius:8px;padding:16px 20px;font-size:0.82rem;line-height:2;">
+          <strong style="display:block;margin-bottom:6px;color:var(--done);">Everything built and deployed — as of Apr 12, 2026</strong>
+          ✅ 4-series site structure: 兰花 · 四时之景 · 定制 · 亲情<br>
+          ✅ All product images live (crystal curtain, lily, lotus, osmanthus ×2, orchid)<br>
+          ✅ Custom order form: flower → color → jewels → story (5 steps)<br>
+          ✅ Pricing: 兰花 from $60 · other series from $80 · custom from $140<br>
+          ✅ Global ink-painting watermark background<br>
+          ✅ Mobile-first responsive layout on all 9 pages<br>
+          ✅ Nav unified: single "Collections" link, no duplicates<br>
+          ✅ All broken images fixed, all stale links resolved<br>
+          ✅ Dashboard: Panel 6 catalog, publish workflow, supplier log, metrics<br>
+          ✅ Newsletter subscribe (Formspree), contact form, stories page<br>
+          ✅ <span style="color:var(--text-mid);">Pending founder action:</span> 亲情系列 — write story + upload image to publish
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">What You Need to Do Next — Priority Order</div>
         <div class="next-actions">
-          <div class="next-action"><div class="next-action-num">1</div><div class="next-action-text">🔥 Set GA4 Measurement ID in all 9 HTML files → push to git</div><div class="next-action-time">20 min</div></div>
-          <div class="next-action"><div class="next-action-num">2</div><div class="next-action-text">🔥 Create Mailchimp account → set 3 Vercel env vars → redeploy</div><div class="next-action-time">1 hr</div></div>
-          <div class="next-action"><div class="next-action-num">3</div><div class="next-action-text">🔥 Build Airtable base — 3 tables per admin/airtable-schema.md</div><div class="next-action-time">2–3 hr</div></div>
+          <div class="next-action"><div class="next-action-num">1</div><div class="next-action-text">🔥 <strong>UN Exhibition (Apr 20)</strong> — Follow up with UN cultural office by Apr 15 to confirm. Prepare 6–8 pieces + bilingual display cards. See admin/un-exhibition-proposal.md</div><div class="next-action-time">Apr 15</div></div>
+          <div class="next-action"><div class="next-action-num">2</div><div class="next-action-text">🔥 <strong>GA4</strong> — Create Google Analytics 4 property → get Measurement ID (G-XXXXXXX) → ask Claude to replace it in all 9 HTML files → push</div><div class="next-action-time">20 min</div></div>
+          <div class="next-action"><div class="next-action-num">3</div><div class="next-action-text">🔥 <strong>Stripe</strong> — Create Stripe account → create 3 payment links (Custom $140 · Series $80 · Orchid earrings $79) → send to Claude to embed on site</div><div class="next-action-time">1 hr</div></div>
+          <div class="next-action"><div class="next-action-num">4</div><div class="next-action-text">🟡 <strong>Cal.com</strong> — Create free Cal.com account → copy your username → ask Claude to replace YOUR_CAL_USERNAME in custom.html → push</div><div class="next-action-time">30 min</div></div>
+          <div class="next-action"><div class="next-action-num">5</div><div class="next-action-text">🟡 <strong>Mailchimp</strong> — Create free Mailchimp account → get API key + Audience ID + Server prefix → tell Claude → Claude sets up Vercel env vars</div><div class="next-action-time">1 hr</div></div>
+          <div class="next-action"><div class="next-action-num">6</div><div class="next-action-text">🟡 <strong>亲情系列</strong> — Write a short story (2–3 sentences) about a mother-daughter or family piece → take or source an image → Claude will publish the series</div><div class="next-action-time">Anytime</div></div>
         </div>
       </div>
     </div>
@@ -556,6 +577,10 @@ const DASHBOARD_DATA = {
     { id:"CAT-2", name:"Single source of truth: content/collections.json", status:"claude", date:"Apr 11, 2026", note:"other-collections.html fetches JSON · dashboard reads same JSON · Phase 3 ready" },
     { id:"CAT-3", name:"Dashboard Panel 6: Product Catalog with publish workflow", status:"claude", date:"Apr 11, 2026", note:"Live status table · image checklist · publish/unpublish instructions" },
     { id:"PRC",   name:"Pricing updated: series from $80, custom from $140", status:"claude", date:"Apr 11, 2026", note:"兰花: 耳钉$79/pr · 耳挂$60 · custom Tier 1 $140 · all series price shown on cards" },
+    { id:"REB",   name:"Full site rebrand to 4-series structure", status:"claude", date:"Apr 12, 2026", note:"index.html teasers → 兰花/定制/四时之景 · global ink-painting watermark · custom form rebuilt flower→color→jewel→story" },
+    { id:"NAV",   name:"Nav unified site-wide — single Collections link", status:"claude", date:"Apr 12, 2026", note:"Removed duplicate 'Other Collections' entry · all pages point to other-collections.html" },
+    { id:"BUG",   name:"Site-wide bug sweep: broken images, stale links, old brand names", status:"claude", date:"Apr 12, 2026", note:"3 broken orchid-mixed-set.jpg refs fixed · 14 stale collections.html# links fixed · Eye Color Collection → 兰花系列 in story text · footer links updated on all 9 pages" },
+    { id:"CUST",  name:"Custom order form rebuilt: flower → color → jewels → story flow", status:"claude", date:"Apr 12, 2026", note:"9 orchid colorways · per-flower palette notes · multi-select jewels · pricing sidebar from $140" },
   ],
   activationQueue: [
     { num:1, action:"Replace G-XXXXXXXXXX with real GA4 ID in all 9 HTML files → push", priority:"critical", time:"20 min", dep:"None" },
@@ -592,6 +617,9 @@ const DASHBOARD_DATA = {
     { group:"Completed", id:"COL-c",   name:"Collections site improvements (5 series + custom form)",priority:"routine",  status:"done",    owner:"Claude",  due:"—",           note:"Apr 11 — Lotus added · pricing tiers $300–$2000+ · hairpin/crown types · 四时之景 teaser" },
     { group:"Completed", id:"UN-c",    name:"UN Exhibition proposal — admin/un-exhibition-proposal.md",priority:"routine", status:"done",    owner:"Claude",  due:"—",           note:"Apr 11 — institutional B2B proposal for UN Chinese Language Day Apr 20" },
     { group:"Completed", id:"CAT-c",   name:"Product catalog: 4 series, published flag, collections.json single source", priority:"routine", status:"done", owner:"Claude", due:"—", note:"Apr 11 — dashboard Panel 6 live · publish workflow docs · 2 live series · 5 pending image upload" },
+    { group:"Completed", id:"REB-c",   name:"Full site rebrand — 4-series structure, new teasers, ink watermark", priority:"routine", status:"done", owner:"Claude", due:"—", note:"Apr 12 — index.html teasers: 兰花/定制/四时之景 · global ink-painting body::before watermark · custom form rebuilt" },
+    { group:"Completed", id:"NAV-c",   name:"Nav unified site-wide — single Collections link on all 9 pages", priority:"routine", status:"done", owner:"Claude", due:"—", note:"Apr 12 — removed 'Other Collections' nav entry · all pages now point correctly" },
+    { group:"Completed", id:"BUG-c",   name:"Site-wide bug sweep — all broken images, stale links, old brand names fixed", priority:"routine", status:"done", owner:"Claude", due:"—", note:"Apr 12 — 3 broken orchid-mixed-set refs fixed · 14 stale collections.html# links fixed · Eye Color → 兰花系列 in story text · footer updated on all pages" },
   ],
   pipeline: {
     b2c: { inquiry:0, consulting:0, quoted:0, deposit:0, production:0, delivered:0 },
