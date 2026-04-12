@@ -300,14 +300,79 @@ const CATEGORY_LABELS = {
   custom:  { en: '定制系列 · Begin with the Flower',           zh: '定制系列 · 先选花，再选色' },
 };
 
-// COLLECTIONS loaded from content/collections.json (single source of truth)
-let COLLECTIONS = [];
+// ---- Inline fallback data (always works, incl. local file:// opening) ----
+const COLLECTIONS_FALLBACK = [
+  { id:"orchid-phalaenopsis", published:true, category:"orchid",
+    series:"兰花系列 · The Orchid", series_zh:"兰花系列 · 特别的花",
+    title:"Phalaenopsis — Nine Colorways", title_zh:"蝴蝶兰 · 九色系",
+    tagline:"The orchid was chosen for one reason: no other flower has this silhouette. Nine colour stories, each named after a feeling.",
+    tagline_zh:"选择兰花，只因没有任何花拥有这样的花型。九款色系，每一款以一种感受命名。",
+    story:"There is a reason the orchid appears across East Asian art for over a thousand years: it is one of the few flowers whose silhouette is immediately, unmistakably itself. Wing-like, poised, quietly extraordinary.\n\nNine colour stories, each named for a sensory memory:\nHoney Peach Oolong · Emerald Forest · Sea Salt Mango Ice · Frozen Wonderland · Gilded Dreams · Starry Moon Night · Taro Waves · Lavender Mist · Deep Ocean\n\nAvailable as earrings (耳钉), clip-on (耳夹), rings (戒指), and pendants (挂坠).",
+    story_zh:"兰花在东亚艺术中出现逾千年，原因只有一个：没有任何花的花型如此特别——如翅膀般展开，宁静而卓越。\n\n九款色系，每一款以一种感官记忆命名：\n蜜桃乌龙 · 绿野仙踪 · 海盐芒果冰 · 冰雪奇缘 · 澛金旧梦 · 星月夜 · 芋泥啵啵 · 薰衣草 · 深海蓝\n\n提供耳钉、耳夹、戒指与挂坠。",
+    image:"images/orchid-collection.jpg", imgClass:null, imgPlaceholder:null,
+    price:"耳钉 $79/pr · 耳挂 $60 · 戒指/挂坠 from $80", price_zh:"耳钉 $79一对 · 耳挂 $60一只 · 戒指/挂坠 $80起",
+    tags:["耳钉 Earrings","耳夹 Clip-on","戒指 Ring","挂坠 Pendant","九色 9 Colorways"] },
+  { id:"four-seasons-spring", published:true, category:"seasons", season:"spring",
+    series:"四时之景 · 春 Spring", series_zh:"四时之景 · 春 · 月下逢",
+    title:"Lily in Moonlight", title_zh:"月下逢 · 百合",
+    tagline:"White silk with blue-ombre edges. Amber and jade. The luminosity of spring moonlight.",
+    tagline_zh:"白色蚕丝渐染蓝边，琥珀珠与玉珠，春夜月光的流光感。",
+    story:"Inspired by Du Fu:\n\n「若非群玉山头见，会向瑶台月下逢。」\n\nThe lily is rendered in white silk with blue-ombre edges — petals fading from pure white at the centre to the cool blue of a night sky at the tips. Yellow amber and white jade scattered along gold copper wire.\n\nFull set: hairpin (发簪), brooches (胸针), ring, earrings (耳夹 + 耳挂).",
+    story_zh:"灵感来自杜甫诗句：「若非群玉山头见，会向瑶台月下逢。」\n\n白色蚕丝花瓣边缘渐染蓝色，黄色琥珀珠与白色玉珠点缀其间。\n\n整套：发簪、胸针、戒指、耳饰（耳夹+耳挂）。",
+    image:"images/lily-moonlight.jpg", imgClass:null, imgPlaceholder:null,
+    price:"from $80", price_zh:"$80起",
+    tags:["春 Spring","发簪 Hairpin","胸针 Brooch","耳夹 Clip-on","流光感 Luminosity"] },
+  { id:"four-seasons-summer", published:true, category:"seasons", season:"summer",
+    series:"四时之景 · 夏 Summer", series_zh:"四时之景 · 夏 · 一一风荷举",
+    title:"Lotus Rising", title_zh:"一一风荷举 · 荷花",
+    tagline:"Pale green and blush-white petals, frozen mid-rise. Freshwater pearls and jade in summer stillness.",
+    tagline_zh:"淡绿与藕白花瓣，凝固于上升一息之间。淡水珍珠与翡翠珠，夏日的静谧。",
+    story:"Inspired by Zhou Bangyan 《苏幕遮》:\n\n「水面清圆，一一风荷举。」\n\nPale green and blush-white silk petals tip upward as if mid-breath. Freshwater pearls and jade beads nestle among them — cool and still, like the water beneath.\n\nFull set: hairpin (发簪), brooches (胸针), ring (戒指), earrings (耳夹 + 耳挂).",
+    story_zh:"灵感来自周邦彦《苏幕遮》：「水面清圆，一一风荷举。」\n\n淡绿与藕白丝绸花瓣花尖上翘，淡水珍珠与翡翠珠点缀其间。\n\n整套：发簪、胸针、戒指、耳饰（耳夹+耳挂）。",
+    image:"images/lotus-rising.jpg", imgClass:null, imgPlaceholder:null,
+    price:"from $80", price_zh:"$80起",
+    tags:["夏 Summer","发簪 Hairpin","胸针 Brooch","珍珠 Pearl","翡翠 Jade"] },
+  { id:"four-seasons-autumn", published:true, category:"seasons", season:"autumn",
+    series:"四时之景 · 秋 Autumn", series_zh:"四时之景 · 秋 · 月桂流金",
+    title:"Osmanthus in Gold", title_zh:"月桂流金 · 桂花",
+    tagline:"Gold osmanthus clusters, deep olive leaves. Autumn made wearable.",
+    tagline_zh:"金黄桂花簇，墨绿金边叶，可佩戴的秋天。",
+    story:"「月桂流金」— Moonlit Osmanthus in Flowing Gold.\n\nGold and amber blooms against deep olive-green metallic leaves — the exact palette of an October moon-viewing evening.\n\nThree forms:\n· Lattice brooches (花窗胸针)\n· Hairpin (发簪)\n· Hair crown (发冠)\n\nFeatured on CCTV Spring Festival Gala 2026.",
+    story_zh:"「月桂流金」——月光下流金般的桂花。\n\n金黄色桂花簇与墨绿色金边叶片。\n\n三种形式：花窗胸针、发簪、发冠。\n\n★ 2026年央视春晚亮相",
+    image:"images/osmanthus-1.jpg", imgClass:null, imgPlaceholder:null,
+    price:"from $80", price_zh:"$80起",
+    tags:["秋 Autumn","花窗胸针 Brooch","发簪 Hairpin","发冠 Hair Crown","春晚 CCTV Gala"] },
+  { id:"four-seasons-winter", published:true, category:"seasons", season:"winter",
+    series:"四时之景 · 冬 Winter", series_zh:"四时之景 · 冬 · 却下水晶帘",
+    title:"Crystal Curtain", title_zh:"却下水晶帘",
+    tagline:"A Li Bai poem in silk and crystal. A still winter night, a luminous moon behind glass.",
+    tagline_zh:"李白诗意，以丝绸与水晶重现。静冬夜色，月光透过水晶帘。",
+    story:"「却下水晶帘，玲珑望秋月。」— Li Bai\n\nAt the centre: a large translucent moon disc. Around it, small five-petal flowers in lavender and blue-white bloom along gold copper wire. Crystal-clear chain tassels (水晶流苏) hang from the lower arc.\n\nPresented as a hairpin set (发簪) with a companion brooch.",
+    story_zh:"「却下水晶帘，玲珑望秋月。」——李白\n\n中央月片，周围薰衣草紫与蓝白小花，水晶流苏随风摇曳。\n\n以发簪套装形式呈现，搭配一枚胸针。",
+    image:"images/crystal-curtain.jpg", imgClass:null, imgPlaceholder:null,
+    price:"from $80", price_zh:"$80起",
+    tags:["冬 Winter","发簪 Hairpin","胸针 Brooch","水晶 Crystal","唐诗 Tang Poetry"] },
+  { id:"custom-order", published:true, category:"custom",
+    series:"定制系列 · Bespoke", series_zh:"定制系列 · 主推兰花",
+    title:"Bespoke — Begin with the Flower", title_zh:"定制系列 · 先选花形，再选颜色",
+    tagline:"Choose your flower. Then its color. Then its jewels. Then tell us your story. From $140.",
+    tagline_zh:"选择花形，再选颜色，再选珠宝，最后告诉我们你的故事。$140起。",
+    story:"Every bespoke commission begins with the flower.\n\nThe orchid is our signature — nine colour families, each producing a different emotional register.\n\nNo two bespoke pieces are the same. Each one ends with a personalised story card.",
+    story_zh:"每一件定制委托从花开始。兰花是我们的招牌——九款色系。没有两件定制作品完全相同。每件作品附一张个人故事卡。",
+    image:"images/orchid-collection.jpg", imgClass:null, imgPlaceholder:null,
+    price:"from $140", price_zh:"$140起",
+    tags:["定制 Bespoke","兰花首推 Orchid First","先选花 Choose Flower","故事 Story"],
+    ctaLink:"custom.html", ctaLabel:"Begin Commission →" },
+];
 
-// ---- Fetch collections.json then build ----
+let COLLECTIONS = COLLECTIONS_FALLBACK;
+
+// ---- Try fetching from JSON (works on Vercel; fallback to inline if local) ----
 fetch('content/collections.json')
   .then(r => r.json())
-  .then(data => { COLLECTIONS = data.series || []; buildWaterfall(); })
-  .catch(() => { document.getElementById('waterfall').innerHTML = '<p style="color:var(--text-light);padding:2rem">Unable to load collections.</p>'; });
+  .then(data => { if (data.series) COLLECTIONS = data.series; })
+  .catch(() => {})
+  .finally(() => buildWaterfall());
 
 function buildWaterfall() {
   const wf = document.getElementById('waterfall');

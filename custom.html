@@ -211,6 +211,70 @@
       background: rgba(191,157,106,0.07);
     }
 
+    /* ---- Palette swatch grid (Steps 2 & 3) ---- */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+    .palette-grid--sm  { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 0.6rem; }
+    .palette-grid--jewel { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 0.7rem; }
+
+    .palette-swatch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.45rem;
+      cursor: pointer;
+      background: none;
+      border: 1.5px solid transparent;
+      border-radius: 6px;
+      padding: 0.7rem 0.4rem 0.6rem;
+      transition: border-color 0.2s, background 0.2s;
+      font-family: var(--font-sans);
+    }
+    .palette-swatch:hover { background: var(--cream); border-color: var(--border); }
+    .palette-swatch.selected { border-color: var(--gold); background: rgba(191,157,106,0.07); }
+
+    .palette-dots { display: flex; gap: 4px; justify-content: center; }
+    .palette-dot {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.1);
+      flex-shrink: 0;
+      position: relative;
+    }
+    /* Single-dot variant (gemstones) */
+    .palette-dot--lg {
+      width: 34px; height: 34px;
+    }
+    .palette-swatch.selected .palette-dot--lg::after {
+      content: '✓';
+      position: absolute;
+      inset: 0;
+      font-size: 0.8rem;
+      line-height: 34px;
+      text-align: center;
+      color: rgba(255,255,255,0.9);
+      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    }
+    .palette-swatch-zh {
+      font-size: 0.73rem;
+      color: var(--text-dark);
+      font-family: var(--font-serif);
+      text-align: center;
+      line-height: 1.25;
+    }
+    .palette-swatch-en {
+      font-size: 0.6rem;
+      color: var(--text-light);
+      letter-spacing: 0.05em;
+      text-align: center;
+      line-height: 1.3;
+    }
+    .palette-swatch.selected .palette-swatch-zh { color: var(--gold); }
+
     /* ---- Form section headers ---- */
     .form-section-block {
       padding: 2.5rem 0;
@@ -516,31 +580,20 @@
             <div id="orchidColors" style="display:none;">
               <div class="form-field">
                 <label class="form-label">Nine color families — choose the feeling</label>
-                <div class="form-options" id="orchidColorOptions">
-                  <button type="button" class="form-option" data-val="honey-peach-oolong">蜜桃乌龙 · Honey Peach Oolong — warm peach, rose, amber</button>
-                  <button type="button" class="form-option" data-val="emerald-forest">绿野仙踪 · Emerald Forest — sage, moss, pale jade</button>
-                  <button type="button" class="form-option" data-val="sea-salt-mango">海盐芒果冰 · Sea Salt Mango Ice — bright yellow, gold, cream</button>
-                  <button type="button" class="form-option" data-val="frozen-wonderland">冰雪奇缘 · Frozen Wonderland — icy white, pale blue, silver</button>
-                  <button type="button" class="form-option" data-val="gilded-dreams">澛金旧梦 · Gilded Dreams — amber, deep gold, warm brown</button>
-                  <button type="button" class="form-option" data-val="starry-moon">星月夜 · Starry Moon Night — deep navy, purple, pearl</button>
-                  <button type="button" class="form-option" data-val="taro-waves">芋泥啵啵 · Taro Waves — purple, dusty lavender, cream</button>
-                  <button type="button" class="form-option" data-val="lavender-mist">薰衣草 · Lavender Mist — soft lilac, misty violet, silver</button>
-                  <button type="button" class="form-option" data-val="deep-ocean">深海蓝 · Deep Ocean — midnight blue, teal, white pearl</button>
-                  <button type="button" class="form-option" data-val="custom-orchid">Something else — I'll describe</button>
-                </div>
+                <div class="palette-grid" id="orchidColorOptions"></div>
               </div>
             </div>
 
-            <!-- Non-orchid: limited palette note + free description -->
+            <!-- Non-orchid: palette swatches + free description -->
             <div id="otherFlowerColors" style="display:none;">
               <div class="form-field">
-                <div id="flowerPaletteNote" style="padding:14px 18px;background:var(--cream);border-left:2px solid var(--gold);font-size:0.8rem;line-height:1.8;margin-bottom:1.2rem;"></div>
-                <label class="form-label">Any color preference within this palette?</label>
-                <input type="text" class="form-input" name="colorDescOther" placeholder="e.g. I prefer the deeper blue, with a hint of purple at the petal edges" />
+                <div id="flowerPaletteNote" style="padding:12px 16px;background:var(--cream);border-left:2px solid var(--gold);font-size:0.8rem;line-height:1.8;margin-bottom:1.4rem;border-radius:0 4px 4px 0;"></div>
+                <label class="form-label">Color preference within this palette</label>
+                <div class="palette-grid palette-grid--sm" id="otherFlowerSwatches"></div>
               </div>
             </div>
 
-            <div class="form-field">
+            <div class="form-field" style="margin-top:0.5rem;">
               <label class="form-label">Or describe your color feeling in words <span style="font-weight:300;font-style:italic;text-transform:none;letter-spacing:0;font-size:0.78rem;color:var(--text-light);">— optional</span></label>
               <input type="text" class="form-input" name="colorDesc" placeholder="e.g. the blue of early morning sky, with gold where the light hits" />
             </div>
@@ -551,34 +604,25 @@
             </div>
           </div>
 
-          <!-- STEP 3: Jewels -->
+          <!-- STEP 3: Gemstone color preference -->
           <div class="form-step" id="step3">
             <div class="form-section-header">
               <div class="form-section-num">03</div>
               <div>
-                <h2 class="form-step-title">Choose your jewels</h2>
-                <p class="form-step-desc">Different gemstones create different light effects. We will make the final selection based on your flower and color — but tell us what catches your eye.</p>
+                <h2 class="form-step-title">Gemstone color preference</h2>
+                <p class="form-step-desc">Choose the stone tones that appeal to you. We'll select the right gemstone and shape to suit your flower and color — these tell us the feeling you're drawn to.</p>
               </div>
             </div>
 
             <div class="form-field">
-              <label class="form-label">Gemstone preference <span style="font-weight:300;font-style:italic;text-transform:none;letter-spacing:0;font-size:0.78rem;color:var(--text-light);">— choose any that appeal</span></label>
-              <div class="form-options" id="jewelOptions">
-                <button type="button" class="form-option multi" data-val="pearl">Freshwater Pearl 淡水珍珠 — soft, luminous warmth</button>
-                <button type="button" class="form-option multi" data-val="shell-pearl">Shell Pearl 贝壳珠 — smooth, milky brightness</button>
-                <button type="button" class="form-option multi" data-val="jade">Jade 翡翠 — cool green depth</button>
-                <button type="button" class="form-option multi" data-val="white-jade">White Jade 白玉 — quiet, pale luminosity</button>
-                <button type="button" class="form-option multi" data-val="amber">Amber 琥珀 — warm golden glow</button>
-                <button type="button" class="form-option multi" data-val="crystal">Crystal 水晶 — pure transparency, light-catching</button>
-                <button type="button" class="form-option multi" data-val="no-jewel">No gemstone — silk only</button>
-                <button type="button" class="form-option multi" data-val="surprise-jewel">You decide — I trust your judgment</button>
-              </div>
+              <label class="form-label">Stone tones <span style="font-weight:300;font-style:italic;text-transform:none;letter-spacing:0;font-size:0.78rem;color:var(--text-light);">— choose any that appeal</span></label>
+              <div class="palette-grid palette-grid--jewel" id="jewelSwatches"></div>
               <input type="hidden" id="jewelInput" name="jewels" />
             </div>
 
             <div class="form-field">
-              <label class="form-label">Any specific request? <span style="font-weight:300;font-style:italic;text-transform:none;letter-spacing:0;font-size:0.78rem;color:var(--text-light);">— optional</span></label>
-              <input type="text" class="form-input" name="jewelNote" placeholder="e.g. I'd love something that catches the light, like small drops of water" />
+              <label class="form-label">Describe the quality you want <span style="font-weight:300;font-style:italic;text-transform:none;letter-spacing:0;font-size:0.78rem;color:var(--text-light);">— optional</span></label>
+              <input type="text" class="form-input" name="jewelNote" placeholder="e.g. something that catches light like water drops, or quiet and matte, or deep and glassy" />
             </div>
 
             <div class="form-nav">
@@ -970,23 +1014,8 @@
      Manages: step nav · color selection · state · Formspree submit
      ============================================================ */
 
-  /* ------------------------------------------------------------------
-     SILK_COLORS — the single source of truth for all color options.
-     To add a new color: append one object to this array. No HTML changes needed.
-     Format: { id, label, bg, border (optional, for near-white chips) }
-  ------------------------------------------------------------------ */
-  const SILK_COLORS = [
-    { id: 'white',    label: 'White',    bg: '#F0EEE8', border: '#ddd' },
-    { id: 'ivory',    label: 'Ivory',    bg: '#F5EBD4' },
-    { id: 'blush',    label: 'Blush',    bg: '#EDCFCA' },
-    { id: 'rose',     label: 'Rose',     bg: '#D4968E' },
-    { id: 'lavender', label: 'Lavender', bg: '#C4BAD4' },
-    { id: 'blue',     label: 'Blue',     bg: '#7EB3D4' },
-    { id: 'sage',     label: 'Sage',     bg: '#A8B89C' },
-    { id: 'yellow',   label: 'Yellow',   bg: '#E8D080' },
-    { id: 'gold',     label: 'Gold',     bg: '#BF9D6A' },
-    { id: 'purple',   label: 'Purple',   bg: '#8B6CA0' },
-  ];
+  /* SILK_COLORS retained for any future use */
+  const SILK_COLORS = [];
 
   /* ------------------------------------------------------------------
      formState — single object holds all step selections.
@@ -1005,15 +1034,67 @@
     notes:        '',
   };
 
-  // Flower → color palette info
+  // ── Orchid 9 colorways (palette dots + names)
+  const ORCHID_COLORWAYS = [
+    { val:'honey-peach-oolong',   zh:'蜜桃乌龙',  en:'Honey Peach',    dots:['#E8B89A','#D4917A','#C48A50'] },
+    { val:'emerald-forest',       zh:'绿野仙踪',  en:'Emerald Forest',  dots:['#8FA882','#6B8A5E','#B5C8A8'] },
+    { val:'sea-salt-mango',       zh:'海盐芒果冰', en:'Sea Salt Mango', dots:['#E8D07A','#C9A84C','#F0E8C0'] },
+    { val:'frozen-wonderland',    zh:'冰雪奇缘',  en:'Frozen Wonder',   dots:['#D0DDE8','#B8D0E0','#C8D4DC'] },
+    { val:'gilded-dreams',        zh:'澛金旧梦',  en:'Gilded Dreams',   dots:['#C9934A','#B07A30','#8B6040'] },
+    { val:'starry-moon',          zh:'星月夜',   en:'Starry Moon',     dots:['#2A3A5C','#4A3A6A','#D4CCE0'] },
+    { val:'taro-waves',           zh:'芋泥啵啵',  en:'Taro Waves',     dots:['#9A8AB0','#B8A8C8','#E8E0F0'] },
+    { val:'lavender-mist',        zh:'薰衣草',   en:'Lavender Mist',   dots:['#C0A8D8','#A898C0','#D4C8DC'] },
+    { val:'deep-ocean',           zh:'深海蓝',   en:'Deep Ocean',      dots:['#1A3A5C','#2A6870','#E0E8F0'] },
+    { val:'custom-orchid',        zh:'其他',     en:'Describe mine',   dots:['#E8E4DC','#D8D0C4','#C8C0B4'] },
+  ];
+
+  // ── Non-orchid flower palette swatches
   const FLOWER_PALETTES = {
-    orchid:    { note: 'Orchid accepts 9 color families — the widest range we offer. Select a named colorway or describe your feeling.', orchid: true },
-    lotus:     { note: 'Lotus is designed in <strong>blue and blush pink</strong> only — these are the colors that appear naturally in summer lotus. Within this palette, we can vary the depth and the accent gemstones.' },
-    osmanthus: { note: 'Osmanthus works in <strong>gold and amber</strong> tones — the palette of an October evening. Deep olive-green leaves, warm yellow blooms.' },
-    lily:      { note: 'Lily in Moonlight uses <strong>white silk with blue ombré edges</strong> — petals that move from pure white to night-sky blue at the tips.' },
-    plum:      { note: 'Plum Blossom is available in <strong>white, blush, and deep red</strong> — the colours of winter bloom against snow.' },
-    peony:     { note: 'Peony works in <strong>pink, coral, and ivory</strong> — lush and romantic, the colours of late spring.' },
-    surprise:  { note: 'We will choose the flower and colour for you — based on everything you tell us in the steps that follow.' },
+    orchid:    { orchid: true,
+                 note: 'Orchid accepts 9 color families — the widest range we offer.',
+                 swatches: [] },
+    lotus:     { note: 'Lotus: blue and blush pink — the natural colors of summer lotus.',
+                 swatches: [
+                   { zh:'藕粉', en:'Blush Pink', dot:'#E8C0C0' },
+                   { zh:'粉白', en:'Blush White', dot:'#F0E0DC' },
+                   { zh:'浅蓝', en:'Pale Blue', dot:'#B8D0E8' },
+                   { zh:'湖蓝', en:'Lake Blue', dot:'#7AA8C8' },
+                   { zh:'深蓝', en:'Deep Blue', dot:'#3A6A90' },
+                 ]},
+    osmanthus: { note: 'Osmanthus: gold and amber tones — the palette of an October evening.',
+                 swatches: [
+                   { zh:'金黄', en:'Gold Yellow', dot:'#E8D070' },
+                   { zh:'琥珀', en:'Amber', dot:'#C9934A' },
+                   { zh:'暖橙', en:'Warm Orange', dot:'#D4824A' },
+                   { zh:'墨绿', en:'Olive Green', dot:'#5A7040' },
+                   { zh:'棕金', en:'Brown Gold', dot:'#8B6040' },
+                 ]},
+    lily:      { note: 'Lily in Moonlight: white silk with blue ombré edges — moon to sky.',
+                 swatches: [
+                   { zh:'月白', en:'Moon White', dot:'#F0EEE8' },
+                   { zh:'银白', en:'Silver White', dot:'#E8ECF0' },
+                   { zh:'霜蓝', en:'Frost Blue', dot:'#C8D8E8' },
+                   { zh:'夜蓝', en:'Night Blue', dot:'#6888A8' },
+                   { zh:'金边', en:'Gold Edge', dot:'#C9934A' },
+                 ]},
+    plum:      { note: 'Plum Blossom: white, blush, and deep red — winter bloom against snow.',
+                 swatches: [
+                   { zh:'雪白', en:'Snow White', dot:'#F0EEE8' },
+                   { zh:'浅粉', en:'Pale Blush', dot:'#EDD0CA' },
+                   { zh:'胭脂', en:'Rouge', dot:'#C87878' },
+                   { zh:'深红', en:'Deep Red', dot:'#8B3030' },
+                   { zh:'墨紫', en:'Dark Plum', dot:'#5A2840' },
+                 ]},
+    peony:     { note: 'Peony: pink, coral, and ivory — lush and romantic, late spring.',
+                 swatches: [
+                   { zh:'牡丹粉', en:'Peony Pink', dot:'#E8A8A8' },
+                   { zh:'浅珊瑚', en:'Soft Coral', dot:'#E8B898' },
+                   { zh:'珊瑚红', en:'Coral', dot:'#D48068' },
+                   { zh:'象牙白', en:'Ivory', dot:'#F0E8D8' },
+                   { zh:'浅金', en:'Pale Gold', dot:'#D4B480' },
+                 ]},
+    surprise:  { note: 'We will choose the flower and colour for you — based on your story.',
+                 swatches: [] },
   };
 
   /* ------------------------------------------------------------------
@@ -1047,71 +1128,76 @@
   }
 
   /* ------------------------------------------------------------------
-     Color chip renderer — driven entirely by SILK_COLORS array
+     Palette swatch renderer — used for orchid colorways, flower palettes, gemstones
   ------------------------------------------------------------------ */
-  function renderColorChips() {
-    const container = document.getElementById('colorChipsContainer');
-    if (!container) return;
-    container.innerHTML = '';
+  function makePaletteSwatch({ val, zh, en, dots, dot, multi, onSelect }) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'palette-swatch';
+    btn.dataset.val = val;
 
-    SILK_COLORS.forEach(color => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'color-chip' + (formState.colors.has(color.id) ? ' selected' : '');
-      btn.dataset.colorId = color.id;
-      btn.setAttribute('aria-pressed', formState.colors.has(color.id));
-      btn.title = color.label;
+    // dots: array of colors (multi-dot), or dot: single color (single-dot)
+    const dotsHtml = dots
+      ? dots.map(c => `<span class="palette-dot" style="background:${c}"></span>`).join('')
+      : `<span class="palette-dot palette-dot--lg" style="background:${dot}"></span>`;
 
-      const swatchStyle = `background:${color.bg};${color.border ? 'border-color:' + color.border + ';' : ''}`;
-      btn.innerHTML =
-        `<span class="color-chip-swatch" style="${swatchStyle}"></span>` +
-        `<span class="color-chip-label">${color.label}</span>`;
+    btn.innerHTML = `
+      <span class="palette-dots">${dotsHtml}</span>
+      <span class="palette-swatch-zh">${zh}</span>
+      ${en ? `<span class="palette-swatch-en">${en}</span>` : ''}
+    `;
+    btn.addEventListener('click', () => onSelect(val, btn, multi));
+    return btn;
+  }
 
-      btn.addEventListener('click', () => toggleColor(color.id, btn));
-      container.appendChild(btn);
+  /* ── Render orchid colorways into #orchidColorOptions */
+  (function renderOrchidSwatches() {
+    const container = document.getElementById('orchidColorOptions');
+    ORCHID_COLORWAYS.forEach(cw => {
+      container.appendChild(makePaletteSwatch({
+        ...cw,
+        multi: false,
+        onSelect(val, btn) {
+          container.querySelectorAll('.palette-swatch').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          formState.orchidColor = val;
+        }
+      }));
     });
-  }
+  })();
 
-  function toggleColor(id, btn) {
-    if (formState.colors.has(id)) {
-      formState.colors.delete(id);
-      btn.classList.remove('selected');
-      btn.setAttribute('aria-pressed', 'false');
-    } else {
-      formState.colors.add(id);
-      btn.classList.add('selected');
-      btn.setAttribute('aria-pressed', 'true');
-    }
-    syncColorState();
-  }
+  /* ── Render gemstone color swatches into #jewelSwatches */
+  const GEMSTONE_SWATCHES = [
+    { val:'pearl',       zh:'淡水珍珠', en:'Pearl',       dot:'#F0EAE0' },
+    { val:'shell-pearl', zh:'贝壳珠',   en:'Shell Pearl', dot:'#F5F0E4' },
+    { val:'jade',        zh:'翡翠',    en:'Jade',         dot:'#4A8A68' },
+    { val:'white-jade',  zh:'白玉',    en:'White Jade',   dot:'#E4E0D0' },
+    { val:'amber',       zh:'琥珀',    en:'Amber',        dot:'#C8883A' },
+    { val:'crystal',     zh:'水晶',    en:'Crystal',      dot:'#C8D8E8' },
+    { val:'no-jewel',    zh:'无宝石',  en:'Silk Only',    dot:'#D8CCC0' },
+    { val:'surprise',    zh:'你来决定', en:'Surprise Me', dot:'#C4B8A8' },
+  ];
 
-  /* Keeps the hidden input and summary pills in sync with formState.colors */
-  function syncColorState() {
-    const selected = [...formState.colors];
-
-    // Hidden input — goes into Formspree payload
-    document.getElementById('selectedColorsInput').value = selected.join(', ');
-
-    // Summary pills below the chips
-    const summary = document.getElementById('colorSummary');
-    const label   = document.getElementById('colorSummaryLabel');
-    // Remove existing pills (keep the label span)
-    summary.querySelectorAll('.color-pill').forEach(p => p.remove());
-
-    if (selected.length === 0) {
-      label.style.display = 'none';
-    } else {
-      label.style.display = '';
-      selected.forEach(id => {
-        const color = SILK_COLORS.find(c => c.id === id);
-        if (!color) return;
-        const pill = document.createElement('span');
-        pill.className = 'color-pill';
-        pill.textContent = color.label;
-        summary.appendChild(pill);
-      });
-    }
-  }
+  (function renderJewelSwatches() {
+    const container = document.getElementById('jewelSwatches');
+    GEMSTONE_SWATCHES.forEach(g => {
+      container.appendChild(makePaletteSwatch({
+        ...g,
+        dots: null,
+        multi: true,
+        onSelect(val, btn) {
+          if (formState.jewels.has(val)) {
+            formState.jewels.delete(val);
+            btn.classList.remove('selected');
+          } else {
+            formState.jewels.add(val);
+            btn.classList.add('selected');
+          }
+          document.getElementById('jewelInput').value = [...formState.jewels].join(', ');
+        }
+      }));
+    });
+  })();
 
   /* ------------------------------------------------------------------
      Flower selection — single-select, drives Step 2 color section
@@ -1134,45 +1220,36 @@
 
       // Pre-configure Step 2
       const isOrchid = palette.orchid;
-      document.getElementById('orchidColors').style.display    = isOrchid ? '' : 'none';
+      document.getElementById('orchidColors').style.display      = isOrchid ? '' : 'none';
       document.getElementById('otherFlowerColors').style.display = isOrchid ? 'none' : '';
-      if (palette.note && !isOrchid) {
-        document.getElementById('flowerPaletteNote').innerHTML = palette.note;
+
+      if (!isOrchid) {
+        document.getElementById('flowerPaletteNote').innerHTML = palette.note || '';
+        // Render non-orchid swatches
+        const sw = document.getElementById('otherFlowerSwatches');
+        sw.innerHTML = '';
+        (palette.swatches || []).forEach(s => {
+          sw.appendChild(makePaletteSwatch({
+            val: s.en, zh: s.zh, en: s.en, dot: s.dot, dots: null,
+            multi: false,
+            onSelect(val, btn) {
+              sw.querySelectorAll('.palette-swatch').forEach(b => b.classList.remove('selected'));
+              btn.classList.add('selected');
+              formState.colorDesc = (formState.colorDesc ? formState.colorDesc + ', ' : '') + s.zh;
+            }
+          }));
+        });
+        if (!palette.swatches || palette.swatches.length === 0) {
+          sw.innerHTML = '<p style="font-size:0.82rem;color:var(--text-light);padding:0.5rem 0;">Please describe your preference in the field below.</p>';
+        }
       }
+
       document.getElementById('step2Title').textContent = isOrchid
         ? 'Choose your orchid colorway'
         : 'Color palette for your flower';
       document.getElementById('step2Desc').textContent = isOrchid
         ? 'Nine color families — each one a different feeling. Choose the one that is yours.'
-        : 'The color range is set by the flower. Tell us your preference within it.';
-    });
-  });
-
-  /* ------------------------------------------------------------------
-     Orchid colorway — single-select
-  ------------------------------------------------------------------ */
-  document.querySelectorAll('#orchidColorOptions button').forEach(btn => {
-    btn.addEventListener('click', function () {
-      document.querySelectorAll('#orchidColorOptions button').forEach(b => b.classList.remove('selected'));
-      this.classList.add('selected');
-      formState.orchidColor = this.dataset.val;
-    });
-  });
-
-  /* ------------------------------------------------------------------
-     Jewel options — multi-select
-  ------------------------------------------------------------------ */
-  document.querySelectorAll('.form-option.multi').forEach(btn => {
-    btn.addEventListener('click', function () {
-      const val = this.dataset.val;
-      if (formState.jewels.has(val)) {
-        formState.jewels.delete(val);
-        this.classList.remove('selected');
-      } else {
-        formState.jewels.add(val);
-        this.classList.add('selected');
-      }
-      document.getElementById('jewelInput').value = [...formState.jewels].join(', ');
+        : 'The color range is set by the flower. Choose the tone that appeals to you.';
     });
   });
 
@@ -1263,10 +1340,7 @@
     }
   }
 
-  /* ------------------------------------------------------------------
-     Init on load
-  ------------------------------------------------------------------ */
-  renderColorChips();
+  /* Swatches are rendered inline above — no additional init needed */
 </script>
 </body>
 </html>
