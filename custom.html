@@ -473,90 +473,30 @@
         <!-- Form wrapper -->
         <form id="customForm" action="#" method="post">
 
-          <!-- STEP 1: Eye Color -->
+          <!-- STEP 1: Choose Flower -->
           <div class="form-step active" id="step1">
             <div class="form-section-header">
               <div class="form-section-num">01</div>
               <div>
-                <h2 class="form-step-title">What is the color of your eyes?</h2>
-                <p class="form-step-desc">We will build your flower around this — around the particular way you see the world.</p>
+                <h2 class="form-step-title">Choose your flower</h2>
+                <p class="form-step-desc">The flower determines everything — color range, structure, jewel choices. Orchid is our signature: nine color families, endless combination. Each other flower has its own palette.</p>
               </div>
             </div>
 
             <div class="form-field">
-              <label class="form-label">Choose your eye color</label>
-              <div class="form-options" id="eyeColorOptions">
-                <button type="button" class="form-option" data-val="hazel">Hazel</button>
-                <button type="button" class="form-option" data-val="blue">Blue</button>
-                <button type="button" class="form-option" data-val="green">Green</button>
-                <button type="button" class="form-option" data-val="brown">Brown</button>
-                <button type="button" class="form-option" data-val="grey">Grey</button>
-                <button type="button" class="form-option" data-val="dark-brown">Dark Brown</button>
-                <button type="button" class="form-option" data-val="other">Other — I'll describe</button>
+              <label class="form-label">Select a flower <span style="font-weight:300;color:var(--gold);font-style:italic;text-transform:none;letter-spacing:0;font-size:0.78rem;">— recommended: Orchid 蝴蝶兰</span></label>
+              <div class="form-options" id="flowerOptions">
+                <button type="button" class="form-option" data-val="orchid" data-colors="9-colorways">✦ Orchid 蝴蝶兰 — 9 color families, our signature</button>
+                <button type="button" class="form-option" data-val="lotus" data-colors="blue-pink">Lotus 莲花 — blue &amp; blush pink only</button>
+                <button type="button" class="form-option" data-val="osmanthus" data-colors="gold-amber">Osmanthus 桂花 — gold &amp; amber only</button>
+                <button type="button" class="form-option" data-val="lily" data-colors="white-blue">Lily 百合 — moonlit white with blue ombré</button>
+                <button type="button" class="form-option" data-val="plum" data-colors="white-pink-red">Plum Blossom 梅花 — white, blush, deep red</button>
+                <button type="button" class="form-option" data-val="peony" data-colors="pink-coral-white">Peony 牡丹 — pink, coral, ivory</button>
+                <button type="button" class="form-option" data-val="surprise">Surprise me — I trust you 随你设计</button>
               </div>
+              <!-- Color range note, updates dynamically -->
+              <div id="flowerColorNote" style="display:none;margin-top:0.8rem;padding:10px 14px;background:var(--cream);border-left:2px solid var(--gold);font-size:0.78rem;color:var(--text-mid);line-height:1.6;"></div>
             </div>
-
-            <div class="form-field" id="eyeColorDescField" style="display:none;">
-              <label class="form-label">Describe your eye color</label>
-              <input type="text" class="form-input" placeholder="e.g. golden-brown with green flecks in sunlight" name="eyeColorDesc" />
-            </div>
-
-            <!-- Optional eye photo upload -->
-            <div class="form-field" style="margin-top:1rem;">
-              <label class="form-label">
-                Photo of your eyes
-                <span style="font-size:0.65rem; font-weight:400; color:var(--text-light); letter-spacing:0.05em; text-transform:none; margin-left:0.4rem;">— optional</span>
-              </label>
-              <label class="form-upload" id="eyePhotoLabel">
-                <div class="form-upload-icon">✦</div>
-                <div class="form-upload-label">Click to upload — or drag and drop</div>
-                <div class="t-small" style="margin-top:0.3rem;">JPG, PNG · Max 10MB · Helps us match your exact color</div>
-                <input type="file" id="eyePhotoInput" name="eyePhoto" accept="image/*" />
-              </label>
-              <div class="upload-preview" id="eyePhotoPreview"></div>
-            </div>
-
-            <!-- Alternative: not eye-color based -->
-            <div style="margin-top:2rem; padding-top:1.5rem; border-top:1px solid var(--border);">
-              <p class="t-label" style="margin-bottom:0.5rem;" data-i18n="custom.alt_option">Or share your ideas freely</p>
-              <p class="t-small" style="margin-bottom:0.8rem; color:var(--text-light);">
-                Not sure about eye colors? You can skip the color selector and simply tell us what you have in mind — a flower, a feeling, a memory, a person, a season. We will help design your piece from there.
-              </p>
-              <textarea class="form-textarea" name="freeIdea"
-                        placeholder="e.g. I want something that feels like early spring. Soft, a little purple, a little white. It's for my mother's birthday.&#10;&#10;Or: I love the ocean. I want blues and greens with a pearl. I'm not sure about the flower.&#10;&#10;Or: Just surprise me — I trust you."
-                        style="min-height:100px;"></textarea>
-
-              <!-- Upload inspiration images -->
-              <div style="margin-top:1rem;">
-                <label class="form-label">
-                  Inspiration images
-                  <span style="font-size:0.65rem; font-weight:400; color:var(--text-light); letter-spacing:0.05em; text-transform:none; margin-left:0.4rem;">— optional</span>
-                </label>
-                <label class="form-upload" id="inspirationLabel">
-                  <div class="form-upload-icon" style="font-size:1.2rem;">⊕</div>
-                  <div class="form-upload-label">Colors, flowers, outfits, moods — anything that helps</div>
-                  <div class="t-small" style="margin-top:0.3rem;">Multiple files allowed</div>
-                  <input type="file" id="inspirationInput" name="inspirationPhoto" accept="image/*" multiple />
-                </label>
-                <div class="upload-preview" id="inspirationPreview"></div>
-              </div>
-            </div>
-
-            <!-- Inspiration guidance note -->
-            <div class="inspiration-note">
-              If you are not sure where to begin, you may explore our
-              <a href="https://instagram.com/siloraorient" target="_blank" rel="noopener">Instagram</a>
-              and customer stories, or browse
-              <a href="other-collections.html">Other Collections</a>
-              for inspiration.
-            </div>
-
-            <!-- Clip-on note -->
-            <p class="clip-on-note" style="margin-top:1.5rem; font-size:0.8rem; color:var(--text-light);" data-i18n="custom.clip_note">
-              If you do not have pierced ears,
-              <button class="clip-on-link">clip-on versions</button>
-              are also available.
-            </p>
 
             <div class="form-nav">
               <span></span>
@@ -564,30 +504,47 @@
             </div>
           </div>
 
-          <!-- STEP 2: Flower -->
+          <!-- STEP 2: Color -->
           <div class="form-step" id="step2">
             <div class="form-section-header">
               <div class="form-section-num">02</div>
               <div>
-                <h2 class="form-step-title">What flower speaks to you?</h2>
-                <p class="form-step-desc">You may choose from our signature flowers — or describe something entirely your own.</p>
+                <h2 class="form-step-title" id="step2Title">Choose your color</h2>
+                <p class="form-step-desc" id="step2Desc">Based on your flower, these are the colors available. Choose the feeling you want to carry.</p>
+              </div>
+            </div>
+
+            <!-- Orchid colorways (shown when orchid selected) -->
+            <div id="orchidColors" style="display:none;">
+              <div class="form-field">
+                <label class="form-label">Nine color families — choose the feeling</label>
+                <div class="form-options" id="orchidColorOptions">
+                  <button type="button" class="form-option" data-val="honey-peach-oolong">蜜桃乌龙 · Honey Peach Oolong — warm peach, rose, amber</button>
+                  <button type="button" class="form-option" data-val="emerald-forest">绿野仙踪 · Emerald Forest — sage, moss, pale jade</button>
+                  <button type="button" class="form-option" data-val="sea-salt-mango">海盐芒果冰 · Sea Salt Mango Ice — bright yellow, gold, cream</button>
+                  <button type="button" class="form-option" data-val="frozen-wonderland">冰雪奇缘 · Frozen Wonderland — icy white, pale blue, silver</button>
+                  <button type="button" class="form-option" data-val="gilded-dreams">澛金旧梦 · Gilded Dreams — amber, deep gold, warm brown</button>
+                  <button type="button" class="form-option" data-val="starry-moon">星月夜 · Starry Moon Night — deep navy, purple, pearl</button>
+                  <button type="button" class="form-option" data-val="taro-waves">芋泥啵啵 · Taro Waves — purple, dusty lavender, cream</button>
+                  <button type="button" class="form-option" data-val="lavender-mist">薰衣草 · Lavender Mist — soft lilac, misty violet, silver</button>
+                  <button type="button" class="form-option" data-val="deep-ocean">深海蓝 · Deep Ocean — midnight blue, teal, white pearl</button>
+                  <button type="button" class="form-option" data-val="custom-orchid">Something else — I'll describe</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Non-orchid: limited palette note + free description -->
+            <div id="otherFlowerColors" style="display:none;">
+              <div class="form-field">
+                <div id="flowerPaletteNote" style="padding:14px 18px;background:var(--cream);border-left:2px solid var(--gold);font-size:0.8rem;line-height:1.8;margin-bottom:1.2rem;"></div>
+                <label class="form-label">Any color preference within this palette?</label>
+                <input type="text" class="form-input" name="colorDescOther" placeholder="e.g. I prefer the deeper blue, with a hint of purple at the petal edges" />
               </div>
             </div>
 
             <div class="form-field">
-              <label class="form-label">Choose a flower</label>
-              <div class="form-options" id="flowerOptions">
-                <button type="button" class="form-option" data-val="orchid">Orchid 兰花 — rare, personal</button>
-                <button type="button" class="form-option" data-val="phalaenopsis">Phalaenopsis 蝴蝶兰 — wing-like, vivid</button>
-                <button type="button" class="form-option" data-val="osmanthus">Osmanthus 桂花 — gold autumn clusters</button>
-                <button type="button" class="form-option" data-val="lily">Lily 百合 — luminous, moonlit</button>
-                <button type="button" class="form-option" data-val="lotus">Lotus 莲花 — summer wind, stillness</button>
-                <button type="button" class="form-option" data-val="iris">Iris 鸢尾 — elegant, poetic</button>
-                <button type="button" class="form-option" data-val="peony">Peony 牡丹 — lush, romantic</button>
-                <button type="button" class="form-option" data-val="plum">Plum Blossom 梅花 — delicate, Eastern</button>
-                <button type="button" class="form-option" data-val="chrysanthemum">Chrysanthemum 菊花 — thoughtful, strong</button>
-                <button type="button" class="form-option" data-val="surprise">Surprise me — I trust you</button>
-              </div>
+              <label class="form-label">Or describe your color feeling in words <span style="font-weight:300;font-style:italic;text-transform:none;letter-spacing:0;font-size:0.78rem;color:var(--text-light);">— optional</span></label>
+              <input type="text" class="form-input" name="colorDesc" placeholder="e.g. the blue of early morning sky, with gold where the light hits" />
             </div>
 
             <div class="form-nav">
@@ -596,19 +553,34 @@
             </div>
           </div>
 
-          <!-- STEP 3: Memory / Story -->
+          <!-- STEP 3: Jewels -->
           <div class="form-step" id="step3">
             <div class="form-section-header">
               <div class="form-section-num">03</div>
               <div>
-                <h2 class="form-step-title">What memory or person inspires this piece?</h2>
-                <p class="form-step-desc">Optional, but it helps us understand the feeling you want to carry. You can write anything — a name, a moment, a season.</p>
+                <h2 class="form-step-title">Choose your jewels</h2>
+                <p class="form-step-desc">Different gemstones create different light effects. We will make the final selection based on your flower and color — but tell us what catches your eye.</p>
               </div>
             </div>
 
             <div class="form-field">
-              <label class="form-label">Your story (optional)</label>
-              <textarea class="form-textarea" name="story" placeholder="e.g. My grandmother had a garden full of irises. She always wore purple. I want to carry something of hers with me.&#10;&#10;Or: For my daughter, who loves the sea. Her eyes are ocean-grey.&#10;&#10;Or simply: It's for me. For the beginning of something new."></textarea>
+              <label class="form-label">Gemstone preference <span style="font-weight:300;font-style:italic;text-transform:none;letter-spacing:0;font-size:0.78rem;color:var(--text-light);">— choose any that appeal</span></label>
+              <div class="form-options" id="jewelOptions">
+                <button type="button" class="form-option multi" data-val="pearl">Freshwater Pearl 淡水珍珠 — soft, luminous warmth</button>
+                <button type="button" class="form-option multi" data-val="shell-pearl">Shell Pearl 贝壳珠 — smooth, milky brightness</button>
+                <button type="button" class="form-option multi" data-val="jade">Jade 翡翠 — cool green depth</button>
+                <button type="button" class="form-option multi" data-val="white-jade">White Jade 白玉 — quiet, pale luminosity</button>
+                <button type="button" class="form-option multi" data-val="amber">Amber 琥珀 — warm golden glow</button>
+                <button type="button" class="form-option multi" data-val="crystal">Crystal 水晶 — pure transparency, light-catching</button>
+                <button type="button" class="form-option multi" data-val="no-jewel">No gemstone — silk only</button>
+                <button type="button" class="form-option multi" data-val="surprise-jewel">You decide — I trust your judgment</button>
+              </div>
+              <input type="hidden" id="jewelInput" name="jewels" />
+            </div>
+
+            <div class="form-field">
+              <label class="form-label">Any specific request? <span style="font-weight:300;font-style:italic;text-transform:none;letter-spacing:0;font-size:0.78rem;color:var(--text-light);">— optional</span></label>
+              <input type="text" class="form-input" name="jewelNote" placeholder="e.g. I'd love something that catches the light, like small drops of water" />
             </div>
 
             <div class="form-nav">
@@ -617,32 +589,34 @@
             </div>
           </div>
 
-          <!-- STEP 4: Colors -->
+          <!-- STEP 4: Your Story -->
           <div class="form-step" id="step4">
             <div class="form-section-header">
               <div class="form-section-num">04</div>
               <div>
-                <h2 class="form-step-title">Which colors call to you?</h2>
-                <p class="form-step-desc">Choose as many as feel right. These are suggestions — we may interpret them in unexpected ways.</p>
+                <h2 class="form-step-title">Tell us your story</h2>
+                <p class="form-step-desc">Optional — but the most important step. Who is this for? What do you want it to carry? A name, a season, a memory, a feeling is enough.</p>
               </div>
             </div>
 
             <div class="form-field">
-              <label class="form-label">Silk colors</label>
-              <!-- Chips rendered by JS from SILK_COLORS — add new colors there, not here -->
-              <div class="color-options" id="colorChipsContainer"></div>
-              <!-- Live summary of selected colors -->
-              <div class="color-summary" id="colorSummary">
-                <span class="color-summary-label" id="colorSummaryLabel" style="display:none;">Selected:</span>
-              </div>
-              <p class="t-small" style="margin-top:0.3rem;">Click to select or deselect. Choose as many as feel right.</p>
-              <!-- Hidden input carries selections into form submission -->
-              <input type="hidden" id="selectedColorsInput" name="selectedColors" />
+              <label class="form-label">Your story <span style="font-weight:300;font-style:italic;text-transform:none;letter-spacing:0;font-size:0.78rem;color:var(--text-light);">— optional, but it shapes everything</span></label>
+              <textarea class="form-textarea" name="story"
+                placeholder="e.g. For my mother's 60th birthday. She grew up in Sichuan, surrounded by orchids. I want to give her something that feels like home.&#10;&#10;Or: For me. I just moved to a new city and I want something that feels like a beginning.&#10;&#10;Or: My grandmother's hands smelled of osmanthus every autumn. I want to carry that."></textarea>
             </div>
 
-            <div class="form-field">
-              <label class="form-label">Or describe in words</label>
-              <input type="text" class="form-input" name="colorDesc" placeholder="e.g. the exact blue of early morning before sunrise, with gold edges" />
+            <div class="form-field" style="margin-top:1rem;">
+              <label class="form-label">
+                Inspiration images
+                <span style="font-size:0.65rem; font-weight:400; color:var(--text-light); letter-spacing:0.05em; text-transform:none; margin-left:0.4rem;">— optional</span>
+              </label>
+              <label class="form-upload" id="inspirationLabel">
+                <div class="form-upload-icon" style="font-size:1.2rem;">⊕</div>
+                <div class="form-upload-label">Colors, flowers, outfits, moods — anything that helps</div>
+                <div class="t-small" style="margin-top:0.3rem;">Multiple files allowed</div>
+                <input type="file" id="inspirationInput" name="inspirationPhoto" accept="image/*" multiple />
+              </label>
+              <div class="upload-preview" id="inspirationPreview"></div>
             </div>
 
             <div class="form-nav">
@@ -1022,17 +996,27 @@
      Persists across forward/back navigation because the form never re-renders.
   ------------------------------------------------------------------ */
   const formState = {
-    eyeColor:     '',   // selected eye-color button value
-    eyeColorDesc: '',   // free-text eye description
-    flower:       '',   // selected flower button value
-    story:        '',   // memory / person textarea
-    colors:       new Set(),  // Set of selected color ids
+    flower:       '',   // selected flower
+    orchidColor:  '',   // orchid colorway selected
     colorDesc:    '',   // free-text color description
-    jewelryType:  '',   // selected jewelry-type card value
+    jewels:       new Set(), // selected gemstones
+    jewelNote:    '',
+    story:        '',   // personal story
+    jewelryType:  '',   // final jewelry type
     name:         '',
     email:        '',
     notes:        '',
-    freeIdea:     '',
+  };
+
+  // Flower → color palette info
+  const FLOWER_PALETTES = {
+    orchid:    { note: 'Orchid accepts 9 color families — the widest range we offer. Select a named colorway or describe your feeling.', orchid: true },
+    lotus:     { note: 'Lotus is designed in <strong>blue and blush pink</strong> only — these are the colors that appear naturally in summer lotus. Within this palette, we can vary the depth and the accent gemstones.' },
+    osmanthus: { note: 'Osmanthus works in <strong>gold and amber</strong> tones — the palette of an October evening. Deep olive-green leaves, warm yellow blooms.' },
+    lily:      { note: 'Lily in Moonlight uses <strong>white silk with blue ombré edges</strong> — petals that move from pure white to night-sky blue at the tips.' },
+    plum:      { note: 'Plum Blossom is available in <strong>white, blush, and deep red</strong> — the colours of winter bloom against snow.' },
+    peony:     { note: 'Peony works in <strong>pink, coral, and ivory</strong> — lush and romantic, the colours of late spring.' },
+    surprise:  { note: 'We will choose the flower and colour for you — based on everything you tell us in the steps that follow.' },
   };
 
   /* ------------------------------------------------------------------
@@ -1070,6 +1054,7 @@
   ------------------------------------------------------------------ */
   function renderColorChips() {
     const container = document.getElementById('colorChipsContainer');
+    if (!container) return;
     container.innerHTML = '';
 
     SILK_COLORS.forEach(color => {
@@ -1132,22 +1117,65 @@
   }
 
   /* ------------------------------------------------------------------
-     Option-button groups (eye color, flower) — single-select
+     Flower selection — single-select, drives Step 2 color section
   ------------------------------------------------------------------ */
-  document.querySelectorAll('.form-options button').forEach(btn => {
+  document.querySelectorAll('#flowerOptions button').forEach(btn => {
     btn.addEventListener('click', function () {
-      const group = this.closest('.form-options');
-      group.querySelectorAll('.form-option').forEach(b => b.classList.remove('selected'));
+      document.querySelectorAll('#flowerOptions button').forEach(b => b.classList.remove('selected'));
       this.classList.add('selected');
+      formState.flower = this.dataset.val;
 
-      const eyeDescField = document.getElementById('eyeColorDescField');
-      if (eyeDescField) {
-        eyeDescField.style.display = (this.dataset.val === 'other') ? 'block' : 'none';
+      // Show palette note under flower grid
+      const palette = FLOWER_PALETTES[formState.flower] || {};
+      const noteEl = document.getElementById('flowerColorNote');
+      if (palette.note) {
+        noteEl.innerHTML = palette.note;
+        noteEl.style.display = 'block';
+      } else {
+        noteEl.style.display = 'none';
       }
 
-      // Persist into formState
-      if (group.id === 'eyeColorOptions') formState.eyeColor = this.dataset.val;
-      if (group.id === 'flowerOptions')   formState.flower   = this.dataset.val;
+      // Pre-configure Step 2
+      const isOrchid = palette.orchid;
+      document.getElementById('orchidColors').style.display    = isOrchid ? '' : 'none';
+      document.getElementById('otherFlowerColors').style.display = isOrchid ? 'none' : '';
+      if (palette.note && !isOrchid) {
+        document.getElementById('flowerPaletteNote').innerHTML = palette.note;
+      }
+      document.getElementById('step2Title').textContent = isOrchid
+        ? 'Choose your orchid colorway'
+        : 'Color palette for your flower';
+      document.getElementById('step2Desc').textContent = isOrchid
+        ? 'Nine color families — each one a different feeling. Choose the one that is yours.'
+        : 'The color range is set by the flower. Tell us your preference within it.';
+    });
+  });
+
+  /* ------------------------------------------------------------------
+     Orchid colorway — single-select
+  ------------------------------------------------------------------ */
+  document.querySelectorAll('#orchidColorOptions button').forEach(btn => {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('#orchidColorOptions button').forEach(b => b.classList.remove('selected'));
+      this.classList.add('selected');
+      formState.orchidColor = this.dataset.val;
+    });
+  });
+
+  /* ------------------------------------------------------------------
+     Jewel options — multi-select
+  ------------------------------------------------------------------ */
+  document.querySelectorAll('.form-option.multi').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const val = this.dataset.val;
+      if (formState.jewels.has(val)) {
+        formState.jewels.delete(val);
+        this.classList.remove('selected');
+      } else {
+        formState.jewels.add(val);
+        this.classList.add('selected');
+      }
+      document.getElementById('jewelInput').value = [...formState.jewels].join(', ');
     });
   });
 
@@ -1181,30 +1209,28 @@
   ------------------------------------------------------------------ */
   async function submitForm() {
     // Collect remaining plain-input values
-    formState.eyeColorDesc = document.querySelector('[name="eyeColorDesc"]')?.value || '';
-    formState.story        = document.querySelector('[name="story"]')?.value        || '';
-    formState.colorDesc    = document.querySelector('[name="colorDesc"]')?.value    || '';
-    formState.freeIdea     = document.querySelector('[name="freeIdea"]')?.value     || '';
-    formState.name         = document.getElementById('pricingName')?.value          ||
-                             document.querySelector('[name="name"]')?.value         || '';
-    formState.email        = document.querySelector('[name="email"]')?.value        || '';
-    formState.notes        = document.querySelector('[name="notes"]')?.value        || '';
+    formState.story     = document.querySelector('[name="story"]')?.value     || '';
+    formState.colorDesc = document.querySelector('[name="colorDesc"]')?.value || '';
+    formState.jewelNote = document.querySelector('[name="jewelNote"]')?.value || '';
+    formState.name      = document.getElementById('pricingName')?.value       ||
+                          document.querySelector('[name="name"]')?.value      || '';
+    formState.email     = document.querySelector('[name="email"]')?.value     || '';
+    formState.notes     = document.querySelector('[name="notes"]')?.value     || '';
 
     const body = new FormData();
     body.append('name',    formState.name);
     body.append('email',   formState.email);
-    body.append('_subject','Silora Orient — Custom Order Inquiry');
+    body.append('_subject','Silora Orient — Custom Commission Inquiry');
 
     const message = [
-      `Eye Color: ${formState.eyeColor || '—'}`,
-      formState.eyeColorDesc ? `Eye Description: ${formState.eyeColorDesc}` : '',
       `Flower: ${formState.flower || '—'}`,
+      formState.orchidColor ? `Orchid Colorway: ${formState.orchidColor}` : '',
+      formState.colorDesc   ? `Color Description: ${formState.colorDesc}` : '',
+      `Gemstones: ${[...formState.jewels].join(', ') || '—'}`,
+      formState.jewelNote   ? `Jewel Note: ${formState.jewelNote}` : '',
       `Story / Inspiration: ${formState.story || '—'}`,
-      `Silk Colors Selected: ${[...formState.colors].join(', ') || '—'}`,
-      formState.colorDesc ? `Color Description: ${formState.colorDesc}` : '',
-      formState.freeIdea  ? `Free Idea / Alternative: ${formState.freeIdea}` : '',
       `Jewelry Type: ${formState.jewelryType || '—'}${formState.jewelryType === 'earrings' ? ' (' + (document.getElementById('earTypeInput')?.value || 'studs') + ')' : ''}`,
-      formState.notes     ? `Additional Notes: ${formState.notes}` : '',
+      formState.notes       ? `Additional Notes: ${formState.notes}` : '',
     ].filter(Boolean).join('\n');
 
     body.append('message', message);
