@@ -51,7 +51,8 @@
     .wf-title { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 300; color: var(--text-dark); margin-bottom: 0.3rem; line-height: 1.25; }
     .wf-title-zh { font-size: 0.82rem; color: var(--text-light); margin-bottom: 0.7rem; }
     .wf-tagline { font-size: 0.84rem; color: var(--text-mid); line-height: 1.65; }
-    .wf-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+    .wf-price { font-size: 0.78rem; color: var(--gold); margin-top: 0.6rem; letter-spacing: 0.03em; font-family: var(--font-serif); font-style: italic; }
+    .wf-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.8rem; }
     .wf-tag { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.25rem 0.6rem; border: 1px solid var(--border); color: var(--text-light); }
 
     /* ---- Placeholder image bg when no img ---- */
@@ -312,6 +313,8 @@ const COLLECTIONS = [
     story: 'The Phalaenopsis orchid was chosen for this series because of its naturally extraordinary form — a graceful, wing-like silhouette that speaks for itself. No extra leaves, no decorative tendrils, no beads. The flower alone is enough.\n\nThe entire design philosophy rests on colour. Each piece was created in a carefully considered palette and paired with complementary gemstone accents: shell pearls (贝壳珠) for soft luminous warmth; layered shell pearls (叠贝珠) for rich textured depth; crystals and semi-precious stones for brilliance.\n\nSeven named colourways — each a distinct mood named after a sensory experience:\nHoney Peach Oolong (蜜桃乌龙) · Into the Emerald Forest (绿野仙踪) · Sea Salt Mango Ice (海盐芒果冰) · Frozen Wonderland (冰雪奇缘) · Gilded Dreams (澛金旧梦) · Starry Moon Night (星月夜) · Taro Waves (芋泥啵啵)\n\nAvailable as earrings (耳钉), rings (戒指), and pendants (挂坠). Clip-on (耳夹) versions also available.',
     story_zh: '蝴蝶兰拥有天然优雅、辨识度极高的花型，宛如翩翩蝴蝶展翅，本身就是最好的设计。因此，这个系列没有额外添加叶片或珠串，只保留最纯粹的一朵花。\n\n整体设计重心落在色彩上，搭配不同珠宝：贝壳珠（柔和温润的光泽）、叠贝珠（有层次感的质地）、水晶与宝石（璀璨的色彩与光芒）。\n\n共七款配色，每款以一种感官体验命名：\n蜜桃乌龙 · 绿野仙踪 · 海盐芒果冰 · 冰雪奇缘 · 澛金旧梦 · 星月夜 · 芋泥啵啵\n\n涵盖耳钉、戒指与挂坠，提供耳夹款式。',
     image: 'images/orchid-collection.jpg',
+    price: '耳钉 $79/pr · 耳挂 $60 · 戒指/挂坠 from $80',
+    price_zh: '耳钉 $79一对 · 耳挂 $60一只 · 戒指/挂坠 $80起',
     tags: ['耳钉 Earrings', '耳夹 Clip-on', '戒指 Ring', '挂坠 Pendant', '七色 7 Colours']
   },
   {
@@ -326,6 +329,8 @@ const COLLECTIONS = [
     story: 'The title is drawn from a Tang Dynasty poem by Li Bai:\n\n"She rolls back the crystal curtain,\nAnd gazes through its jade-clear folds at the autumn moon."\n— 却下水晶帘，玲珑望秋月\n\nAt the centre sits a large, translucent round disc — a moon rendered in semi-opaque white material, its surface carrying the faint luminosity of moonlight through cloud. Around it, small five-petal flowers in lavender and blue-white bloom along gold copper wire, their petals shading from soft purple at the edges to white at the centre — the cool, otherworldly palette of a night sky.\n\nGold wire curls outward freely like uncurling fern fronds, and a cascade of crystal-clear chain tassels (水晶流苏) hangs from the lower arc — catching light with every movement, evoking the shimmer of moonbeams passing through a crystal curtain.\n\nPresented as a hairpin set (发簪) alongside a companion brooch, together recreating the full scene: a still autumn night, a luminous moon, and the poet\'s quiet longing.',
     story_zh: '作品名取自李白的诗句：「却下水晶帘，玲珑望秋月。」\n\n中央是一枚大型半透明圆形月片，表面透出淡淡的月光质感；周围，薰衣草紫与蓝白色渐变的五瓣小花沿金色铜丝绽放，花瓣边缘深紫向花心渐白，是夜空独有的清冷色调。\n\n金色铜丝自由向外延伸如蕨类舒展的弧线，下方垂落一串水晶透明链条流苏——随风摇曳时折射光线，正是月光透过水晶帘的意象。\n\n整套以发簪形式呈现，搭配一枚胸针，共同还原诗中的静秋夜色——宁静、剔透、如诗如画。',
     image: 'images/crystal-curtain.jpg',
+    price: 'from $80',
+    price_zh: '$80起',
     tags: ['发簪 Hairpin', '胸针 Brooch', '水晶 Crystal', '月光 Moonlight', '古诗 Tang Poetry']
   },
   {
@@ -340,6 +345,8 @@ const COLLECTIONS = [
     story: 'The Osmanthus series is titled 四时之景·月桂流金 — "Scenes of the Four Seasons: Moonlit Osmanthus in Flowing Gold". It is built around a core philosophy of Chānhuā: to understand nature deeply, then render it with vision rather than imitation.\n\nIn nature, osmanthus blossoms are tiny — easily overlooked on the branch. Here they are intentionally enlarged so that the four-petal structure becomes the centrepiece the viewer can truly appreciate. Clusters of gold and amber blooms are arranged alongside deep olive-green leaves shaded with metallic gold — autumn made wearable.\n\nThree design principles: Scale — petals enlarged to make the four-petal form the visual hero. Structure — precise four-petal clusters, evoking the density of a blossoming branch. Colour — rich golden yellow against autumn-bronze green (秋香绿), the palette of October\'s moon-viewing season.\n\nThree forms: Lattice brooches (花窗胸针) — osmanthus blooms from woven bamboo-lattice bases in heart and arch shapes. Hairpin (发簪) — a U-shaped gold pin with osmanthus, green leaves, freshwater pearls, amber beads, and a white jade disc (the moon behind the flowers). Hair crown (发冠·月桂流金) — a curved gold frame with jade beads, leaf pendants, and a statement osmanthus cluster.',
     story_zh: '桂花系列以「四时之景·月桂流金」命名，围绕缠花创作哲学展开：深入理解自然，再以艺术眼光重新诠释，而非照搬。\n\n自然界的桂花极小，容易被忽视。在这个系列中，花朵被有意放大，让四瓣结构成为可以被清晰欣赏的视觉焦点。金黄色桂花簇与墨绿色金边叶片相搭，是可佩戴的秋天。\n\n三大设计原则：大小（花瓣放大，四瓣造型成主角）、结构（精细花簇，还原枝头繁花的密度）、色彩（金黄搭秋香绿，十月赏月季节的色彩）。\n\n三种形式：花窗胸针（桂花从竹编镂空底座中绽放，心形与椭圆形两款）、发簪（金色U型，配桂花、绿叶、珍珠、琥珀珠与白玉月片）、发冠月桂流金（金色弧形框架，串联白玉珠、翡翠叶挂坠与琥珀珠）。',
     image: 'images/osmanthus-1.jpg',
+    price: 'from $80',
+    price_zh: '$80起',
     tags: ['花窗胸针 Brooch', '发簪 Hairpin', '发冠 Hair Crown', '桂花 Osmanthus', '秋 Autumn']
   },
   {
@@ -354,6 +361,8 @@ const COLLECTIONS = [
     story: 'This piece is inspired by a couplet from Du Fu\'s poem:\n\n"If not upon the summit of Jade Mountain,\nThen we shall meet beneath the moon at Yaotai."\n— 若非群玉山头见，会向瑶台月下逢\n\nThe lily is rendered in white silk with delicate blue-ombre edges — petals that fade from pure white at the centre to the cool blue of a night sky at the tips. Each bloom is held open by fine gold copper wire that curves freely outward like tendrils, catching the light as real moonlight would catch on a living stem.\n\nYellow amber beads (琥珀珠) and white jade beads (玉珠) are scattered along the gold wire — warm against cool, earth against sky — evoking the contrast of candlelight and moonlight in a classical Chinese night scene.\n\nThe dyeing technique emphasises what the maker calls \'flowing luminosity\' (流光感): a shimmering, shifting quality in the silk that suggests moonlight moving gently across petals.\n\nThe collection is presented as a full set: hairpin (发簪), brooches (胸针), ring, and earrings — both clip-on (耳夹) and drop earring (耳挂) styles — allowing the wearer to carry the entire moonlit garden.',
     story_zh: '这件作品灵感来自杜甫的诗句：「若非群玉山头见，会向瑶台月下逢。」\n\n白色蚕丝花瓣边缘渐染蓝色，从花心纯白过渡到花尖的夜空蓝，金色铜丝自由延伸如藤蔓，在光线下熠熠生辉。\n\n黄色琥珀珠与白色玉珠点缀其间——暖与冷、土地与天空的对比，重现中国古典夜色中烛光与月光交织的意境。\n\n染色工艺着重强调「流光感」——蚕丝在光线下呈现流动、微微变幻的光泽，如同月光轻抚花瓣的瞬间。\n\n整个系列以套装形式呈现，包括发簪、胸针、戒指与耳饰（耳夹与耳挂均有款式），让佩戴者将整座月下花园随身携带。',
     image: 'images/lily-moonlight.jpg',
+    price: 'from $80',
+    price_zh: '$80起',
     tags: ['耳夹 Clip-on', '耳挂 Drop Earring', '发簪 Hairpin', '胸针 Brooch', '流光感 Luminosity']
   },
   {
@@ -370,6 +379,8 @@ const COLLECTIONS = [
     image: null,
     imgClass: 'bg-lotus',
     imgPlaceholder: '✿',
+    price: 'from $80',
+    price_zh: '$80起',
     tags: ['发簪 Hairpin', '胸针 Brooch', '耳夹 Clip-on', '耳挂 Drop Earring', '珍珠 Pearl', '夏 Summer']
   },
   {
@@ -386,6 +397,8 @@ const COLLECTIONS = [
     image: null,
     imgClass: 'bg-plum',
     imgPlaceholder: '❀',
+    price: 'from $80',
+    price_zh: '$80起',
     tags: ['礼品 Gift', '亲子款 Mother-Daughter', '成对 Paired', '定制 Bespoke', '纪念 Commemoration']
   },
   {
@@ -402,6 +415,8 @@ const COLLECTIONS = [
     image: null,
     imgClass: 'bg-wisteria',
     imgPlaceholder: '✦',
+    price: 'from $140',
+    price_zh: '$140起',
     tags: ['定制 Bespoke', '一对一 1-on-1', '个人故事 Personal Story', '礼品 Gift', '六级定价 6-Tier Pricing'],
     ctaLink: 'custom.html',
     ctaLabel: 'Begin Commission →'
@@ -441,12 +456,14 @@ const COLLECTIONS = [
       ? `<div class="wf-img"><img src="${c.image}" alt="${c.title}" loading="lazy" /><div class="wf-overlay"><span>${overlayLabel}</span></div></div>`
       : `<div class="wf-img"><div class="wf-img-placeholder ${c.imgClass || ''}" style="display:flex;align-items:center;justify-content:center;font-size:3.5rem;color:rgba(191,157,106,0.4);">${c.imgPlaceholder || '✦'}</div><div class="wf-overlay"><span>${overlayLabel}</span></div></div>`;
 
+    const priceStr = c.price ? (isZh && c.price_zh ? c.price_zh : c.price) : '';
     card.innerHTML = imgHtml + `
       <div class="wf-body">
         <p class="wf-series">${c.series}</p>
         <h3 class="wf-title">${c.title}</h3>
         <p class="wf-title-zh">${c.title_zh}</p>
         <p class="wf-tagline">${c.tagline}</p>
+        ${priceStr ? `<p class="wf-price">${priceStr}</p>` : ''}
         <div class="wf-tags">${c.tags.map(t=>`<span class="wf-tag">${t}</span>`).join('')}</div>
       </div>`;
 
