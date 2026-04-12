@@ -65,6 +65,23 @@ body {
   overflow-x: hidden;
 }
 
+/* ---------- Global ink-painting watermark (写意暗纹) ---------- */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='900' viewBox='0 0 1200 900'%3E%3Cg fill='none' stroke='%232A2724' stroke-linecap='round' stroke-linejoin='round'%3E%3C!-- Distant mountain range --%3E%3Cpath d='M 0 700 Q 80 550 180 620 Q 260 480 380 560 Q 480 400 600 490 Q 700 360 820 450 Q 920 320 1040 420 Q 1120 370 1200 400 L 1200 900 L 0 900 Z' fill='%232A2724' fill-opacity='0.018' stroke='none'/%3E%3C!-- Foreground mountain --%3E%3Cpath d='M -20 820 Q 60 700 160 740 Q 200 660 280 700 Q 340 630 420 670 L 420 900 L -20 900 Z' fill='%232A2724' fill-opacity='0.022' stroke='none'/%3E%3C!-- Bamboo stalks left --%3E%3Cline x1='32' y1='0' x2='30' y2='420' stroke-width='2.2' opacity='0.055'/%3E%3Cline x1='52' y1='0' x2='50' y2='380' stroke-width='1.6' opacity='0.04'/%3E%3Cline x1='18' y1='0' x2='16' y2='300' stroke-width='1.2' opacity='0.03'/%3E%3C!-- Bamboo nodes --%3E%3Cpath d='M 30 80 Q 28 78 32 78' stroke-width='0.8' opacity='0.05'/%3E%3Cpath d='M 30 160 Q 28 158 32 158' stroke-width='0.8' opacity='0.05'/%3E%3Cpath d='M 30 240 Q 28 238 32 238' stroke-width='0.8' opacity='0.05'/%3E%3Cpath d='M 30 320 Q 28 318 32 318' stroke-width='0.8' opacity='0.05'/%3E%3Cpath d='M 50 90 Q 48 88 54 88' stroke-width='0.6' opacity='0.04'/%3E%3Cpath d='M 50 190 Q 48 188 54 188' stroke-width='0.6' opacity='0.04'/%3E%3C!-- Bamboo leaves left --%3E%3Cpath d='M 32 80 Q 55 55 72 68' stroke-width='0.9' opacity='0.045'/%3E%3Cpath d='M 32 80 Q 8 58 -4 72' stroke-width='0.9' opacity='0.04'/%3E%3Cpath d='M 50 190 Q 75 168 90 178' stroke-width='0.8' opacity='0.04'/%3E%3Cpath d='M 32 240 Q 58 218 70 230' stroke-width='0.7' opacity='0.038'/%3E%3C!-- Orchid right side: main stem --%3E%3Cpath d='M 1140 900 C 1160 750 1180 600 1150 480 C 1125 370 1090 280 1120 150' stroke-width='1.4' opacity='0.055'/%3E%3C!-- Orchid leaves --%3E%3Cpath d='M 1155 680 C 1080 620 1040 570 1060 510' stroke-width='1' opacity='0.045'/%3E%3Cpath d='M 1148 580 C 1200 540 1220 490 1195 440' stroke-width='0.9' opacity='0.04'/%3E%3Cpath d='M 1145 480 C 1070 450 1045 400 1075 350' stroke-width='0.85' opacity='0.04'/%3E%3C!-- Orchid blossom 1 --%3E%3Cellipse cx='1118' cy='132' rx='16' ry='24' transform='rotate(-30 1118 132)' stroke-width='0.9' opacity='0.055'/%3E%3Cellipse cx='1140' cy='118' rx='13' ry='20' transform='rotate(20 1140 118)' stroke-width='0.9' opacity='0.055'/%3E%3Cellipse cx='1098' cy='120' rx='11' ry='18' transform='rotate(-65 1098 120)' stroke-width='0.8' opacity='0.045'/%3E%3Ccircle cx='1122' cy='138' r='4' fill='%232A2724' fill-opacity='0.04' stroke='none'/%3E%3C!-- Orchid blossom 2 (smaller) --%3E%3Cellipse cx='1145' cy='270' rx='10' ry='15' transform='rotate(-18 1145 270)' stroke-width='0.7' opacity='0.045'/%3E%3Cellipse cx='1162' cy='260' rx='8' ry='13' transform='rotate(24 1162 260)' stroke-width='0.7' opacity='0.04'/%3E%3Ccircle cx='1150' cy='275' r='3' fill='%232A2724' fill-opacity='0.035' stroke='none'/%3E%3C!-- Orchid bud --%3E%3Cellipse cx='1138' cy='380' rx='6' ry='10' transform='rotate(-8 1138 380)' stroke-width='0.6' opacity='0.04'/%3E%3C!-- Mist horizontal lines (远山云雾) --%3E%3Cline x1='0' y1='510' x2='320' y2='510' stroke-width='0.4' opacity='0.025' stroke-dasharray='8 12'/%3E%3Cline x1='0' y1='530' x2='280' y2='530' stroke-width='0.3' opacity='0.02' stroke-dasharray='6 14'/%3E%3Cline x1='880' y1='380' x2='1200' y2='380' stroke-width='0.4' opacity='0.025' stroke-dasharray='8 12'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  opacity: 1;
+}
+
+/* All page content needs to sit above the watermark */
+body > * { position: relative; z-index: 1; }
+
 img { display: block; width: 100%; height: 100%; object-fit: cover; }
 a { color: inherit; text-decoration: none; }
 ul { list-style: none; }
@@ -1417,6 +1434,24 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 /* ---------- File Upload Field ---------- */
+.upload-preview {
+  display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.8rem;
+}
+.upload-preview-item {
+  position: relative; width: 72px; height: 72px; overflow: hidden;
+  border: 1px solid var(--border); background: var(--cream);
+  display: flex; align-items: center; justify-content: center;
+}
+.upload-preview-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.upload-preview-item .upload-preview-name {
+  font-size: 0.6rem; color: var(--text-light); text-align: center;
+  padding: 0.2rem; word-break: break-all; line-height: 1.3;
+}
+.upload-preview-check {
+  position: absolute; top: 3px; right: 3px;
+  width: 16px; height: 16px; background: var(--gold); border-radius: 50%;
+  font-size: 0.55rem; color: white; display: flex; align-items: center; justify-content: center;
+}
 .form-upload {
   width: 100%;
   padding: 1.5rem;
