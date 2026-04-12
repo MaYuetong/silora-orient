@@ -290,9 +290,9 @@
 <script src="main.js"></script>
 <script>
 // ============================================================
-// COLLECTIONS DATA — add new series here, page auto-updates
+// DATA SOURCE: content/collections.json
+// To publish/unpublish: edit that file → git push → live in 30s
 // ============================================================
-// Category order: orchid → flowers → kinship → custom
 const CATEGORY_LABELS = {
   orchid:  { en: '兰花系列 · Orchid Series',  zh: '兰花系列' },
   flowers: { en: '花的系列 · Flower Series',   zh: '花的系列 · 四时之景' },
@@ -300,139 +300,18 @@ const CATEGORY_LABELS = {
   custom:  { en: '定制系列 · Bespoke',          zh: '定制系列' },
 };
 
-const COLLECTIONS = [
-  {
-    id: 'phalaenopsis',
-    published: true,
-    category: 'orchid',
-    series: '兰花系列 · Orchid Jewellery',
-    series_zh: '蝴蝶兰系列缠花珠宝',
-    title: 'Phalaenopsis — Seven Colourways',
-    title_zh: '蝴蝶兰系列（耳钉·戒指·挂坠）',
-    tagline: 'Seven colour stories named after a sensory memory. The flower alone is enough.',
-    tagline_zh: '七款以感官体验命名的配色故事。花型本身已是最好的设计。',
-    story: 'The Phalaenopsis orchid was chosen for this series because of its naturally extraordinary form — a graceful, wing-like silhouette that speaks for itself. No extra leaves, no decorative tendrils, no beads. The flower alone is enough.\n\nThe entire design philosophy rests on colour. Each piece was created in a carefully considered palette and paired with complementary gemstone accents: shell pearls (贝壳珠) for soft luminous warmth; layered shell pearls (叠贝珠) for rich textured depth; crystals and semi-precious stones for brilliance.\n\nSeven named colourways — each a distinct mood named after a sensory experience:\nHoney Peach Oolong (蜜桃乌龙) · Into the Emerald Forest (绿野仙踪) · Sea Salt Mango Ice (海盐芒果冰) · Frozen Wonderland (冰雪奇缘) · Gilded Dreams (澛金旧梦) · Starry Moon Night (星月夜) · Taro Waves (芋泥啵啵)\n\nAvailable as earrings (耳钉), rings (戒指), and pendants (挂坠). Clip-on (耳夹) versions also available.',
-    story_zh: '蝴蝶兰拥有天然优雅、辨识度极高的花型，宛如翩翩蝴蝶展翅，本身就是最好的设计。因此，这个系列没有额外添加叶片或珠串，只保留最纯粹的一朵花。\n\n整体设计重心落在色彩上，搭配不同珠宝：贝壳珠（柔和温润的光泽）、叠贝珠（有层次感的质地）、水晶与宝石（璀璨的色彩与光芒）。\n\n共七款配色，每款以一种感官体验命名：\n蜜桃乌龙 · 绿野仙踪 · 海盐芒果冰 · 冰雪奇缘 · 澛金旧梦 · 星月夜 · 芋泥啵啵\n\n涵盖耳钉、戒指与挂坠，提供耳夹款式。',
-    image: 'images/orchid-collection.jpg',
-    price: '耳钉 $79/pr · 耳挂 $60 · 戒指/挂坠 from $80',
-    price_zh: '耳钉 $79一对 · 耳挂 $60一只 · 戒指/挂坠 $80起',
-    tags: ['耳钉 Earrings', '耳夹 Clip-on', '戒指 Ring', '挂坠 Pendant', '七色 7 Colours']
-  },
-  {
-    id: 'crystal-curtain',
-    published: false,   // 等图片上传后改为 true
-    category: 'flowers',
-    series: '花的系列 · 却下水晶帘',
-    series_zh: '发簪 · 胸针',
-    title: 'Crystal Curtain',
-    title_zh: '却下水晶帘（发簪·胸针）',
-    tagline: 'A Tang Dynasty poem rendered in silk, crystal, and gold. A still autumn night, a luminous moon.',
-    tagline_zh: '李白诗意，以丝绸、水晶与金丝重现。静秋夜色，月光如帘。',
-    story: 'The title is drawn from a Tang Dynasty poem by Li Bai:\n\n"She rolls back the crystal curtain,\nAnd gazes through its jade-clear folds at the autumn moon."\n— 却下水晶帘，玲珑望秋月\n\nAt the centre sits a large, translucent round disc — a moon rendered in semi-opaque white material, its surface carrying the faint luminosity of moonlight through cloud. Around it, small five-petal flowers in lavender and blue-white bloom along gold copper wire, their petals shading from soft purple at the edges to white at the centre — the cool, otherworldly palette of a night sky.\n\nGold wire curls outward freely like uncurling fern fronds, and a cascade of crystal-clear chain tassels (水晶流苏) hangs from the lower arc — catching light with every movement, evoking the shimmer of moonbeams passing through a crystal curtain.\n\nPresented as a hairpin set (发簪) alongside a companion brooch, together recreating the full scene: a still autumn night, a luminous moon, and the poet\'s quiet longing.',
-    story_zh: '作品名取自李白的诗句：「却下水晶帘，玲珑望秋月。」\n\n中央是一枚大型半透明圆形月片，表面透出淡淡的月光质感；周围，薰衣草紫与蓝白色渐变的五瓣小花沿金色铜丝绽放，花瓣边缘深紫向花心渐白，是夜空独有的清冷色调。\n\n金色铜丝自由向外延伸如蕨类舒展的弧线，下方垂落一串水晶透明链条流苏——随风摇曳时折射光线，正是月光透过水晶帘的意象。\n\n整套以发簪形式呈现，搭配一枚胸针，共同还原诗中的静秋夜色——宁静、剔透、如诗如画。',
-    image: 'images/crystal-curtain.jpg',
-    price: 'from $80',
-    price_zh: '$80起',
-    tags: ['发簪 Hairpin', '胸针 Brooch', '水晶 Crystal', '月光 Moonlight', '古诗 Tang Poetry']
-  },
-  {
-    id: 'osmanthus',
-    published: false,   // 等图片上传后改为 true
-    category: 'flowers',
-    series: '花的系列 · 月桂流金',
-    series_zh: '桂花系列（花窗胸针·发簪·发冠）',
-    title: 'Osmanthus — Moonlit Gold',
-    title_zh: '月桂流金（花窗胸针·发簪·发冠）',
-    tagline: 'Autumn made wearable. Gold osmanthus clusters, deep olive leaves, the palette of October\'s moon-viewing season.',
-    tagline_zh: '可佩戴的秋天。金黄桂花簇，墨绿金边叶，十月赏月的色彩。',
-    story: 'The Osmanthus series is titled 四时之景·月桂流金 — "Scenes of the Four Seasons: Moonlit Osmanthus in Flowing Gold". It is built around a core philosophy of Chānhuā: to understand nature deeply, then render it with vision rather than imitation.\n\nIn nature, osmanthus blossoms are tiny — easily overlooked on the branch. Here they are intentionally enlarged so that the four-petal structure becomes the centrepiece the viewer can truly appreciate. Clusters of gold and amber blooms are arranged alongside deep olive-green leaves shaded with metallic gold — autumn made wearable.\n\nThree design principles: Scale — petals enlarged to make the four-petal form the visual hero. Structure — precise four-petal clusters, evoking the density of a blossoming branch. Colour — rich golden yellow against autumn-bronze green (秋香绿), the palette of October\'s moon-viewing season.\n\nThree forms: Lattice brooches (花窗胸针) — osmanthus blooms from woven bamboo-lattice bases in heart and arch shapes. Hairpin (发簪) — a U-shaped gold pin with osmanthus, green leaves, freshwater pearls, amber beads, and a white jade disc (the moon behind the flowers). Hair crown (发冠·月桂流金) — a curved gold frame with jade beads, leaf pendants, and a statement osmanthus cluster.',
-    story_zh: '桂花系列以「四时之景·月桂流金」命名，围绕缠花创作哲学展开：深入理解自然，再以艺术眼光重新诠释，而非照搬。\n\n自然界的桂花极小，容易被忽视。在这个系列中，花朵被有意放大，让四瓣结构成为可以被清晰欣赏的视觉焦点。金黄色桂花簇与墨绿色金边叶片相搭，是可佩戴的秋天。\n\n三大设计原则：大小（花瓣放大，四瓣造型成主角）、结构（精细花簇，还原枝头繁花的密度）、色彩（金黄搭秋香绿，十月赏月季节的色彩）。\n\n三种形式：花窗胸针（桂花从竹编镂空底座中绽放，心形与椭圆形两款）、发簪（金色U型，配桂花、绿叶、珍珠、琥珀珠与白玉月片）、发冠月桂流金（金色弧形框架，串联白玉珠、翡翠叶挂坠与琥珀珠）。',
-    image: 'images/osmanthus-1.jpg',
-    price: 'from $80',
-    price_zh: '$80起',
-    tags: ['花窗胸针 Brooch', '发簪 Hairpin', '发冠 Hair Crown', '桂花 Osmanthus', '秋 Autumn']
-  },
-  {
-    id: 'lily-moonlight',
-    published: false,   // 等图片上传后改为 true
-    category: 'flowers',
-    series: '花的系列 · 月下逢',
-    series_zh: '月光下的小百合（发簪·胸针·戒指·耳饰）',
-    title: 'Lily in Moonlight',
-    title_zh: '月光下的小百合·月下逢',
-    tagline: 'White silk petals with blue-ombre edges. Yellow amber and white jade. Flowing luminosity — 流光感.',
-    tagline_zh: '白色花瓣蓝色渐变边缘。琥珀珠与玉珠。蚕丝在光线下的流光感。',
-    story: 'This piece is inspired by a couplet from Du Fu\'s poem:\n\n"If not upon the summit of Jade Mountain,\nThen we shall meet beneath the moon at Yaotai."\n— 若非群玉山头见，会向瑶台月下逢\n\nThe lily is rendered in white silk with delicate blue-ombre edges — petals that fade from pure white at the centre to the cool blue of a night sky at the tips. Each bloom is held open by fine gold copper wire that curves freely outward like tendrils, catching the light as real moonlight would catch on a living stem.\n\nYellow amber beads (琥珀珠) and white jade beads (玉珠) are scattered along the gold wire — warm against cool, earth against sky — evoking the contrast of candlelight and moonlight in a classical Chinese night scene.\n\nThe dyeing technique emphasises what the maker calls \'flowing luminosity\' (流光感): a shimmering, shifting quality in the silk that suggests moonlight moving gently across petals.\n\nThe collection is presented as a full set: hairpin (发簪), brooches (胸针), ring, and earrings — both clip-on (耳夹) and drop earring (耳挂) styles — allowing the wearer to carry the entire moonlit garden.',
-    story_zh: '这件作品灵感来自杜甫的诗句：「若非群玉山头见，会向瑶台月下逢。」\n\n白色蚕丝花瓣边缘渐染蓝色，从花心纯白过渡到花尖的夜空蓝，金色铜丝自由延伸如藤蔓，在光线下熠熠生辉。\n\n黄色琥珀珠与白色玉珠点缀其间——暖与冷、土地与天空的对比，重现中国古典夜色中烛光与月光交织的意境。\n\n染色工艺着重强调「流光感」——蚕丝在光线下呈现流动、微微变幻的光泽，如同月光轻抚花瓣的瞬间。\n\n整个系列以套装形式呈现，包括发簪、胸针、戒指与耳饰（耳夹与耳挂均有款式），让佩戴者将整座月下花园随身携带。',
-    image: 'images/lily-moonlight.jpg',
-    price: 'from $80',
-    price_zh: '$80起',
-    tags: ['耳夹 Clip-on', '耳挂 Drop Earring', '发簪 Hairpin', '胸针 Brooch', '流光感 Luminosity']
-  },
-  {
-    id: 'lotus-wind',
-    published: false,   // 等图片上传后改为 true
-    category: 'flowers',
-    series: '花的系列 · 一一风荷举',
-    series_zh: '夏莲系列（发簪·胸针·戒指·耳饰）',
-    title: 'Lotus in the Wind',
-    title_zh: '一一风荷举（发簪·胸针·戒指·耳饰）',
-    tagline: 'Pale green and blush-white petals caught mid-breath. Freshwater pearls and jade among summer lotus.',
-    tagline_zh: '淡绿与藕白花瓣，凝固于夏风一息。淡水珍珠与翡翠珠点缀于花间，清凉如荷下静水。',
-    story: 'This collection is inspired by a line from Zhou Bangyan\'s Song Dynasty ci-poem 《苏幕遮》:\n\n"The water\'s surface — round and clear — lotus after lotus rising gently in the wind."\n— 水面清圆，一一风荷举\n\nThe poem captures a single suspended moment: the exact instant when a lotus petal lifts on a summer breeze and hangs there, weightless, before settling again. This collection is built around that pause.\n\nPale green and blush-white silk petals are wound with precision around copper wire frames, their tips curved gently upward as if caught mid-breath — frozen in the moment of rising. Each petal edge carries the faintest gradient of green to ivory, the colour of summer lotus in actual morning light.\n\nFreshwater pearls (淡水珍珠) and delicate jade beads (翡翠珠) nestle among the petals — their cool, still lustre suggesting the water beneath: deep, clear, holding the heat of summer at a distance.\n\nThe full collection includes hairpin (发簪), brooches (胸针), ring (戒指), and earrings — both clip-on (耳夹) and drop earring styles (耳挂).',
-    story_zh: '这件作品灵感来自周邦彦《苏幕遮》中的一句词：「水面清圆，一一风荷举。」\n\n这句词捕捉了一个停顿的瞬间：莲花花瓣在夏风中轻轻扬起，悬在半空，凝固于起落之间的一息。这个系列正是为了定格这一瞬间而生。\n\n淡绿与藕白蚕丝花瓣缠绕于铜丝骨架，花尖轻轻上翘，如同凝固于风中一息——停留在上升的瞬间。每片花瓣边缘带着从绿到牙白的淡淡渐变，是夏日清晨荷花真实的色泽。\n\n淡水珍珠与翡翠珠点缀花间——清凉、静谧的光泽如同花下的湖水：深邃、清澈，将夏日的热意隔于远处。\n\n整套系列包括发簪、胸针、戒指与耳饰（耳夹与耳挂均有款式）。',
-    image: null,
-    imgClass: 'bg-lotus',
-    imgPlaceholder: '✿',
-    price: 'from $80',
-    price_zh: '$80起',
-    tags: ['发簪 Hairpin', '胸针 Brooch', '耳夹 Clip-on', '耳挂 Drop Earring', '珍珠 Pearl', '夏 Summer']
-  },
-  {
-    id: 'kinship',
-    published: false,   // 等内容和图片准备好后改为 true
-    category: 'kinship',
-    series: '亲情系列 · Kinship',
-    series_zh: '亲情系列缠花珠宝',
-    title: 'Kinship — Bonds of Silk',
-    title_zh: '亲情系列（定制礼品·亲子款）',
-    tagline: 'Pieces made to carry a relationship — mother and daughter, grandmother and grandchild. Silk thread binding two hearts.',
-    tagline_zh: '为一段关系而生的珠宝——母女、祖孙。蚕丝将两颗心连结。',
-    story: 'The Kinship Series was born from a simple truth: some of the most meaningful jewellery is not made for the wearer alone, but for the bond between two people.\n\nEach piece in this series is conceived as a gift — from mother to daughter, from grandmother to granddaughter, from one generation to the next. The craft of Chānhuā, which requires patience, repetition, and an intimate understanding of the receiver, makes it a natural language of love.\n\nDesigns in this series often come in paired sets: matching motifs in different colourways, or complementary pieces that speak to each other across a relationship. A plum blossom for the elder, a cherry blossom for the young. Osmanthus for autumn, lotus for summer — each season a different chapter of a shared life.\n\nCommission a Kinship piece to mark a birthday, a graduation, a wedding anniversary, a new arrival, or simply the quiet, enduring fact of a bond that needs no occasion.',
-    story_zh: '亲情系列源于一个简单的真理：最有意义的珠宝，往往不只是为了佩戴者本身，而是为了两个人之间的情感而存在。\n\n这个系列的每一件作品都是作为礼物而生——母亲送给女儿，祖母送给孙女，从一代传给下一代。缠花这门需要耐心、反复与深刻理解收礼人的手艺，天然就是一种爱的语言。\n\n亲情系列的设计常以成对套装的形式呈现：相同图案、不同配色，或相互呼应的款式——年长者配梅花，年轻者配樱花；桂花代表秋天，莲花代表夏天——每一个季节，都是共同生命中不同的篇章。\n\n定制一件亲情款，可以纪念生日、毕业、结婚纪念日、新生命的到来，或者仅仅是——那份不需要任何理由的、绵长的情感。',
-    image: null,
-    imgClass: 'bg-plum',
-    imgPlaceholder: '❀',
-    price: 'from $80',
-    price_zh: '$80起',
-    tags: ['礼品 Gift', '亲子款 Mother-Daughter', '成对 Paired', '定制 Bespoke', '纪念 Commemoration']
-  },
-  {
-    id: 'custom-order',
-    published: true,
-    category: 'custom',
-    series: '定制系列 · Bespoke',
-    series_zh: '个人定制缠花',
-    title: 'Bespoke — Your Story in Silk',
-    title_zh: '定制系列（你的故事，你的珠宝）',
-    tagline: 'A piece made entirely around you — your flower, your stone, your memory, your story.',
-    tagline_zh: '完全围绕你而生的珠宝——你的花，你的石，你的记忆，你的故事。',
-    story: 'The Bespoke Commission service is where Chānhuā becomes entirely personal.\n\nYou choose your flower — orchid, osmanthus, lotus, lily, or something else entirely. You describe your colour memory. You share the story you want this piece to carry. The studio then works with you through a dedicated consultation to design something that exists nowhere else in the world.\n\nEvery custom commission begins with a conversation. Not a form — a conversation. Because the most important thing a bespoke piece needs to carry is the exact feeling you have when you think of the person or memory it represents.\n\nCommissions are accepted in six tiers, from a simple single-flower stud to a fully multi-piece collection. All custom work includes a personalised story card documenting the design decisions and the meaning behind the piece — so that the story is never lost.',
-    story_zh: '定制委托，是缠花变得完全属于你的时刻。\n\n你选择你的花——兰花、桂花、莲花、百合，或者完全不同的其他。你描述你的色彩记忆。你分享你希望这件珠宝承载的故事。工作室随后与你展开专属沟通，设计出一件世界上独一无二的作品。\n\n每一件定制委托都从一次对话开始。不是表格——是对话。因为定制款最需要承载的，是你想到那个人或那段记忆时心里的那种确切感受。\n\n定制委托分六个层级，从简单的单花耳钉到完整的多件套系列均可承接。所有定制作品均附一张个人故事卡，记录设计过程与意义，让故事永不流失。',
-    image: null,
-    imgClass: 'bg-wisteria',
-    imgPlaceholder: '✦',
-    price: 'from $140',
-    price_zh: '$140起',
-    tags: ['定制 Bespoke', '一对一 1-on-1', '个人故事 Personal Story', '礼品 Gift', '六级定价 6-Tier Pricing'],
-    ctaLink: 'custom.html',
-    ctaLabel: 'Begin Commission →'
-  }
-];
+// COLLECTIONS loaded from content/collections.json (single source of truth)
+let COLLECTIONS = [];
 
-// ---- Build waterfall with category headers ----
-(function buildWaterfall() {
+// ---- Fetch collections.json then build ----
+fetch('content/collections.json')
+  .then(r => r.json())
+  .then(data => { COLLECTIONS = data.series || []; buildWaterfall(); })
+  .catch(() => { document.getElementById('waterfall').innerHTML = '<p style="color:var(--text-light);padding:2rem">Unable to load collections.</p>'; });
+
+function buildWaterfall() {
   const wf = document.getElementById('waterfall');
+  wf.innerHTML = '';
   const lang = localStorage.getItem('silora-lang') || 'en';
   const isZh = lang === 'zh';
   let lastCat = null;
@@ -482,7 +361,7 @@ const COLLECTIONS = [
     card.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') { c.ctaLink ? window.location.href = c.ctaLink : openModal(c.id); } });
     wf.appendChild(card);
   });
-})();
+}
 
 // ---- Modal logic ----
 let currentCollection = null;

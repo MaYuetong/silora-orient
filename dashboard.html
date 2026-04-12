@@ -471,6 +471,63 @@
     </div>
   </div>
 
+  <!-- ══ PANEL 6: PRODUCT CATALOG ══ -->
+  <div class="panel collapsed" id="panel-6">
+    <div class="panel-header" onclick="togglePanel('panel-6')">
+      <span class="panel-icon">🗂</span>
+      <div style="flex:1">
+        <div class="panel-title">Product Catalog</div>
+        <div class="panel-subtitle">Series status · Publish / unpublish · Image checklist · Pricing</div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="panel-body">
+
+      <div class="section">
+        <div class="section-title">Publish / Unpublish Workflow</div>
+        <div style="background:var(--cream);border-left:3px solid var(--gold);padding:14px 18px;font-size:0.8rem;line-height:1.9;border-radius:0 6px 6px 0;margin-bottom:8px;">
+          <strong>To publish a series:</strong><br>
+          1. Put image in <code style="background:var(--border);padding:1px 5px;border-radius:3px;">images/filename.jpg</code>&nbsp;&nbsp;
+          2. Open <code style="background:var(--border);padding:1px 5px;border-radius:3px;">content/collections.json</code>&nbsp;&nbsp;
+          3. Set <code style="background:var(--border);padding:1px 5px;border-radius:3px;">"published": true</code> + add image filename&nbsp;&nbsp;
+          4. <code style="background:var(--border);padding:1px 5px;border-radius:3px;">git push</code> → live in 30 seconds
+        </div>
+        <div style="background:#FDEDEB;border-left:3px solid var(--critical);padding:10px 18px;font-size:0.78rem;border-radius:0 6px 6px 0;">
+          <strong>To unpublish (out of stock / pause):</strong> Set <code style="background:rgba(0,0,0,0.06);padding:1px 4px;border-radius:3px;">"published": false</code> in <code style="background:rgba(0,0,0,0.06);padding:1px 4px;border-radius:3px;">content/collections.json</code> → push. Series disappears from site immediately.
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Series Status <span id="catalog-summary" style="font-family:'Jost',sans-serif;font-weight:400;font-size:0.72rem;color:var(--text-light);letter-spacing:0;text-transform:none;margin-left:8px;"></span></div>
+        <div id="catalog-loading" style="font-size:0.8rem;color:var(--text-light);padding:8px 0;">Loading catalog…</div>
+        <table class="data-table" id="catalog-table" style="display:none;">
+          <thead>
+            <tr>
+              <th>Series</th>
+              <th>Category</th>
+              <th>Status</th>
+              <th>Image</th>
+              <th>Price</th>
+              <th>Action needed</th>
+            </tr>
+          </thead>
+          <tbody id="catalog-body"></tbody>
+        </table>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Photo Standards (quick ref)</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;font-size:0.78rem;">
+          <div style="background:var(--cream);padding:10px 14px;border-radius:6px;"><strong>Size</strong><br>Min 1200×1200 · Ideal 3000×3000</div>
+          <div style="background:var(--cream);padding:10px 14px;border-radius:6px;"><strong>Background</strong><br>Ivory #FAF7F2 or natural linen</div>
+          <div style="background:var(--cream);padding:10px 14px;border-radius:6px;"><strong>Format</strong><br>JPG for web · RAW/TIFF archive</div>
+          <div style="background:var(--cream);padding:10px 14px;border-radius:6px;"><strong>Filename</strong><br>[series]-[item]-[angle].jpg</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 </div>
 
 <div class="export-bar">
@@ -495,6 +552,10 @@ const DASHBOARD_DATA = {
     { id:"BOD",   name:"Brand Operating Dashboard",    status:"claude", date:"Apr 10, 2026", note:"6 spec files + dashboard.html" },
     { id:"COL",   name:"Collections site improvements + Lotus series", status:"claude", date:"Apr 11, 2026", note:"5th series added · pricing fixed · hairpin/crown types · 四时之景 crossover" },
     { id:"UN",    name:"UN Exhibition proposal saved", status:"claude", date:"Apr 11, 2026", note:"admin/un-exhibition-proposal.md — B2B institutional outreach" },
+    { id:"CAT-1", name:"Product catalog restructure — 4 series, published flag", status:"claude", date:"Apr 11, 2026", note:"兰花/花的/亲情/定制 categories · published:true/false toggle · 2 live, 5 hidden" },
+    { id:"CAT-2", name:"Single source of truth: content/collections.json", status:"claude", date:"Apr 11, 2026", note:"other-collections.html fetches JSON · dashboard reads same JSON · Phase 3 ready" },
+    { id:"CAT-3", name:"Dashboard Panel 6: Product Catalog with publish workflow", status:"claude", date:"Apr 11, 2026", note:"Live status table · image checklist · publish/unpublish instructions" },
+    { id:"PRC",   name:"Pricing updated: series from $80, custom from $140", status:"claude", date:"Apr 11, 2026", note:"兰花: 耳钉$79/pr · 耳挂$60 · custom Tier 1 $140 · all series price shown on cards" },
   ],
   activationQueue: [
     { num:1, action:"Replace G-XXXXXXXXXX with real GA4 ID in all 9 HTML files → push", priority:"critical", time:"20 min", dep:"None" },
@@ -530,6 +591,7 @@ const DASHBOARD_DATA = {
     { group:"Completed", id:"BOD-c",   name:"Brand Operating Dashboard spec (6 files)",            priority:"routine",   status:"done",    owner:"Claude",  due:"—",           note:"Apr 10 — docs/brand-operating-dashboard.md + 5 files" },
     { group:"Completed", id:"COL-c",   name:"Collections site improvements (5 series + custom form)",priority:"routine",  status:"done",    owner:"Claude",  due:"—",           note:"Apr 11 — Lotus added · pricing tiers $300–$2000+ · hairpin/crown types · 四时之景 teaser" },
     { group:"Completed", id:"UN-c",    name:"UN Exhibition proposal — admin/un-exhibition-proposal.md",priority:"routine", status:"done",    owner:"Claude",  due:"—",           note:"Apr 11 — institutional B2B proposal for UN Chinese Language Day Apr 20" },
+    { group:"Completed", id:"CAT-c",   name:"Product catalog: 4 series, published flag, collections.json single source", priority:"routine", status:"done", owner:"Claude", due:"—", note:"Apr 11 — dashboard Panel 6 live · publish workflow docs · 2 live series · 5 pending image upload" },
   ],
   pipeline: {
     b2c: { inquiry:0, consulting:0, quoted:0, deposit:0, production:0, delivered:0 },
@@ -590,7 +652,7 @@ function showToast(msg) {
 function togglePanel(id) {
   document.getElementById(id).classList.toggle('collapsed');
   const state = {};
-  ['panel-1','panel-2','panel-3','panel-4','panel-5'].forEach(p => {
+  ['panel-1','panel-2','panel-3','panel-4','panel-5','panel-6'].forEach(p => {
     state[p] = document.getElementById(p).classList.contains('collapsed');
   });
   ls.set('silora-panels', state);
@@ -1030,10 +1092,61 @@ function resetWeekly() {
 renderWeekly();
 
 /* ─────────────────────────────────────────────
+   PRODUCT CATALOG PANEL
+───────────────────────────────────────────── */
+(function loadCatalog() {
+  const CAT_LABELS = { orchid:'兰花系列', flowers:'花的系列', kinship:'亲情系列', custom:'定制系列' };
+
+  fetch('content/collections.json')
+    .then(r => r.json())
+    .then(data => {
+      const series = data.series || [];
+      const live = series.filter(s => s.published).length;
+      const hidden = series.length - live;
+
+      document.getElementById('catalog-loading').style.display = 'none';
+      document.getElementById('catalog-table').style.display = '';
+      document.getElementById('catalog-summary').textContent =
+        `${live} live · ${hidden} hidden · ${series.length} total`;
+
+      const tbody = document.getElementById('catalog-body');
+      series.forEach(s => {
+        const isLive = s.published;
+        const hasImage = !!(s.image);
+        const hasPrice = !!(s.price);
+
+        let action = '';
+        if (!isLive && !hasImage) action = '⚠ Upload image → set published: true';
+        else if (!isLive && hasImage) action = '▶ Ready — set published: true to go live';
+        else if (isLive && !hasPrice) action = '⚠ Add price to collections.json';
+        else action = '✅ Live';
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="font-family:'Cormorant Garamond',serif;font-size:0.9rem;">${s.title_zh || s.title}</td>
+          <td><span style="font-size:0.7rem;color:var(--text-mid);">${CAT_LABELS[s.category] || s.category}</span></td>
+          <td>${isLive
+            ? '<span class="badge badge-done">● Live</span>'
+            : '<span class="badge badge-routine">○ Hidden</span>'}</td>
+          <td>${hasImage
+            ? `<span style="font-size:0.72rem;color:var(--done);">✓ ${s.image.replace('images/','')}</span>`
+            : '<span style="font-size:0.72rem;color:var(--text-light);">— none</span>'}</td>
+          <td style="font-size:0.75rem;color:var(--gold);font-style:italic;">${s.price || '—'}</td>
+          <td style="font-size:0.75rem;color:${isLive ? 'var(--done)' : action.startsWith('⚠') ? 'var(--critical)' : 'var(--important)'};">${action}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    })
+    .catch(() => {
+      document.getElementById('catalog-loading').textContent = 'Could not load collections.json';
+    });
+})();
+
+/* ─────────────────────────────────────────────
    EXPORTS
 ───────────────────────────────────────────── */
 function exportPDF() {
-  ['panel-1','panel-2','panel-3','panel-4','panel-5'].forEach(id =>
+  ['panel-1','panel-2','panel-3','panel-4','panel-5','panel-6'].forEach(id =>
     document.getElementById(id).classList.remove('collapsed'));
   setTimeout(() => window.print(), 200);
 }
