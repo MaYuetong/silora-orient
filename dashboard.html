@@ -31,6 +31,49 @@
     .btn-top { background: transparent; border: 1px solid rgba(191,157,106,0.4); color: var(--gold-light); border-radius: 6px; padding: 6px 12px; font-family: 'Jost', sans-serif; font-size: 0.72rem; letter-spacing: 0.06em; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
     .btn-top:hover { background: rgba(191,157,106,0.12); border-color: var(--gold-light); }
 
+    /* ── Sidebar layout ── */
+    :root { --topbar-h: 57px; }
+    .page-layout { display: flex; align-items: flex-start; }
+    .sidebar {
+      width: 200px; flex-shrink: 0; background: var(--text-dark); min-height: calc(100vh - var(--topbar-h));
+      position: sticky; top: var(--topbar-h); align-self: flex-start;
+      transition: width 0.25s ease; overflow: hidden; display: flex; flex-direction: column;
+      border-right: 1px solid rgba(255,255,255,0.06); z-index: 90;
+    }
+    .sidebar.collapsed { width: 52px; }
+    .sidebar-toggle {
+      display: flex; align-items: center; justify-content: flex-end; padding: 12px 14px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.08); flex-shrink: 0;
+    }
+    .sidebar.collapsed .sidebar-toggle { justify-content: center; padding: 12px 0 10px; }
+    .sidebar-toggle-btn {
+      background: none; border: 1px solid rgba(191,157,106,0.3); color: var(--gold-light);
+      border-radius: 6px; width: 28px; height: 28px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; font-size: 0.85rem;
+      transition: background 0.15s, border-color 0.15s; flex-shrink: 0;
+    }
+    .sidebar-toggle-btn:hover { background: rgba(191,157,106,0.12); border-color: var(--gold-light); }
+    .sidebar-nav { display: flex; flex-direction: column; padding: 10px 0; gap: 2px; flex: 1; overflow-y: auto; }
+    .sidebar-item {
+      display: flex; align-items: center; gap: 10px; padding: 10px 16px;
+      color: rgba(250,247,242,0.6); text-decoration: none; cursor: pointer;
+      transition: background 0.15s, color 0.15s; border-radius: 0; white-space: nowrap;
+      font-size: 0.8rem; letter-spacing: 0.02em; border: none; background: none;
+      font-family: 'Jost', sans-serif; width: 100%; text-align: left;
+    }
+    .sidebar-item:hover { background: rgba(191,157,106,0.1); color: var(--gold-light); }
+    .sidebar-item.active { background: rgba(191,157,106,0.15); color: var(--gold-light); border-left: 2px solid var(--gold); padding-left: 14px; }
+    .sidebar-item-icon { font-size: 1rem; flex-shrink: 0; width: 20px; text-align: center; }
+    .sidebar-item-label { opacity: 1; transition: opacity 0.2s; white-space: nowrap; overflow: hidden; }
+    .sidebar.collapsed .sidebar-item-label { opacity: 0; pointer-events: none; }
+    .sidebar.collapsed .sidebar-item { padding: 10px 0; justify-content: center; }
+    .sidebar.collapsed .sidebar-item.active { border-left: 2px solid var(--gold); padding-left: 0; }
+    .sidebar-section-label {
+      font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em;
+      color: rgba(156,150,144,0.5); padding: 14px 16px 4px; white-space: nowrap;
+    }
+    .sidebar.collapsed .sidebar-section-label { display: none; }
+    .main-content { flex: 1; min-width: 0; }
     .container { max-width: 1100px; margin: 0 auto; padding: 28px 20px; display: flex; flex-direction: column; gap: 16px; }
 
     /* ── Panel ── */
@@ -232,9 +275,30 @@
     .toast { position: fixed; bottom: 70px; left: 50%; transform: translateX(-50%); background: var(--text-dark); color: var(--ivory); padding: 10px 20px; border-radius: 8px; font-size: 0.78rem; box-shadow: 0 4px 16px rgba(0,0,0,0.2); opacity: 0; pointer-events: none; transition: opacity 0.25s; z-index: 300; white-space: nowrap; }
     .toast.show { opacity: 1; }
 
+    /* ── Today's Focus ── */
+    .focus-cards { display: flex; flex-direction: column; gap: 8px; }
+    .focus-card { display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; border-left: 3px solid var(--gold); }
+    .focus-card.urgent { border-left-color: var(--critical); background: var(--critical-bg); }
+    .focus-card-num { width: 22px; height: 22px; background: var(--gold); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 600; flex-shrink: 0; }
+    .focus-card.urgent .focus-card-num { background: var(--critical); }
+    .focus-card-text { flex: 1; font-size: 0.82rem; color: var(--text-dark); line-height: 1.35; }
+    .focus-card-due { font-size: 0.7rem; color: var(--text-light); flex-shrink: 0; white-space: nowrap; }
+    .focus-card.urgent .focus-card-due { color: var(--critical); font-weight: 600; }
+
+    /* ── Activation progress ── */
+    .act-progress { display: flex; align-items: center; gap: 12px; background: var(--cream); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; margin-bottom: 14px; }
+    .act-progress-bar { flex: 1; height: 6px; background: var(--border); border-radius: 99px; overflow: hidden; }
+    .act-progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 99px; transition: width 0.4s ease; }
+    .act-progress-label { font-size: 0.75rem; color: var(--text-mid); white-space: nowrap; }
+
+    /* ── Countdown badge ── */
+    .countdown-badge { display: inline-flex; align-items: center; gap: 4px; background: var(--critical); color: #fff; padding: 2px 9px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.04em; margin-left: 6px; vertical-align: middle; }
+    .countdown-badge.warn { background: var(--important); }
+    .countdown-badge.safe { background: var(--done); }
+
     /* ── Print ── */
     @media print {
-      .topbar, .export-bar, .task-btn, .btn-top, .quick-add, .log-add-form, .weekly-reset { display: none !important; }
+      .topbar, .export-bar, .task-btn, .btn-top, .quick-add, .log-add-form, .weekly-reset, .sidebar { display: none !important; }
       .panel.collapsed .panel-body { display: block !important; }
       body { padding-bottom: 0; }
       .panel { box-shadow: none; break-inside: avoid; }
@@ -248,6 +312,7 @@
       .kpi-row { grid-template-columns: repeat(2, 1fr); }
       .phase-note { display: none; }
       .quick-add { flex-direction: column; }
+      .sidebar { display: none; }
     }
   </style>
 </head>
@@ -266,6 +331,43 @@
   </div>
 </div>
 
+<div class="page-layout">
+
+<!-- ══ SIDEBAR ══ -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-toggle">
+    <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle navigation">☰</button>
+  </div>
+  <div class="sidebar-nav">
+    <div class="sidebar-section-label">Modules</div>
+    <button class="sidebar-item active" onclick="navToPanel('panel-1')" id="nav-panel-1">
+      <span class="sidebar-item-icon">📊</span>
+      <span class="sidebar-item-label">Project Status</span>
+    </button>
+    <button class="sidebar-item" onclick="navToPanel('panel-2')" id="nav-panel-2">
+      <span class="sidebar-item-icon">✅</span>
+      <span class="sidebar-item-label">Task Checklist</span>
+    </button>
+    <button class="sidebar-item" onclick="navToPanel('panel-3')" id="nav-panel-3">
+      <span class="sidebar-item-icon">💰</span>
+      <span class="sidebar-item-label">Sales Pipeline</span>
+    </button>
+    <button class="sidebar-item" onclick="navToPanel('panel-4')" id="nav-panel-4">
+      <span class="sidebar-item-icon">🛠</span>
+      <span class="sidebar-item-label">Supplier Coordination</span>
+    </button>
+    <button class="sidebar-item" onclick="navToPanel('panel-5')" id="nav-panel-5">
+      <span class="sidebar-item-icon">📈</span>
+      <span class="sidebar-item-label">Strategy & Review</span>
+    </button>
+    <button class="sidebar-item" onclick="navToPanel('panel-6')" id="nav-panel-6">
+      <span class="sidebar-item-icon">🗂</span>
+      <span class="sidebar-item-label">Product Catalog</span>
+    </button>
+  </div>
+</nav>
+
+<div class="main-content">
 <div class="container">
 
   <!-- ══ PANEL 1: PROJECT STATUS ══ -->
@@ -279,6 +381,10 @@
       <span class="chevron">▼</span>
     </div>
     <div class="panel-body">
+      <div class="section">
+        <div class="section-title">Today's Focus <span id="focus-date" style="font-family:'Jost',sans-serif;font-weight:400;font-size:0.7rem;color:var(--text-light);letter-spacing:0;text-transform:none;margin-left:6px;"></span></div>
+        <div class="focus-cards" id="focus-cards"></div>
+      </div>
       <div class="section">
         <div class="section-title">Phase Progress</div>
         <div class="phase-bars">
@@ -296,6 +402,7 @@
 
       <div class="section">
         <div class="section-title">Risks & Blockers</div>
+        <div class="alert" id="un-countdown-alert" style="display:none"></div>
         <div class="alert alert-critical"><span class="alert-icon">🔴</span><span><strong>BLOCKER</strong> — Phase 1 not yet activated. Phase 2 and 3 cannot start.</span></div>
         <div class="alert alert-warning"><span class="alert-icon">🟡</span><span><strong>RISK</strong> — Mailchimp free tier caps at 500 subscribers. Monitor approaching 400.</span></div>
         <div class="alert alert-note"><span class="alert-icon">ℹ️</span><span><strong>NOTE</strong> — Phase 3 Next.js dashboard needs a developer. Not yet engaged.</span></div>
@@ -303,6 +410,10 @@
 
       <div class="section">
         <div class="section-title">Founder Activation Queue</div>
+        <div class="act-progress">
+          <div class="act-progress-bar"><div class="act-progress-fill" id="act-progress-fill" style="width:0%"></div></div>
+          <div class="act-progress-label" id="act-progress-label">0 of 8 steps completed</div>
+        </div>
         <table class="data-table">
           <thead><tr><th>#</th><th>Action</th><th>Priority</th><th>Time</th><th>Depends on</th><th></th></tr></thead>
           <tbody id="activation-queue-table"></tbody>
@@ -549,7 +660,9 @@
     </div>
   </div>
 
-</div>
+</div><!-- /.container -->
+</div><!-- /.main-content -->
+</div><!-- /.page-layout -->
 
 <div class="export-bar">
   <button class="btn-export" onclick="exportPDF()">⬇ PDF Export</button>
@@ -677,6 +790,57 @@ function showToast(msg) {
 }
 
 /* ── Panel toggle (with localStorage persistence) ── */
+/* ── Sidebar ── */
+function toggleSidebar() {
+  const sb = document.getElementById('sidebar');
+  const collapsed = sb.classList.toggle('collapsed');
+  localStorage.setItem('silora-sidebar-collapsed', collapsed ? '1' : '0');
+}
+function navToPanel(id) {
+  // Expand the panel if collapsed
+  const panel = document.getElementById(id);
+  if (panel && panel.classList.contains('collapsed')) {
+    panel.classList.remove('collapsed');
+    const state = {};
+    ['panel-1','panel-2','panel-3','panel-4','panel-5','panel-6'].forEach(p => {
+      state[p] = document.getElementById(p).classList.contains('collapsed');
+    });
+    ls.set('silora-panels', state);
+  }
+  // Scroll to panel
+  if (panel) {
+    const topbarH = document.querySelector('.topbar')?.offsetHeight || 53;
+    const y = panel.getBoundingClientRect().top + window.scrollY - topbarH - 12;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+  // Update active state
+  document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+  const navItem = document.getElementById('nav-' + id);
+  if (navItem) navItem.classList.add('active');
+}
+// Restore sidebar state
+(function() {
+  if (localStorage.getItem('silora-sidebar-collapsed') === '1') {
+    document.getElementById('sidebar')?.classList.add('collapsed');
+  }
+})();
+// Highlight active panel on scroll
+(function() {
+  const panels = ['panel-1','panel-2','panel-3','panel-4','panel-5','panel-6'];
+  function updateActive() {
+    const topbarH = document.querySelector('.topbar')?.offsetHeight || 53;
+    let current = panels[0];
+    for (const id of panels) {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top - topbarH - 40 <= 0) current = id;
+    }
+    document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+    const nav = document.getElementById('nav-' + current);
+    if (nav) nav.classList.add('active');
+  }
+  window.addEventListener('scroll', updateActive, { passive: true });
+})();
+
 function togglePanel(id) {
   document.getElementById(id).classList.toggle('collapsed');
   const state = {};
@@ -756,6 +920,14 @@ function toggleActivation(num) {
     row.querySelector('td:last-child').innerHTML = `<button class="task-btn" onclick="toggleActivation(${num})">Mark Done</button>`;
     showToast('Action ' + num + ' unmarked');
   }
+  // Refresh progress bar
+  const doneCt = DASHBOARD_DATA.activationQueue.filter(a => ls.get('silora-activation',{})[a.num]).length;
+  const total = DASHBOARD_DATA.activationQueue.length;
+  const pct = Math.round((doneCt/total)*100);
+  const fill = document.getElementById('act-progress-fill');
+  const label = document.getElementById('act-progress-label');
+  if (fill) fill.style.width = pct + '%';
+  if (label) label.textContent = `${doneCt} of ${total} activation steps completed${doneCt > 0 ? ' ('+pct+'%)' : ' — start here first'}`;
 }
 
 /* ─────────────────────────────────────────────
@@ -1168,6 +1340,92 @@ renderWeekly();
     .catch(() => {
       document.getElementById('catalog-loading').textContent = 'Could not load collections.json';
     });
+})();
+
+/* ─────────────────────────────────────────────
+   EXPORTS
+───────────────────────────────────────────── */
+/* ─────────────────────────────────────────────
+   TODAY'S FOCUS — deadline-aware top 3 tasks
+───────────────────────────────────────────── */
+(function renderTodaysFocus() {
+  const dateEl = document.getElementById('focus-date');
+  if (dateEl) dateEl.textContent = new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+
+  const taskState = getTaskState();
+  const urgent = [];
+  const deadlineOrder = [
+    { id:'B2B-UN1', label:'Due Apr 15', isUrgent:true },
+    { id:'B2B-UN2', label:'Due Apr 18', isUrgent:true },
+  ];
+  deadlineOrder.forEach(({id, label, isUrgent}) => {
+    const t = DASHBOARD_DATA.tasks.find(x => x.id === id);
+    if (t && !taskState[id]?.done && t.status !== 'done') {
+      urgent.push({ task:t, label, isUrgent });
+    }
+  });
+  const skipIds = new Set(deadlineOrder.map(d=>d.id));
+  DASHBOARD_DATA.tasks.filter(t =>
+    t.priority === 'critical' && t.status !== 'done' && t.status !== 'blocked' &&
+    !taskState[t.id]?.done && !skipIds.has(t.id)
+  ).slice(0, Math.max(0, 3 - urgent.length)).forEach(t => {
+    urgent.push({ task:t, label:t.due||'This week', isUrgent:false });
+  });
+
+  const container = document.getElementById('focus-cards');
+  if (!container) return;
+  if (!urgent.length) {
+    container.innerHTML = '<p style="font-size:0.8rem;color:var(--done);padding:6px 0;">✅ All urgent tasks done — great work!</p>';
+    return;
+  }
+  urgent.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'focus-card' + (item.isUrgent ? ' urgent' : '');
+    div.innerHTML =
+      `<div class="focus-card-num">${i+1}</div>` +
+      `<div class="focus-card-text"><strong>${escHtml(item.task.name)}</strong>` +
+      (item.task.note ? `<br><span style="font-size:0.72rem;color:var(--text-light);">${escHtml(item.task.note)}</span>` : '') +
+      `</div><div class="focus-card-due">${item.label}</div>`;
+    container.appendChild(div);
+  });
+})();
+
+/* ─────────────────────────────────────────────
+   UN EXHIBITION COUNTDOWN
+───────────────────────────────────────────── */
+(function renderCountdown() {
+  const el = document.getElementById('un-countdown-alert');
+  if (!el) return;
+  const target = new Date('2026-04-20T09:00:00');
+  const now = new Date();
+  const diffMs = target - now;
+  const days = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+  if (days < 0) return; // exhibition passed
+  el.style.display = '';
+  const isCritical = days <= 5;
+  const isWarn = days <= 10;
+  el.className = 'alert ' + (isCritical ? 'alert-critical' : isWarn ? 'alert-warning' : 'alert-note');
+  const badgeCls = isCritical ? '' : isWarn ? 'warn' : 'safe';
+  const icon = isCritical ? '🔴' : '🟡';
+  el.innerHTML =
+    `<span class="alert-icon">${icon}</span>` +
+    `<span><strong>UN Chinese Language Day Exhibition — Apr 20</strong>` +
+    `<span class="countdown-badge ${badgeCls}">${days} day${days===1?'':'s'} away</span>` +
+    ` — Follow up with UN cultural office by Apr 15 to confirm. Prepare 6–8 pieces + bilingual display cards.</span>`;
+})();
+
+/* ─────────────────────────────────────────────
+   ACTIVATION PROGRESS BAR
+───────────────────────────────────────────── */
+(function renderActivationProgress() {
+  const saved = ls.get('silora-activation', {});
+  const done = DASHBOARD_DATA.activationQueue.filter(a => saved[a.num]).length;
+  const total = DASHBOARD_DATA.activationQueue.length;
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  const fill = document.getElementById('act-progress-fill');
+  const label = document.getElementById('act-progress-label');
+  if (fill) fill.style.width = pct + '%';
+  if (label) label.textContent = `${done} of ${total} activation steps completed${done > 0 ? ' ('+pct+'%)' : ' — start here first'}`;
 })();
 
 /* ─────────────────────────────────────────────
