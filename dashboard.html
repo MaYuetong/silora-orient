@@ -73,6 +73,33 @@
       color: rgba(156,150,144,0.5); padding: 14px 16px 4px; white-space: nowrap;
     }
     .sidebar.collapsed .sidebar-section-label { display: none; }
+    /* ── Sidebar group (parent + sub-items) ── */
+    .sidebar-group { display: flex; flex-direction: column; }
+    .sidebar-item-row { display: flex; align-items: center; }
+    .sidebar-item-row .sidebar-item { flex: 1; }
+    .sidebar-expand-btn {
+      background: none; border: none; color: rgba(250,247,242,0.3); cursor: pointer;
+      padding: 0 10px 0 0; font-size: 0.6rem; transition: color 0.15s, transform 0.2s;
+      flex-shrink: 0; line-height: 1;
+    }
+    .sidebar-expand-btn:hover { color: var(--gold-light); }
+    .sidebar-group.open .sidebar-expand-btn { transform: rotate(90deg); color: rgba(250,247,242,0.5); }
+    .sidebar.collapsed .sidebar-expand-btn { display: none; }
+    .sidebar-sub { overflow: hidden; max-height: 0; transition: max-height 0.25s ease; }
+    .sidebar-group.open .sidebar-sub { max-height: 400px; }
+    .sidebar.collapsed .sidebar-sub { display: none; }
+    .sidebar-sub-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 14px 7px 36px;
+      color: rgba(250,247,242,0.45); font-size: 0.74rem; cursor: pointer;
+      border: none; background: none; font-family: 'Jost', sans-serif;
+      width: 100%; text-align: left; white-space: nowrap; overflow: hidden;
+      transition: color 0.15s, background 0.15s;
+      border-left: 2px solid transparent;
+    }
+    .sidebar-sub-item::before { content: '·'; margin-right: 4px; flex-shrink: 0; }
+    .sidebar-sub-item:hover { color: var(--gold-light); background: rgba(191,157,106,0.08); }
+    .sidebar-sub-item.active { color: var(--gold-light); border-left-color: rgba(191,157,106,0.4); }
     .main-content { flex: 1; min-width: 0; }
     .container { max-width: 1100px; margin: 0 auto; padding: 28px 20px; display: flex; flex-direction: column; gap: 16px; }
 
@@ -340,30 +367,102 @@
   </div>
   <div class="sidebar-nav">
     <div class="sidebar-section-label">Modules</div>
-    <button class="sidebar-item active" onclick="navToPanel('panel-1')" id="nav-panel-1">
-      <span class="sidebar-item-icon">📊</span>
-      <span class="sidebar-item-label">Project Status</span>
-    </button>
-    <button class="sidebar-item" onclick="navToPanel('panel-2')" id="nav-panel-2">
-      <span class="sidebar-item-icon">✅</span>
-      <span class="sidebar-item-label">Task Checklist</span>
-    </button>
-    <button class="sidebar-item" onclick="navToPanel('panel-3')" id="nav-panel-3">
-      <span class="sidebar-item-icon">💰</span>
-      <span class="sidebar-item-label">Sales Pipeline</span>
-    </button>
-    <button class="sidebar-item" onclick="navToPanel('panel-4')" id="nav-panel-4">
-      <span class="sidebar-item-icon">🛠</span>
-      <span class="sidebar-item-label">Supplier Coordination</span>
-    </button>
-    <button class="sidebar-item" onclick="navToPanel('panel-5')" id="nav-panel-5">
-      <span class="sidebar-item-icon">📈</span>
-      <span class="sidebar-item-label">Strategy & Review</span>
-    </button>
-    <button class="sidebar-item" onclick="navToPanel('panel-6')" id="nav-panel-6">
-      <span class="sidebar-item-icon">🗂</span>
-      <span class="sidebar-item-label">Product Catalog</span>
-    </button>
+
+    <!-- Panel 1 -->
+    <div class="sidebar-group" id="nav-group-panel-1">
+      <div class="sidebar-item-row">
+        <button class="sidebar-item active" onclick="navToPanel('panel-1')" id="nav-panel-1">
+          <span class="sidebar-item-icon">📊</span>
+          <span class="sidebar-item-label">Project Status</span>
+        </button>
+        <button class="sidebar-expand-btn" onclick="toggleNavGroup('panel-1')" title="Expand">▶</button>
+      </div>
+      <div class="sidebar-sub" id="nav-sub-panel-1">
+        <button class="sidebar-sub-item" onclick="navToSection('panel-1','sec-focus')">Today's Focus</button>
+        <button class="sidebar-sub-item" onclick="navToSection('panel-1','sec-phases')">Phase Progress</button>
+        <button class="sidebar-sub-item" onclick="navToSection('panel-1','sec-claude-tasks')">Claude Tasks</button>
+        <button class="sidebar-sub-item" onclick="navToSection('panel-1','sec-risks')">Risks & Blockers</button>
+        <button class="sidebar-sub-item" onclick="navToSection('panel-1','sec-activation')">Activation Queue</button>
+        <button class="sidebar-sub-item" onclick="navToSection('panel-1','sec-complete')">What's Complete</button>
+        <button class="sidebar-sub-item" onclick="navToSection('panel-1','sec-next')">Next Actions</button>
+      </div>
+    </div>
+
+    <!-- Panel 2 -->
+    <div class="sidebar-group" id="nav-group-panel-2">
+      <div class="sidebar-item-row">
+        <button class="sidebar-item" onclick="navToPanel('panel-2')" id="nav-panel-2">
+          <span class="sidebar-item-icon">✅</span>
+          <span class="sidebar-item-label">Task Checklist</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Panel 3 -->
+    <div class="sidebar-group" id="nav-group-panel-3">
+      <div class="sidebar-item-row">
+        <button class="sidebar-item" onclick="navToPanel('panel-3')" id="nav-panel-3">
+          <span class="sidebar-item-icon">💰</span>
+          <span class="sidebar-item-label">Sales Pipeline</span>
+        </button>
+        <button class="sidebar-expand-btn" onclick="toggleNavGroup('panel-3')" title="Expand">▶</button>
+      </div>
+      <div class="sidebar-sub" id="nav-sub-panel-3">
+        <button class="sidebar-sub-item" onclick="navToSection('panel-3','sec-revenue')">Revenue Summary</button>
+        <button class="sidebar-sub-item" onclick="navToSection('panel-3','sec-funnel')">Funnel Overview</button>
+        <button class="sidebar-sub-item" onclick="navToSection('panel-3','sec-weekly-goals')">Weekly Goals</button>
+      </div>
+    </div>
+
+    <!-- Panel 4 -->
+    <div class="sidebar-group" id="nav-group-panel-4">
+      <div class="sidebar-item-row">
+        <button class="sidebar-item" onclick="navToPanel('panel-4')" id="nav-panel-4">
+          <span class="sidebar-item-icon">🛠</span>
+          <span class="sidebar-item-label">Supplier Coord.</span>
+        </button>
+        <button class="sidebar-expand-btn" onclick="toggleNavGroup('panel-4')" title="Expand">▶</button>
+      </div>
+      <div class="sidebar-sub" id="nav-sub-panel-4">
+        <button class="sidebar-sub-item" onclick="navToSection('panel-4','sec-active-projects')">Active Projects</button>
+        <button class="sidebar-sub-item" onclick="navToSection('panel-4','sec-supplier-log')">Contact Log</button>
+        <button class="sidebar-sub-item" onclick="navToSection('panel-4','sec-photo-standards')">Photo Standards</button>
+      </div>
+    </div>
+
+    <!-- Panel 5 -->
+    <div class="sidebar-group" id="nav-group-panel-5">
+      <div class="sidebar-item-row">
+        <button class="sidebar-item" onclick="navToPanel('panel-5')" id="nav-panel-5">
+          <span class="sidebar-item-icon">📈</span>
+          <span class="sidebar-item-label">Strategy & Review</span>
+        </button>
+        <button class="sidebar-expand-btn" onclick="toggleNavGroup('panel-5')" title="Expand">▶</button>
+      </div>
+      <div class="sidebar-sub" id="nav-sub-panel-5">
+        <button class="sidebar-sub-item" onclick="navToSection('panel-5','sec-metrics')">Key Metrics</button>
+        <button class="sidebar-sub-item" onclick="navToSection('panel-5','sec-content-perf')">Content Perf.</button>
+        <button class="sidebar-sub-item" onclick="navToSection('panel-5','sec-strategy')">Strategy Signals</button>
+        <button class="sidebar-sub-item" onclick="navToSection('panel-5','sec-weekly-review')">Weekly Review</button>
+      </div>
+    </div>
+
+    <!-- Panel 6 -->
+    <div class="sidebar-group" id="nav-group-panel-6">
+      <div class="sidebar-item-row">
+        <button class="sidebar-item" onclick="navToPanel('panel-6')" id="nav-panel-6">
+          <span class="sidebar-item-icon">🗂</span>
+          <span class="sidebar-item-label">Product Catalog</span>
+        </button>
+        <button class="sidebar-expand-btn" onclick="toggleNavGroup('panel-6')" title="Expand">▶</button>
+      </div>
+      <div class="sidebar-sub" id="nav-sub-panel-6">
+        <button class="sidebar-sub-item" onclick="navToSection('panel-6','sec-publish')">Publish Workflow</button>
+        <button class="sidebar-sub-item" onclick="navToSection('panel-6','sec-series')">Series Status</button>
+        <button class="sidebar-sub-item" onclick="navToSection('panel-6','sec-photo-ref')">Photo Standards</button>
+      </div>
+    </div>
+
   </div>
 </nav>
 
@@ -381,11 +480,11 @@
       <span class="chevron">▼</span>
     </div>
     <div class="panel-body">
-      <div class="section">
+      <div class="section" id="sec-focus">
         <div class="section-title">Today's Focus <span id="focus-date" style="font-family:'Jost',sans-serif;font-weight:400;font-size:0.7rem;color:var(--text-light);letter-spacing:0;text-transform:none;margin-left:6px;"></span></div>
         <div class="focus-cards" id="focus-cards"></div>
       </div>
-      <div class="section">
+      <div class="section" id="sec-phases">
         <div class="section-title">Phase Progress</div>
         <div class="phase-bars">
           <div class="phase-row"><div class="phase-label">Phase 1</div><div class="phase-track"><div class="phase-fill" style="width:90%"></div></div><div class="phase-pct">90%</div><div class="phase-note">✅ Code + site fully built — 6 founder tool activations pending (GA4, Mailchimp, Airtable, Zapier, Cal.com, Stripe)</div></div>
@@ -395,12 +494,12 @@
         </div>
       </div>
 
-      <div class="section">
+      <div class="section" id="sec-claude-tasks">
         <div class="section-title">Claude Task Status</div>
         <table class="data-table"><thead><tr><th>Task</th><th>Status</th><th>Date</th><th>Note</th></tr></thead><tbody id="claude-tasks-table"></tbody></table>
       </div>
 
-      <div class="section">
+      <div class="section" id="sec-risks">
         <div class="section-title">Risks & Blockers</div>
         <div class="alert" id="un-countdown-alert" style="display:none"></div>
         <div class="alert alert-critical"><span class="alert-icon">🔴</span><span><strong>BLOCKER</strong> — Phase 1 not yet activated. Phase 2 and 3 cannot start.</span></div>
@@ -408,7 +507,7 @@
         <div class="alert alert-note"><span class="alert-icon">ℹ️</span><span><strong>NOTE</strong> — Phase 3 Next.js dashboard needs a developer. Not yet engaged.</span></div>
       </div>
 
-      <div class="section">
+      <div class="section" id="sec-activation">
         <div class="section-title">Founder Activation Queue</div>
         <div class="act-progress">
           <div class="act-progress-bar"><div class="act-progress-fill" id="act-progress-fill" style="width:0%"></div></div>
@@ -420,7 +519,7 @@
         </table>
       </div>
 
-      <div class="section">
+      <div class="section" id="sec-complete">
         <div class="section-title">What's Complete — Site is Fully Live ✅</div>
         <div style="background:var(--done-bg);border:1px solid #A9DFBF;border-radius:8px;padding:16px 20px;font-size:0.82rem;line-height:2;">
           <strong style="display:block;margin-bottom:6px;color:var(--done);">Everything built and deployed — as of Apr 12, 2026</strong>
@@ -438,7 +537,7 @@
         </div>
       </div>
 
-      <div class="section">
+      <div class="section" id="sec-next">
         <div class="section-title">What You Need to Do Next — Priority Order</div>
         <div class="next-actions">
           <div class="next-action"><div class="next-action-num">1</div><div class="next-action-text">🔥 <strong>UN Exhibition (Apr 20)</strong> — Follow up with UN cultural office by Apr 15 to confirm. Prepare 6–8 pieces + bilingual display cards. See admin/un-exhibition-proposal.md</div><div class="next-action-time">Apr 15</div></div>
@@ -495,15 +594,15 @@
       <span class="chevron">▼</span>
     </div>
     <div class="panel-body">
-      <div class="section">
+      <div class="section" id="sec-revenue">
         <div class="section-title">Revenue Summary</div>
         <div class="kpi-row" id="kpi-row"></div>
       </div>
-      <div class="section">
+      <div class="section" id="sec-funnel">
         <div class="section-title">Funnel Overview <span style="font-size:0.68rem;color:var(--text-light);font-family:'Jost',sans-serif;font-weight:400;letter-spacing:0">&nbsp;— click any number to edit</span></div>
         <div class="pipeline-grid" id="pipeline-grid"></div>
       </div>
-      <div class="section">
+      <div class="section" id="sec-weekly-goals">
         <div class="section-title">Weekly Goals</div>
         <table class="data-table"><thead><tr><th>Goal</th><th>Target</th><th>Current</th><th>Status</th></tr></thead><tbody id="goals-table"></tbody></table>
       </div>
@@ -521,12 +620,12 @@
       <span class="chevron">▼</span>
     </div>
     <div class="panel-body">
-      <div class="section">
+      <div class="section" id="sec-active-projects">
         <div class="section-title">Active Projects</div>
         <div class="supplier-cards" id="supplier-cards"></div>
       </div>
 
-      <div class="section">
+      <div class="section" id="sec-supplier-log">
         <div class="section-title">Supplier Contact Log</div>
         <table class="contact-log-table" id="contact-log-table">
           <thead><tr><th>Date</th><th>Supplier</th><th>Topic</th><th>Outcome</th><th>Next Step</th><th></th></tr></thead>
@@ -541,7 +640,7 @@
         </div>
       </div>
 
-      <div class="section">
+      <div class="section" id="sec-photo-standards">
         <div class="section-title">Photo Quality Standards</div>
         <table class="data-table">
           <thead><tr><th>Standard</th><th>Requirement</th></tr></thead>
@@ -569,11 +668,11 @@
       <span class="chevron">▼</span>
     </div>
     <div class="panel-body">
-      <div class="section">
+      <div class="section" id="sec-metrics">
         <div class="section-title">Key Metrics</div>
         <table class="data-table"><thead><tr><th>Metric</th><th>Current</th><th>Last Week</th><th>Change</th><th>Target</th></tr></thead><tbody id="metrics-table"></tbody></table>
       </div>
-      <div class="section">
+      <div class="section" id="sec-content-perf">
         <div class="section-title">Content Performance</div>
         <table class="data-table">
           <thead><tr><th>Content Type</th><th>Multiplier</th><th>Signal</th></tr></thead>
@@ -586,7 +685,7 @@
           </tbody>
         </table>
       </div>
-      <div class="section">
+      <div class="section" id="sec-strategy">
         <div class="section-title">Strategy Signals</div>
         <div class="signals">
           <div class="signal signal-warn">🟡 No GA4 data yet — activate GA4 Measurement ID to unlock real traffic signals</div>
@@ -595,7 +694,7 @@
           <div class="signal signal-info">ℹ️ Stylists target 42% response rate — highest B2B channel — allocate outreach here first</div>
         </div>
       </div>
-      <div class="section">
+      <div class="section" id="sec-weekly-review">
         <div class="section-title">Weekly Review Checklist <span style="font-size:0.68rem;color:var(--text-light);font-family:'Jost',sans-serif;font-weight:400;letter-spacing:0">&nbsp;— Every Monday · 15–20 min</span></div>
         <div class="weekly-check" id="weekly-check"></div>
         <button class="weekly-reset" onclick="resetWeekly()">↺ Reset for new week</button>
@@ -615,7 +714,7 @@
     </div>
     <div class="panel-body">
 
-      <div class="section">
+      <div class="section" id="sec-publish">
         <div class="section-title">Publish / Unpublish Workflow</div>
         <div style="background:var(--cream);border-left:3px solid var(--gold);padding:14px 18px;font-size:0.8rem;line-height:1.9;border-radius:0 6px 6px 0;margin-bottom:8px;">
           <strong>To publish a series:</strong><br>
@@ -629,7 +728,7 @@
         </div>
       </div>
 
-      <div class="section">
+      <div class="section" id="sec-series">
         <div class="section-title">Series Status <span id="catalog-summary" style="font-family:'Jost',sans-serif;font-weight:400;font-size:0.72rem;color:var(--text-light);letter-spacing:0;text-transform:none;margin-left:8px;"></span></div>
         <div id="catalog-loading" style="font-size:0.8rem;color:var(--text-light);padding:8px 0;">Loading catalog…</div>
         <table class="data-table" id="catalog-table" style="display:none;">
@@ -647,7 +746,7 @@
         </table>
       </div>
 
-      <div class="section">
+      <div class="section" id="sec-photo-ref">
         <div class="section-title">Photo Standards (quick ref)</div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;font-size:0.78rem;">
           <div style="background:var(--cream);padding:10px 14px;border-radius:6px;"><strong>Size</strong><br>Min 1200×1200 · Ideal 3000×3000</div>
@@ -796,8 +895,17 @@ function toggleSidebar() {
   const collapsed = sb.classList.toggle('collapsed');
   localStorage.setItem('silora-sidebar-collapsed', collapsed ? '1' : '0');
 }
-function navToPanel(id) {
-  // Expand the panel if collapsed
+function toggleNavGroup(panelId) {
+  const group = document.getElementById('nav-group-' + panelId);
+  if (!group) return;
+  const wasOpen = group.classList.contains('open');
+  group.classList.toggle('open');
+  const openGroups = JSON.parse(localStorage.getItem('silora-nav-open') || '[]');
+  if (!wasOpen) { if (!openGroups.includes(panelId)) openGroups.push(panelId); }
+  else { const i = openGroups.indexOf(panelId); if (i > -1) openGroups.splice(i, 1); }
+  localStorage.setItem('silora-nav-open', JSON.stringify(openGroups));
+}
+function _expandPanel(id) {
   const panel = document.getElementById(id);
   if (panel && panel.classList.contains('collapsed')) {
     panel.classList.remove('collapsed');
@@ -806,37 +914,86 @@ function navToPanel(id) {
       state[p] = document.getElementById(p).classList.contains('collapsed');
     });
     ls.set('silora-panels', state);
+    return true; // was collapsed
   }
-  // Scroll to panel
-  if (panel) {
-    const topbarH = document.querySelector('.topbar')?.offsetHeight || 53;
-    const y = panel.getBoundingClientRect().top + window.scrollY - topbarH - 12;
-    window.scrollTo({ top: y, behavior: 'smooth' });
-  }
-  // Update active state
-  document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
-  const navItem = document.getElementById('nav-' + id);
-  if (navItem) navItem.classList.add('active');
+  return false;
 }
-// Restore sidebar state
+function _scrollTo(el, extra) {
+  const topbarH = document.querySelector('.topbar')?.offsetHeight || 57;
+  const y = el.getBoundingClientRect().top + window.scrollY - topbarH - (extra || 12);
+  window.scrollTo({ top: y, behavior: 'smooth' });
+}
+function _setActivePanel(id) {
+  document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+  const nav = document.getElementById('nav-' + id);
+  if (nav) nav.classList.add('active');
+}
+function _setActiveSub(panelId, sectionId) {
+  document.querySelectorAll('.sidebar-sub-item').forEach(el => el.classList.remove('active'));
+  const sub = document.querySelector('#nav-sub-' + panelId + ' .sidebar-sub-item[onclick*="' + sectionId + '"]');
+  if (sub) sub.classList.add('active');
+}
+function navToPanel(id) {
+  const wasCollapsed = _expandPanel(id);
+  const panel = document.getElementById(id);
+  if (panel) {
+    if (wasCollapsed) { setTimeout(() => _scrollTo(panel), 50); }
+    else { _scrollTo(panel); }
+  }
+  _setActivePanel(id);
+  document.querySelectorAll('.sidebar-sub-item').forEach(el => el.classList.remove('active'));
+}
+function navToSection(panelId, sectionId) {
+  const wasCollapsed = _expandPanel(panelId);
+  const group = document.getElementById('nav-group-' + panelId);
+  if (group && !group.classList.contains('open')) toggleNavGroup(panelId);
+  function doScroll() {
+    const sec = document.getElementById(sectionId);
+    if (sec) _scrollTo(sec, 16);
+  }
+  if (wasCollapsed) { setTimeout(doScroll, 80); } else { doScroll(); }
+  _setActivePanel(panelId);
+  _setActiveSub(panelId, sectionId);
+}
+// Restore sidebar + nav-group open state
 (function() {
   if (localStorage.getItem('silora-sidebar-collapsed') === '1') {
     document.getElementById('sidebar')?.classList.add('collapsed');
   }
+  JSON.parse(localStorage.getItem('silora-nav-open') || '[]').forEach(id => {
+    const g = document.getElementById('nav-group-' + id);
+    if (g) g.classList.add('open');
+  });
 })();
-// Highlight active panel on scroll
+// Scroll-spy: highlight active panel + sub-section
 (function() {
   const panels = ['panel-1','panel-2','panel-3','panel-4','panel-5','panel-6'];
+  const sectionMap = {
+    'panel-1': ['sec-focus','sec-phases','sec-claude-tasks','sec-risks','sec-activation','sec-complete','sec-next'],
+    'panel-3': ['sec-revenue','sec-funnel','sec-weekly-goals'],
+    'panel-4': ['sec-active-projects','sec-supplier-log','sec-photo-standards'],
+    'panel-5': ['sec-metrics','sec-content-perf','sec-strategy','sec-weekly-review'],
+    'panel-6': ['sec-publish','sec-series','sec-photo-ref'],
+  };
   function updateActive() {
-    const topbarH = document.querySelector('.topbar')?.offsetHeight || 53;
-    let current = panels[0];
+    const topbarH = document.querySelector('.topbar')?.offsetHeight || 57;
+    const threshold = topbarH + 40;
+    let currentPanel = panels[0];
     for (const id of panels) {
       const el = document.getElementById(id);
-      if (el && el.getBoundingClientRect().top - topbarH - 40 <= 0) current = id;
+      if (el && el.getBoundingClientRect().top - threshold <= 0) currentPanel = id;
     }
-    document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
-    const nav = document.getElementById('nav-' + current);
-    if (nav) nav.classList.add('active');
+    _setActivePanel(currentPanel);
+    document.querySelectorAll('.sidebar-sub-item').forEach(el => el.classList.remove('active'));
+    const secs = sectionMap[currentPanel];
+    if (secs) {
+      let currentSec = null;
+      for (const sid of secs) {
+        const el = document.getElementById(sid);
+        if (el && el.getBoundingClientRect().top - threshold <= 0) currentSec = sid;
+      }
+      if (currentSec) _setActiveSub(currentPanel, currentSec);
+    }
   }
   window.addEventListener('scroll', updateActive, { passive: true });
 })();
