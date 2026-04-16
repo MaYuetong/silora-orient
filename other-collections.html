@@ -95,6 +95,15 @@
     .story-modal-text { font-size: 0.9rem; line-height: 1.85; color: var(--text-mid); flex: 1; }
     .story-modal-actions { margin-top: 1.8rem; display: flex; gap: 0.8rem; flex-wrap: wrap; }
 
+    /* ---- Gallery thumbnails in modal ---- */
+    .modal-gallery { display: flex; gap: 0.4rem; padding: 0.5rem 0.5rem 0; background: var(--cream); overflow-x: auto; }
+    .modal-gallery-thumb {
+      width: 56px; height: 42px; object-fit: cover; cursor: pointer; flex-shrink: 0;
+      border: 2px solid transparent; transition: border-color 0.2s, opacity 0.2s; opacity: 0.72;
+    }
+    .modal-gallery-thumb:hover { opacity: 1; }
+    .modal-gallery-thumb.active { border-color: var(--gold); opacity: 1; }
+
     /* ---- Pricing form inline ---- */
     .pricing-form { display: none; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
     .pricing-form.visible { display: block; }
@@ -325,7 +334,7 @@ const COLLECTIONS_FALLBACK = [
     tagline_zh:"选择兰花，只因没有任何花拥有这样的花型。九款色系，每一款以一种感受命名。",
     story:"For a thousand years the orchid has appeared in East Asian art, and the reason is not mysterious: it is one of the few flowers whose shape is unmistakably itself — two wings half-spread, poised in a moment that is neither landing nor departing, suspended in something that has no other name.\n\nThis series begins from that single, undeniable fact. No added leaves. No ornamental tendrils. Only the flower — wound thread by thread, in silence, until it becomes the thing it has always been.\n\nNine colour stories, each named for a sensory memory held somewhere between taste and feeling:\nHoney Peach Oolong (蜜桃乌龙) · Into the Emerald Forest (绿野仙踪) · Sea Salt Mango Ice (海盐芒果冰) · Frozen Wonderland (冰雪奇缘) · Gilded Dreams (澛金旧梦) · Starry Moon Night (星月夜) · Taro Waves (芋泥啵啵) · Lavender Mist (薰衣草) · Deep Ocean (深海蓝)\n\nAvailable as earrings (耳钉), clip-ons (耳夹), rings (戒指), and pendants (挂坠).",
     story_zh:"兰花在东亚艺术中出现逾千年，原因只有一个：没有任何花的花型如此特别——如翅膀般展开，宁静而卓越。\n\n这个系列从这一事实出发。没有多余的叶片，没有装饰性卷须，只有这朵花——一圈一圈地缠绕，直到它成为它本来就是的样子。\n\n九款色系，每一款以一种感官记忆命名：\n蜜桃乌龙 · 绿野仙踪 · 海盐芒果冰 · 冰雪奇缘 · 澛金旧梦 · 星月夜 · 芋泥啵啵 · 薰衣草 · 深海蓝\n\n提供耳钉、耳夹、戒指与挂坠。",
-    image:"images/orchid-collection.jpg", imgClass:null, imgPlaceholder:null,
+    image:"images/orchid-collection.jpg", images:["images/orchid-collection.jpg","images/orchid-yellow-lavender-set.jpg","images/white-orchid-earrings.jpg"], imgClass:null, imgPlaceholder:null,
     price:"耳钉 $79/pr · 耳挂 $60 · 戒指/挂坠 from $80", price_zh:"耳钉 $79一对 · 耳挂 $60一只 · 戒指/挂坠 $80起",
     tags:["耳钉 Earrings","耳夹 Clip-on","戒指 Ring","挂坠 Pendant","九色 9 Colorways"] },
   { id:"four-seasons-spring", published:true, category:"seasons", season:"spring",
@@ -355,7 +364,7 @@ const COLLECTIONS_FALLBACK = [
     tagline_zh:"金黄桂花簇，墨绿金边叶，可佩戴的秋天。",
     story:"「月桂流金」— The Moon-Laurel in Flowing Gold.\n\nIn nature, the osmanthus blossom is barely there — four petals, each smaller than a fingernail, easily missed on the branch. The scent arrives before the flower does. You smell October before you see it.\n\nThis series asks a single question: what if you could see what you have always only been able to smell?\n\nThe blossoms are intentionally enlarged so that the four-petal structure — precise, symmetrical, quietly perfect — becomes something you can hold in your eye and truly appreciate. Gold and amber blooms against deep olive-green metallic leaves: the exact palette of a moon-viewing evening in October, warm gold light pooling in cool green shadow.\n\nThree forms:\n· Lattice brooches (花窗胸针) — osmanthus blooming from a woven bamboo-lattice base\n· Hairpin (发簪) — gold U-pin with osmanthus, pearls, amber beads, white jade disc\n· Hair crown (发冠) — curved gold frame, jade beads, leaf pendants\n\nFeatured on CCTV Spring Festival Gala 2026.",
     story_zh:"「月桂流金」——月光下流金般的桂花。\n\n自然界的桂花极小，容易被忽视。在这个系列中，花朵被有意放大，让四瓣结构成为可以真正被欣赏的焦点。\n\n金黄色桂花簇与墨绿色金边叶片——十月赏月夜晚的精准色彩。\n\n三种形式：\n· 花窗胸针——桂花从竹编镂空底座中绽放\n· 发簪——金色U型，配桂花、珍珠、琥珀珠与白玉月片\n· 发冠——金色弧形框架，翡翠珠与叶片挂坠\n\n★ 2026年央视春晚亮相",
-    image:"images/osmanthus-1.jpg", imgClass:null, imgPlaceholder:null,
+    image:"images/osmanthus-1.jpg", images:["images/osmanthus-1.jpg","images/osmanthus-2.jpg"], imgClass:null, imgPlaceholder:null,
     price:"from $80", price_zh:"$80起",
     tags:["秋 Autumn","花窗胸针 Brooch","发簪 Hairpin","发冠 Hair Crown","春晚 CCTV Gala"] },
   { id:"four-seasons-winter", published:true, category:"seasons", season:"winter",
@@ -490,9 +499,25 @@ function openModal(id) {
   if (priceEl) { priceEl.textContent = priceStr || ''; priceEl.style.display = priceStr ? '' : 'none'; }
 
   const imgEl = document.getElementById('modalImg');
-  imgEl.innerHTML = c.image
-    ? `<img src="${c.image}" alt="${c.title}" />`
-    : `<div class="story-modal-img-placeholder ${c.imgClass || ''}">${c.imgPlaceholder || '✦'}</div>`;
+  const galleryImages = c.images && c.images.length > 1 ? c.images : (c.image ? [c.image] : null);
+  if (galleryImages) {
+    const thumbsHtml = galleryImages.length > 1
+      ? `<div class="modal-gallery">${galleryImages.map((src, i) =>
+          `<img class="modal-gallery-thumb${i===0?' active':''}" src="${src}" alt="${c.title} ${i+1}" data-index="${i}" />`
+        ).join('')}</div>` : '';
+    imgEl.innerHTML = `<img id="modalMainImg" src="${galleryImages[0]}" alt="${c.title}" style="width:100%;height:100%;object-fit:cover;display:block;" />${thumbsHtml}`;
+    if (galleryImages.length > 1) {
+      imgEl.querySelectorAll('.modal-gallery-thumb').forEach(thumb => {
+        thumb.addEventListener('click', function() {
+          document.getElementById('modalMainImg').src = this.src;
+          imgEl.querySelectorAll('.modal-gallery-thumb').forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+    }
+  } else {
+    imgEl.innerHTML = `<div class="story-modal-img-placeholder ${c.imgClass || ''}">${c.imgPlaceholder || '✦'}</div>`;
+  }
 
   // Reset pricing form
   document.getElementById('modalPricingForm').classList.remove('visible');
