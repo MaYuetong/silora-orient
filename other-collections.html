@@ -34,7 +34,7 @@
     .wf-card:hover .wf-img img { transform: scale(1.04); }
     .wf-card:hover .wf-overlay { opacity: 1; }
     .wf-img { overflow: hidden; position: relative; aspect-ratio: 4/3; background: var(--cream); }
-    .wf-img img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform 0.6s ease; }
+    .wf-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
     .wf-overlay {
       position: absolute; inset: 0;
       background: rgba(42,39,36,0.45);
@@ -47,9 +47,10 @@
       border: 1px solid rgba(250,247,242,0.5); padding: 0.5rem 1.2rem;
     }
     .wf-body { padding: 1.4rem 1.5rem 1.6rem; }
-    .wf-series { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem; }
-    .wf-title { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 300; color: var(--text-dark); margin-bottom: 0.3rem; line-height: 1.25; }
-    .wf-title-zh { font-size: 0.82rem; color: var(--text-light); margin-bottom: 0.7rem; }
+    .wf-series { font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.2rem; }
+    .wf-series-en { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 400; font-style: italic; color: var(--text-dark); margin-bottom: 0.15rem; line-height: 1.2; }
+    .wf-title { font-family: var(--font-serif); font-size: 1.35rem; font-weight: 400; color: var(--text-dark); margin-bottom: 0.25rem; line-height: 1.25; }
+    .wf-title-zh { font-size: 0.78rem; color: var(--text-light); margin-bottom: 0.65rem; }
     .wf-tagline { font-size: 0.84rem; color: var(--text-mid); line-height: 1.65; }
     .wf-price { font-size: 0.78rem; color: var(--gold); margin-top: 0.6rem; letter-spacing: 0.03em; font-family: var(--font-serif); font-style: italic; }
     .wf-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.8rem; }
@@ -459,9 +460,13 @@ function buildWaterfall() {
       : `<div class="wf-img"><div class="wf-img-placeholder ${c.imgClass || ''}" style="display:flex;align-items:center;justify-content:center;font-size:3.5rem;color:rgba(191,157,106,0.4);">${c.imgPlaceholder || '✦'}</div><div class="wf-overlay"><span>${overlayLabel}</span></div></div>`;
 
     const priceStr = c.price ? (isZh && c.price_zh ? c.price_zh : c.price) : '';
+    // Extract English part of series name after " · " for the prominent badge
+    const seriesEn = c.series.includes(' · ') ? c.series.split(' · ').slice(1).join(' · ') : c.series;
+    const seriesZh = c.series.includes(' · ') ? c.series.split(' · ')[0] : '';
     card.innerHTML = imgHtml + `
       <div class="wf-body">
-        <p class="wf-series">${c.series}</p>
+        ${seriesZh ? `<p class="wf-series">${seriesZh}</p>` : ''}
+        <p class="wf-series-en">${seriesEn}</p>
         <h3 class="wf-title">${c.title}</h3>
         <p class="wf-title-zh">${c.title_zh}</p>
         <p class="wf-tagline">${c.tagline}</p>
