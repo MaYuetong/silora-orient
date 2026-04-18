@@ -253,7 +253,7 @@
       <!-- Sticky side label -->
       <div class="story-sticky">
         <div style="aspect-ratio: 3/4; overflow: hidden; background: var(--cream);">
-          <img src="images/iris-brooch.jpg" alt="Purple iris silk brooch — a symbol of the craft" />
+          <img src="images/crystal-curtain.jpg" alt="Crystal curtain silk piece — Silora Orient studio" />
         </div>
         <div style="padding: 2rem 0;">
           <p class="t-label">Born in China, Blooming in New York</p>
@@ -431,10 +431,134 @@
         <img src="images/iris-brooch.jpg" alt="Detail of the silk iris brooch — gold wire and purple silk petals" style="object-position: center top;" />
       </div>
     </div>
+
+    <!-- ── Watch the Craft Video ───────────────────────────────── -->
+    <div class="chanhua-video-section reveal" style="margin-top: 3.5rem;">
+      <div class="chanhua-vid-divider"></div>
+
+      <!-- Teaser / collapsed state -->
+      <div class="chanhua-vid-teaser" id="chanhua-vid-teaser" onclick="cvidExpand()" role="button" tabindex="0" aria-expanded="false">
+        <div class="chanhua-vid-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="14" cy="14" r="13" stroke="currentColor" stroke-width="1.2"/>
+            <polygon points="11,9 21,14 11,19" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="chanhua-vid-teaser-text">
+          <span class="chanhua-vid-caption" data-i18n-en="Watch the Making" data-i18n-zh="观看制作过程">Watch the Making</span>
+          <span class="chanhua-vid-subcap" data-i18n-en="See how each silk flower is wound by hand" data-i18n-zh="看每一朵缠花如何一线一线地缠绕而成">See how each silk flower is wound by hand</span>
+        </div>
+        <div class="chanhua-vid-chevron">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+
+      <!-- Expanded player -->
+      <div class="chanhua-vid-player" id="chanhua-vid-player" style="display:none;">
+        <div class="chanhua-vid-player-inner">
+          <video id="chanhua-video" controls playsinline preload="metadata"
+                 style="width:100%;border-radius:4px;display:block;max-height:420px;background:#000;">
+            <!-- Replace the src below with your video URL or file path -->
+            <source src="TODO_VIDEO_SRC" type="video/mp4">
+            Your browser does not support HTML5 video.
+          </video>
+
+          <!-- Bilingual subtitle panel (synced via JS timeupdate) -->
+          <div class="chanhua-subs" id="chanhua-subs" aria-live="polite">
+            <p class="chanhua-sub-en" id="chanhua-sub-en">&nbsp;</p>
+            <p class="chanhua-sub-zh" id="chanhua-sub-zh">&nbsp;</p>
+          </div>
+        </div>
+
+        <button class="chanhua-vid-collapse" onclick="cvidCollapse()" aria-label="Close video">
+          <svg width="14" height="14" viewBox="0 0 14 14"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span data-i18n-en="Close" data-i18n-zh="收起">Close</span>
+        </button>
+      </div>
+    </div><!-- /chanhua-video-section -->
   </div>
 </section>
 
 <!-- ============================================================ VALUES -->
+
+<script>
+/* ── Chanhua video: expand / collapse ────────────────────────── */
+function cvidExpand() {
+  const teaser = document.getElementById('chanhua-vid-teaser');
+  const player = document.getElementById('chanhua-vid-player');
+  teaser.style.display = 'none';
+  player.style.display = 'block';
+  teaser.setAttribute('aria-expanded','true');
+  // Apply lang to player labels
+  _cvidApplyLang();
+}
+function cvidCollapse() {
+  const teaser = document.getElementById('chanhua-vid-teaser');
+  const player = document.getElementById('chanhua-vid-player');
+  const vid    = document.getElementById('chanhua-video');
+  vid.pause();
+  player.style.display = 'none';
+  teaser.style.display = '';
+  teaser.setAttribute('aria-expanded','false');
+}
+function _cvidApplyLang() {
+  const isZh = (localStorage.getItem('silora-lang') || 'en') === 'zh';
+  document.querySelectorAll('.chanhua-vid-player [data-i18n-en]').forEach(el => {
+    el.textContent = isZh ? (el.dataset.i18nZh || el.dataset.i18nEn) : el.dataset.i18nEn;
+  });
+}
+
+/* ── Subtitle data ───────────────────────────────────────────────
+   Edit the entries below once you have the video.
+   start / end are in seconds from video start.
+   en  = English subtitle line
+   zh  = Chinese subtitle line
+   ──────────────────────────────────────────────────────────────── */
+const CHANHUA_SUBS = [
+  { start:  0, end:  8, en: "We begin with a length of silk thread, chosen for its sheen.",         zh: "我们从一根蚕丝线开始，选取光泽最好的那一根。" },
+  { start:  8, end: 18, en: "The copper wire is bent petal by petal — each shape held in memory.",  zh: "铜丝一片一片折弯，每一个弧度都记在手中。" },
+  { start: 18, end: 30, en: "Then, thread by thread, silk is wound around the wire.",               zh: "然后，一线一线，蚕丝缠绕在铜丝上。" },
+  { start: 30, end: 42, en: "This is the most meditative part — and the slowest.",                  zh: "这是最需要静心的一步，也是最慢的一步。" },
+  { start: 42, end: 54, en: "A single petal may take twenty minutes.",                              zh: "一片花瓣，有时需要二十分钟。" },
+  { start: 54, end: 66, en: "When all petals are finished, they are assembled around a stem.",      zh: "所有花瓣做好后，一片片组合成花。" },
+  { start: 66, end: 78, en: "Freshwater pearls and gold wire complete the jewel.",                  zh: "最后用淡水珍珠和金丝收尾，一朵缠花珠宝便完成了。" },
+];
+
+document.addEventListener('DOMContentLoaded', () => {
+  const video  = document.getElementById('chanhua-video');
+  const subEn  = document.getElementById('chanhua-sub-en');
+  const subZh  = document.getElementById('chanhua-sub-zh');
+
+  if (!video) return;
+
+  video.addEventListener('timeupdate', () => {
+    const t = video.currentTime;
+    const isZh = (localStorage.getItem('silora-lang') || 'en') === 'zh';
+    const active = CHANHUA_SUBS.find(s => t >= s.start && t < s.end);
+
+    if (active) {
+      if (isZh) {
+        subZh.textContent = active.zh || '';
+        subEn.textContent = active.en || '';
+      } else {
+        subEn.textContent = active.en || '';
+        subZh.textContent = active.zh || '';
+      }
+    } else {
+      subEn.textContent = '';
+      subZh.textContent = '';
+    }
+  });
+
+  // Keyboard accessibility for teaser
+  const teaser = document.getElementById('chanhua-vid-teaser');
+  if (teaser) {
+    teaser.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); cvidExpand(); }
+    });
+  }
+});
+</script>
 <section style="background: var(--ivory); padding: var(--space-xl) 0;">
   <div class="container">
     <div style="text-align: center; margin-bottom: 3rem;">
