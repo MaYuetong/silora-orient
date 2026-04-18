@@ -60,6 +60,7 @@
     .bg-plum { background: linear-gradient(135deg, #2a2728 0%, #4a3040 100%); }
     .bg-wisteria { background: linear-gradient(135deg, #C4BAD4 0%, #8B7FA8 100%); }
     .bg-lotus    { background: linear-gradient(135deg, #C8DBC0 0%, #7DAA8F 100%); }
+    .bg-bloom    { background: linear-gradient(135deg, #EDE3D4 0%, #C8BEB4 50%, #A8B89C 100%); }
 
     /* ---- Story modal ---- */
     .story-modal {
@@ -207,6 +208,7 @@
       <button class="filter-tab"        data-filter="orchid"  data-en="The Orchid"   data-zh="兰花系列">The Orchid</button>
       <button class="filter-tab"        data-filter="seasons" data-en="Four Seasons" data-zh="四时之景">Four Seasons</button>
       <button class="filter-tab"        data-filter="kinship" data-en="Kinship"      data-zh="亲情系列">Kinship</button>
+      <button class="filter-tab"        data-filter="bloom"   data-en="Listening Bloom" data-zh="聆花系列">Listening Bloom</button>
       <button class="filter-tab"        data-filter="custom"  data-en="Bespoke"      data-zh="定制系列">Bespoke</button>
     </div>
     <div class="waterfall" id="waterfall">
@@ -317,10 +319,11 @@
 // To publish/unpublish: edit that file → git push → live in 30s
 // ============================================================
 const CATEGORY_LABELS = {
-  orchid:  { en: 'The Orchid — Special by Nature',  zh: '兰花系列 · The Orchid' },
-  seasons: { en: 'Four Seasons — Scenes in Silk',   zh: '四时之景 · 春夏秋冬'   },
-  kinship: { en: 'Kinship — Tell Us Your Story',    zh: '亲情系列 · 三代的故事'  },
-  custom:  { en: 'Bespoke — Begin with the Flower', zh: '定制系列 · 先选花，再选色' },
+  orchid:  { en: 'The Orchid — Special by Nature',           zh: '兰花系列 · The Orchid'   },
+  seasons: { en: 'Four Seasons — Scenes in Silk',            zh: '四时之景 · 春夏秋冬'      },
+  kinship: { en: 'Kinship — Tell Us Your Story',             zh: '亲情系列 · 三代的故事'    },
+  bloom:   { en: 'The Listening Bloom — Worn Behind the Ear',zh: '聆花系列 · 耳后的花园'    },
+  custom:  { en: 'Bespoke — Begin with the Flower',          zh: '定制系列 · 先选花，再选色' },
 };
 
 // ---- Inline fallback data (always works, incl. local file:// opening) ----
@@ -385,6 +388,16 @@ const COLLECTIONS_FALLBACK = [
     image:null, imgClass:"bg-plum", imgPlaceholder:"❀",
     price:"sets from $160", price_zh:"套装$160起",
     tags:["母女套装 Mother-Daughter","姐妹款 Sisters","三代 Three Generations","成对 Paired Set","礼品 Gift"] },
+  { id:"listening-bloom", published:true, category:"bloom",
+    series:"聆花系列 · The Listening Bloom", series_zh:"聆花系列 · 耳后的花园",
+    title:"The Listening Bloom — Worn Behind the Ear", title_zh:"聆花系列 · 为助听器而生的花",
+    tagline:"Where sound enters, a flower blooms. Ultralight silk curved to follow a hearing aid — worn behind the ear, invisible to the world, present only for you.",
+    tagline_zh:"声音进入的地方，花开了。极轻蚕丝，随助听器弧度弯曲，佩戴于耳后，世界看不见，只有你知道。",
+    story:"There is a place most people will never see.\n\nBehind the ear, where a hearing aid rests against the skin — curved, quiet, doing its work without asking to be noticed. For years, people have worn them as something to apologise for. Something to tuck away, to wish were smaller, less visible, less there.\n\nThis series begins from a different idea entirely.\n\nIf something lives behind your ear — in the exact place where sound enters, where the world reaches you — why not let a flower live there too?\n\nThe Listening Bloom is made from the same silk thread as our other collections, wound around hand-formed copper wire. But curved. Each piece is shaped to follow the gentle arc of a hearing aid, resting lightly against the bone behind the ear. The weight of a single piece is almost nothing — lighter than an earring, lighter than a pin. It stays by staying softly.\n\nWe make these in silk orchids, in small osmanthus clusters, in the five-petal flowers from the Crystal Curtain and the Lily in Moonlight series. In any colour from our nine orchid families.\n\nBecause this is not a piece you hide. It is a piece that says: sound reaches me here — and here is where I have chosen to bloom.",
+    story_zh:"有一个地方，大多数人永远看不见。\n\n耳后，助听器贴着皮肤的地方——弯曲，安静，不声不响地做着它的工作。多年来，人们把它当作需要道歉的东西，藏起来，希望它更小、更不显眼、更不存在。\n\n这个系列从一个完全不同的想法出发。\n\n如果有什么东西住在你耳后——在声音进入、世界抵达你的那个精确位置——为什么不让一朵花也住在那里？\n\n聆花系列用与其他系列相同的蚕丝缠绕在手工成型的铜丝上，但有弧度。每一件作品都随着助听器的轻柔弧线弯曲，轻轻贴在耳后的骨骼上。单件几乎没有重量——比耳环轻，比别针轻。\n\n我们用丝绸兰花、小桂花簇、《却下水晶帘》和《月下逢》系列中的五瓣花来制作。九款兰花色系中的任何颜色。\n\n这不是一件你藏起来的作品。它在说：声音在这里抵达我——而这里，是我选择绽放的地方。\n\n同样适合任何喜欢耳后装饰的人。",
+    image:null, imgClass:"bg-bloom", imgPlaceholder:"❦",
+    price:"from $55", price_zh:"$55起",
+    tags:["助听器 Hearing Aid","耳后佩戴 Behind-Ear","超轻 Ultralight","适老化 Elder-Friendly","无障碍设计 Accessible"] },
   { id:"custom-order", published:true, category:"custom",
     series:"定制系列 · Bespoke", series_zh:"定制系列 · 主推兰花",
     title:"Bespoke — Begin with the Flower", title_zh:"定制系列 · 先选花形，再选颜色",
