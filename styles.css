@@ -303,24 +303,18 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 .nav-logo {
-  font-family: 'Parisienne', var(--font-serif);
-  font-size: 1.65rem;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  color: var(--text-dark);
+  display: flex;
+  align-items: center;
   line-height: 1;
 }
-
-.nav-logo span {
+.nav-logo img {
+  height: 44px;
+  width: auto;
   display: block;
-  font-size: 0.55rem;
-  font-family: var(--font-sans);
-  font-weight: 400;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-top: 3px;
+  object-fit: contain;
 }
+/* legacy text fallback — hidden when image loads */
+.nav-logo span { display: none; }
 
 .nav-links {
   display: flex;
@@ -1027,9 +1021,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 .footer-brand .nav-logo {
-  color: var(--ivory);
-  font-size: 1.6rem;
   margin-bottom: 1rem;
+}
+.footer-brand .nav-logo img {
+  height: 48px;
 }
 
 .footer-tagline {
