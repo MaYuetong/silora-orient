@@ -430,45 +430,24 @@
     </div>
 
     <!-- ── Watch the Craft Video ───────────────────────────────── -->
-    <div class="chanhua-video-section reveal" style="margin-top: 3.5rem;">
+    <!-- ── Watch the Craft ──────────────────────────────────────── -->
+    <div class="chanhua-video-section reveal" style="margin-top: 3rem;">
       <div class="chanhua-vid-divider"></div>
+      <p style="font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;
+                color:var(--gold-light);margin-bottom:1rem;"
+         data-i18n-en="Watch the Making" data-i18n-zh="观看制作过程">Watch the Making</p>
 
-      <!-- Teaser / collapsed state -->
-      <div class="chanhua-vid-teaser" id="chanhua-vid-teaser" onclick="cvidExpand()" role="button" tabindex="0" aria-expanded="false">
-        <div class="chanhua-vid-icon">
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="14" cy="14" r="13" stroke="currentColor" stroke-width="1.2"/>
-            <polygon points="11,9 21,14 11,19" fill="currentColor"/>
-          </svg>
-        </div>
-        <div class="chanhua-vid-teaser-text">
-          <span class="chanhua-vid-caption" data-i18n-en="Watch the Making" data-i18n-zh="观看制作过程">Watch the Making</span>
-          <span class="chanhua-vid-subcap" data-i18n-en="See how each silk flower is wound by hand" data-i18n-zh="看每一朵缠花如何一线一线地缠绕而成">See how each silk flower is wound by hand</span>
-        </div>
-        <div class="chanhua-vid-chevron">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-      </div>
-
-      <!-- Expanded player -->
-      <div class="chanhua-vid-player" id="chanhua-vid-player" style="display:none;">
-        <div class="chanhua-vid-player-inner" style="position:relative;">
-          <iframe id="chanhua-iframe"
-            src="https://www.youtube.com/embed/TcJWl0GBHjc?enablejsapi=1&rel=0&modestbranding=1"
-            style="width:100%;aspect-ratio:16/9;border:none;border-radius:4px;display:block;"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-          </iframe>
-          <!-- Brand watermark overlay -->
-          <img src="images/silora-vid-watermark.png" alt=""
-               style="position:absolute;bottom:48px;right:14px;width:140px;
-                      pointer-events:none;opacity:0.82;" />
-        </div>
-
-        <button class="chanhua-vid-collapse" onclick="cvidCollapse()" aria-label="Close video">
-          <svg width="14" height="14" viewBox="0 0 14 14"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          <span data-i18n-en="Close" data-i18n-zh="收起">Close</span>
-        </button>
+      <div style="position:relative;max-width:640px;border-radius:6px;overflow:hidden;">
+        <iframe
+          src="https://www.youtube.com/embed/KzvKyrghwaU?start=37&rel=0&modestbranding=1"
+          style="width:100%;aspect-ratio:16/9;border:none;display:block;"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen loading="lazy">
+        </iframe>
+        <!-- Brand watermark — white script, transparent bg, pointer-events off -->
+        <img src="images/silora-vid-watermark.png" alt=""
+             style="position:absolute;bottom:44px;right:12px;width:130px;
+                    pointer-events:none;opacity:0.80;" />
       </div>
     </div><!-- /chanhua-video-section -->
   </div>
@@ -476,43 +455,6 @@
 
 <!-- ============================================================ VALUES -->
 
-<script>
-/* ── Chanhua video: expand / collapse ────────────────────────── */
-function cvidExpand() {
-  const teaser = document.getElementById('chanhua-vid-teaser');
-  const player = document.getElementById('chanhua-vid-player');
-  teaser.style.display = 'none';
-  player.style.display = 'block';
-  teaser.setAttribute('aria-expanded','true');
-  // Apply lang to player labels
-  _cvidApplyLang();
-}
-function cvidCollapse() {
-  const teaser  = document.getElementById('chanhua-vid-teaser');
-  const player  = document.getElementById('chanhua-vid-player');
-  const iframe  = document.getElementById('chanhua-iframe');
-  // Pause YouTube playback by posting to the iframe
-  if (iframe) iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}','*');
-  player.style.display = 'none';
-  teaser.style.display = '';
-  teaser.setAttribute('aria-expanded','false');
-}
-function _cvidApplyLang() {
-  const isZh = (localStorage.getItem('silora-lang') || 'en') === 'zh';
-  document.querySelectorAll('.chanhua-vid-player [data-i18n-en]').forEach(el => {
-    el.textContent = isZh ? (el.dataset.i18nZh || el.dataset.i18nEn) : el.dataset.i18nEn;
-  });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  const teaser = document.getElementById('chanhua-vid-teaser');
-  if (teaser) {
-    teaser.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); cvidExpand(); }
-    });
-  }
-});
-</script>
 <section style="background: var(--ivory); padding: var(--space-xl) 0;">
   <div class="container">
     <div style="text-align: center; margin-bottom: 3rem;">
