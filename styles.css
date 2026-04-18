@@ -63,6 +63,14 @@ body {
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  cursor: url('images/cursor-chuanghua.svg') 16 16, auto;
+}
+
+/* Restore pointer for interactive elements */
+a, button, [role="button"], label, select, input[type="checkbox"],
+input[type="radio"], input[type="submit"], input[type="button"],
+.filter-tab, .btn, .task-btn, .lang-btn, .nav-logo, .wf-card {
+  cursor: url('images/cursor-chuanghua.svg') 16 16, pointer;
 }
 
 /* ---------- Global ink-painting watermark (写意暗纹) ---------- */
