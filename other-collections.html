@@ -47,9 +47,8 @@
       border: 1px solid rgba(250,247,242,0.5); padding: 0.5rem 1.2rem;
     }
     .wf-body { padding: 1.4rem 1.5rem 1.6rem; }
-    .wf-series { font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.2rem; }
-    .wf-series-en { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 400; font-style: italic; color: var(--text-dark); margin-bottom: 0.15rem; line-height: 1.2; }
-    .wf-title { font-family: var(--font-serif); font-size: 1.35rem; font-weight: 400; color: var(--text-dark); margin-bottom: 0.25rem; line-height: 1.25; }
+    .wf-series { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; }
+    .wf-title { font-family: var(--font-serif); font-size: 1.3rem; font-weight: 400; color: var(--text-dark); margin-bottom: 0.3rem; line-height: 1.25; }
     .wf-title-zh { font-size: 0.78rem; color: var(--text-light); margin-bottom: 0.65rem; }
     .wf-tagline { font-size: 0.84rem; color: var(--text-mid); line-height: 1.65; }
     .wf-price { font-size: 0.78rem; color: var(--gold); margin-top: 0.6rem; letter-spacing: 0.03em; font-family: var(--font-serif); font-style: italic; }
@@ -183,13 +182,11 @@
 
 <!-- Page Hero -->
 <div class="page-hero">
-  <p class="t-label page-hero-label">缠花珠宝 · Silk Thread Jewellery</p>
-  <h1 class="t-display page-hero-title" style="font-size: clamp(2.5rem, 5vw, 5rem);">
-    五大系列
-  </h1>
+  <p class="t-label page-hero-label" data-i18n-en="Silk Thread Jewellery" data-i18n-zh="缠花珠宝 · Silk Thread Jewellery">Silk Thread Jewellery</p>
+  <h1 class="t-display page-hero-title" style="font-size: clamp(2.5rem, 5vw, 5rem);" data-i18n-en="Five Series" data-i18n-zh="五大系列">Five Series</h1>
   <div class="divider"></div>
-  <p class="page-hero-desc">
-    兰花系列 · 四时之景 · 亲情系列 · 定制系列 — five ways to carry Chinese craft.<br>
+  <p class="page-hero-desc" data-i18n-en="The Orchid · Four Seasons · Kinship · Bespoke — four ways to carry Chinese craft.<br>Every piece hand-wound in silk, each one a poem, a season, or a story." data-i18n-zh="兰花系列 · 四时之景 · 亲情系列 · 定制系列 — four ways to carry Chinese craft.<br>Every piece hand-wound in silk, each one a poem, a season, or a story.">
+    The Orchid · Four Seasons · Kinship · Bespoke — four ways to carry Chinese craft.<br>
     Every piece hand-wound in silk, each one a poem, a season, or a story.
   </p>
 </div>
@@ -198,7 +195,7 @@
 <section style="background: var(--cream); padding: var(--space-xl) 0 calc(var(--space-xl) + 2rem);">
   <div class="container">
     <div style="text-align:center; max-width: 520px; margin: 0 auto;">
-      <p class="t-label reveal">五大系列 · Five Series · One Craft</p>
+      <p class="t-label reveal" data-i18n-en="Five Series · One Craft" data-i18n-zh="五大系列 · Five Series · One Craft">Five Series · One Craft</p>
       <div class="divider"></div>
       <p class="t-body reveal reveal-delay-1" style="margin-top:0.5rem;">
         Each series is rooted in classical Chinese poetry. Click any card to read its story and request a price.
@@ -206,11 +203,11 @@
     </div>
 
     <div class="filter-tabs" id="filterTabs">
-      <button class="filter-tab active" data-filter="all">All</button>
-      <button class="filter-tab" data-filter="orchid">兰花系列</button>
-      <button class="filter-tab" data-filter="seasons">四时之景</button>
-      <button class="filter-tab" data-filter="kinship">亲情系列</button>
-      <button class="filter-tab" data-filter="custom">定制系列</button>
+      <button class="filter-tab active" data-filter="all"     data-en="All"          data-zh="全部">All</button>
+      <button class="filter-tab"        data-filter="orchid"  data-en="The Orchid"   data-zh="兰花系列">The Orchid</button>
+      <button class="filter-tab"        data-filter="seasons" data-en="Four Seasons" data-zh="四时之景">Four Seasons</button>
+      <button class="filter-tab"        data-filter="kinship" data-en="Kinship"      data-zh="亲情系列">Kinship</button>
+      <button class="filter-tab"        data-filter="custom"  data-en="Bespoke"      data-zh="定制系列">Bespoke</button>
     </div>
     <div class="waterfall" id="waterfall">
       <!-- Cards injected by JS from COLLECTIONS data below -->
@@ -320,10 +317,10 @@
 // To publish/unpublish: edit that file → git push → live in 30s
 // ============================================================
 const CATEGORY_LABELS = {
-  orchid:  { en: '兰花系列 · The Orchid — Special by Nature', zh: '兰花系列 · 特别的花' },
-  seasons: { en: '四时之景 · Scenes of the Four Seasons',      zh: '四时之景 · 春夏秋冬' },
-  kinship: { en: '亲情系列 · Tell Us Your Story',              zh: '亲情系列 · 三代的故事' },
-  custom:  { en: '定制系列 · Begin with the Flower',           zh: '定制系列 · 先选花，再选色' },
+  orchid:  { en: 'The Orchid — Special by Nature',  zh: '兰花系列 · The Orchid' },
+  seasons: { en: 'Four Seasons — Scenes in Silk',   zh: '四时之景 · 春夏秋冬'   },
+  kinship: { en: 'Kinship — Tell Us Your Story',    zh: '亲情系列 · 三代的故事'  },
+  custom:  { en: 'Bespoke — Begin with the Flower', zh: '定制系列 · 先选花，再选色' },
 };
 
 // ---- Inline fallback data (always works, incl. local file:// opening) ----
@@ -448,7 +445,7 @@ function buildWaterfall() {
     }
 
     const card = document.createElement('div');
-    card.className = 'wf-card reveal';
+    card.className = 'wf-card';
     card.setAttribute('data-id', c.id);
     card.setAttribute('role', 'button');
     card.setAttribute('tabindex', '0');
@@ -459,20 +456,27 @@ function buildWaterfall() {
       ? `<div class="wf-img"><img src="${c.image}" alt="${c.title}" onerror="this.style.display='none'" /><div class="wf-overlay"><span>${overlayLabel}</span></div></div>`
       : `<div class="wf-img"><div class="wf-img-placeholder ${c.imgClass || ''}" style="display:flex;align-items:center;justify-content:center;font-size:3.5rem;color:rgba(191,157,106,0.4);">${c.imgPlaceholder || '✦'}</div><div class="wf-overlay"><span>${overlayLabel}</span></div></div>`;
 
-    const priceStr = c.price ? (isZh && c.price_zh ? c.price_zh : c.price) : '';
-    // Extract English part of series name after " · " for the prominent badge
+    const priceStr = isZh && c.price_zh ? c.price_zh : (c.price || '');
+    // Series label split
     const seriesEn = c.series.includes(' · ') ? c.series.split(' · ').slice(1).join(' · ') : c.series;
-    const seriesZh = c.series.includes(' · ') ? c.series.split(' · ')[0] : '';
-    card.innerHTML = imgHtml + `
+    const seriesZh = c.series_zh || (c.series.includes(' · ') ? c.series.split(' · ')[0] : '');
+
+    card.innerHTML = imgHtml + (isZh ? `
       <div class="wf-body">
-        ${seriesZh ? `<p class="wf-series">${seriesZh}</p>` : ''}
-        <p class="wf-series-en">${seriesEn}</p>
+        <p class="wf-series">${seriesZh}</p>
+        <h3 class="wf-title">${c.title_zh}</h3>
+        <p class="wf-title-zh">${c.title}</p>
+        <p class="wf-tagline">${c.tagline_zh || c.tagline}</p>
+        ${priceStr ? `<p class="wf-price">${priceStr}</p>` : ''}
+        <div class="wf-tags">${c.tags.map(t=>`<span class="wf-tag">${t}</span>`).join('')}</div>
+      </div>` : `
+      <div class="wf-body">
+        <p class="wf-series">${seriesEn}</p>
         <h3 class="wf-title">${c.title}</h3>
-        <p class="wf-title-zh">${c.title_zh}</p>
         <p class="wf-tagline">${c.tagline}</p>
         ${priceStr ? `<p class="wf-price">${priceStr}</p>` : ''}
         <div class="wf-tags">${c.tags.map(t=>`<span class="wf-tag">${t}</span>`).join('')}</div>
-      </div>`;
+      </div>`);
 
     if (c.ctaLink) {
       card.addEventListener('click', () => window.location.href = c.ctaLink);
@@ -540,6 +544,30 @@ function closeModal() {
   document.body.style.overflow = '';
   currentCollection = null;
 }
+
+// ---- Update bilingual static elements on language change ----
+function applyPageLang() {
+  const lang = localStorage.getItem('silora-lang') || 'en';
+  const isZh = lang === 'zh';
+  // Filter tabs
+  document.querySelectorAll('.filter-tab[data-en]').forEach(btn => {
+    btn.textContent = isZh ? btn.dataset.zh : btn.dataset.en;
+  });
+  // Page hero + section label (data-i18n-en / data-i18n-zh)
+  document.querySelectorAll('[data-i18n-en]').forEach(el => {
+    el.innerHTML = isZh ? el.dataset.i18nZh : el.dataset.i18nEn;
+  });
+  // Re-render cards in correct language
+  buildWaterfall();
+}
+
+// Hook into the lang-btn clicks AFTER main.js has set up its own handlers
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => setTimeout(applyPageLang, 20));
+  });
+  applyPageLang();
+});
 
 document.getElementById('modalClose').addEventListener('click', closeModal);
 document.getElementById('modalBg').addEventListener('click', closeModal);
