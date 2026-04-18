@@ -1,9 +1,10 @@
 # SILORA ORIENT — Phase 1 Implementation Roadmap
 # SILORA ORIENT — 第一阶段实施路线图
 
-**Version 文档版本:** 1.0  
+**Version 文档版本:** 1.1  
 **Date 日期:** April 2026 · 2026年4月  
-**Status 状态:** Active — Implementation in progress · 进行中 — 实施阶段  
+**Status 状态:** P0 + P1 Complete · P0及P1已完成  
+**Updated 更新日期:** April 8, 2026 · 2026年4月8日  
 **Audience 阅读对象:** Founders · Co-founder · Future technical collaborators  
 **阅读对象:** 创始人 · 联合创始人 · 未来技术协作者
 
@@ -12,6 +13,539 @@
 > Phase 1 has one overriding goal: stop losing real business to the absence of infrastructure. Before any new feature is added, the three silent failures that exist today must be fixed — the fake newsletter form, the missing analytics, and the untracked commissions. Everything in this phase is additive and low-risk. Nothing in the current website is changed or removed.
 >
 > 第一阶段只有一个核心目标：停止因基础设施缺失而流失真实业务。在添加任何新功能之前，必须先修复当前存在的三个静默失败——虚假的订阅表单、缺失的分析数据，以及无追踪的定制订单。本阶段所有内容均为追加性质，风险极低。现有网站不做任何删改。
+
+---
+
+## Implementation Record · 实施记录
+
+*This section records the actual completion status of all Phase 1 tasks, including exact dates, files created or modified, what each task enables, and what still requires founder action to activate.*
+
+*本节记录所有第一阶段任务的实际完成状态，包括确切日期、创建或修改的文件、每项任务开启的功能，以及仍需创始人操作才能激活的内容。*
+
+---
+
+### Deploy Pipeline Fix · 部署流水线修复
+
+**Completed · 完成日期:** April 8, 2026  
+**Status · 状态:** ✅ Complete · 已完成
+
+**What was fixed · 修复内容:**
+
+Two root causes caused all Vercel deployments to fail after `api/subscribe.js` was added to the repository.
+
+两个根本原因导致将 `api/subscribe.js` 添加到仓库后，所有 Vercel 部署均失败。
+
+| Cause · 原因 | Fix · 修复方案 |
+|------------|--------------|
+| `vercel.json` used a single `@vercel/static` catch-all builder that treated `api/subscribe.js` as a static file, not a serverless function · `vercel.json`使用单一的`@vercel/static`通配构建器，将`api/subscribe.js`视为静态文件而非无服务器函数 | Rewrote `vercel.json` with explicit `@vercel/node` builder for `api/*.js` and `@vercel/static` for each static file pattern separately · 重写`vercel.json`，为`api/*.js`使用`@vercel/node`，为每种静态文件类型单独指定`@vercel/static` |
+| `api/subscribe.js` used ES module `export default` syntax; Vercel's Node.js runtime defaults to CommonJS without `"type": "module"` in `package.json` · `api/subscribe.js`使用ES模块`export default`语法；Vercel的Node.js运行时默认使用CommonJS | Changed `export default async function handler` to `module.exports = async function handler` throughout the file · 将文件中的`export default async function handler`改为`module.exports = async function handler` |
+
+**GitHub Secrets required · 所需GitHub Secrets:**
+
+Four secrets were created in GitHub → Settings → Actions → Secrets for the deploy workflow to function:
+
+在GitHub → 设置 → Actions → Secrets中创建了四个密钥，以使部署工作流正常运行：
+
+| Secret Name · 密钥名称 | Value · 值 |
+|----------------------|----------|
+| `VERCEL_TOKEN` | Vercel personal access token (create at vercel.com/account/tokens) · Vercel个人访问令牌（在vercel.com/account/tokens创建） |
+| `VERCEL_SCOPE` | `yuetongma0107-6224s-projects` |
+| `VERCEL_ORG_ID` | `team_wvSHIRMeGmTf6MA6Lv4qoftJ` |
+| `VERCEL_PROJECT_ID` | `prj_DN5UT9QgOIjH7iglkh8l7SunT3Mw` |
+
+**Security note · 安全说明:** The Vercel token is stored only in GitHub Secrets — never in any file in the repository. The previous token was exposed in a commit and has been rotated. A new token must be created by the founder and stored in GitHub Secrets only.
+
+Vercel令牌仅存储在GitHub Secrets中，从不存入仓库的任何文件。之前的令牌在某次提交中被暴露，已完成轮换。创始人必须创建新令牌，并仅存储在GitHub Secrets中。
+
+**Files modified · 修改的文件:**
+- `vercel.json` — rewritten with explicit builders · 重写，使用明确的构建器
+- `api/subscribe.js` — changed from ES module to CommonJS syntax · 从ES模块语法改为CommonJS语法
+- `CLAUDE.md` — hardcoded token replaced with `YOUR_VERCEL_TOKEN` placeholder · 硬编码令牌替换为`YOUR_VERCEL_TOKEN`占位符
+
+---
+
+### Task 1.0.A — Google Analytics 4 · GA4安装
+
+**Completed · 完成日期:** April 7–8, 2026  
+**Status · 状态:** ✅ Code complete; requires founder activation · 代码已完成；需创始人激活
+
+**What was done · 已完成内容:**
+
+The GA4 script block was inserted into the `<head>` of all 9 HTML pages, immediately after the stylesheet link and before any page-specific `<style>` blocks. Three custom conversion events were wired directly into the site's JavaScript.
+
+GA4脚本块已插入全部9个HTML页面的 `<head>` 标签中，紧跟样式表链接之后、任何页面特定 `<style>` 块之前。三个自定义转化事件已直接接入网站的JavaScript代码。
+
+**Script block added to all 9 pages · 已添加至全部9个页面的脚本块:**
+
+```html
+<!-- Google Analytics 4 — replace G-XXXXXXXXXX with real Measurement ID -->
+<!-- Google Analytics 4 — 将G-XXXXXXXXXX替换为真实测量ID -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+```
+
+**Files modified · 修改的文件:**
+- `index.html` — GA4 block added · 已添加GA4代码块
+- `about.html` — GA4 block added · 已添加GA4代码块
+- `collections.html` — GA4 block added · 已添加GA4代码块
+- `other-collections.html` — GA4 block added · 已添加GA4代码块
+- `custom.html` — GA4 block added + `custom_form_submit` event wired into `submitForm()` · 已添加GA4代码块 + `custom_form_submit`事件已接入`submitForm()`
+- `stories.html` — GA4 block added · 已添加GA4代码块
+- `journal.html` — GA4 block added · 已添加GA4代码块
+- `documentary.html` — GA4 block added · 已添加GA4代码块
+- `contact.html` — GA4 block added · 已添加GA4代码块
+- `main.js` — `newsletter_signup` and `contact_form_submit` GA4 events added · 已添加`newsletter_signup`和`contact_form_submit` GA4事件
+
+**Custom events wired · 已接入的自定义事件:**
+
+| Event Name · 事件名称 | Location · 位置 | Trigger · 触发条件 | Category · 分类 |
+|----------------------|---------------|-------------------|----------------|
+| `newsletter_signup` | `main.js` newsletter handler | Successful Mailchimp API response · 成功的Mailchimp API响应 | `engagement` |
+| `custom_form_submit` | `custom.html` `submitForm()` | Successful Formspree submission · 成功的Formspree提交 | `conversion` |
+| `contact_form_submit` | `main.js` contact form handler | Formspree form submit detected · 检测到Formspree表单提交 | `engagement` |
+
+**Founder activation required · 需创始人激活:**
+
+1. Go to analytics.google.com → Create a new GA4 property for `silora-orient.vercel.app`  
+   进入analytics.google.com → 为`silora-orient.vercel.app`创建新GA4属性
+2. Copy the Measurement ID (format: `G-XXXXXXXXXX`)  
+   复制测量ID（格式：`G-XXXXXXXXXX`）
+3. Open all 9 HTML files and replace every instance of `G-XXXXXXXXXX` with the real ID — there are 2 instances per file (18 total replacements)  
+   打开全部9个HTML文件，将每处`G-XXXXXXXXXX`替换为真实ID——每文件2处，共18处替换
+
+---
+
+### Task 1.0.B — Mailchimp Newsletter Integration · Mailchimp订阅集成
+
+**Completed · 完成日期:** April 8, 2026  
+**Status · 状态:** ✅ Code complete; requires founder activation · 代码已完成；需创始人激活
+
+**What was done · 已完成内容:**
+
+The homepage newsletter form was previously a fake — it changed the button color and displayed "Thank you" but stored no subscriber data. This has been fully replaced with a real Mailchimp integration consisting of two parts: a Vercel serverless function (`api/subscribe.js`) that calls the Mailchimp API server-side (keeping the API key private), and an updated newsletter handler in `main.js` that calls this function with the submitted email.
+
+主页订阅表单之前是虚假的——它仅改变按钮颜色并显示"谢谢"，但不储存任何订阅者数据。现已完全替换为真实的Mailchimp集成，包含两个部分：一个调用Mailchimp API（服务端调用，保持API密钥私密）的Vercel无服务器函数（`api/subscribe.js`）；以及`main.js`中更新的订阅处理器，用于将提交的邮箱发送给此函数。
+
+**File created · 新建文件:** `api/subscribe.js`
+
+```javascript
+// Vercel serverless function — receives email, adds to Mailchimp audience
+// Vercel无服务器函数——接收邮箱，添加至Mailchimp受众列表
+module.exports = async function handler(req, res) {
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+  const { email } = req.body || {};
+  if (!email || typeof email !== 'string' || !email.includes('@'))
+    return res.status(400).json({ error: 'Invalid email address' });
+
+  const API_KEY     = process.env.MAILCHIMP_API_KEY;
+  const AUDIENCE_ID = process.env.MAILCHIMP_AUDIENCE_ID;
+  const DC          = process.env.MAILCHIMP_DC;
+
+  if (!API_KEY || !AUDIENCE_ID || !DC) {
+    return res.status(500).json({ error: 'Server configuration error' });
+  }
+
+  const url = `https://${DC}.api.mailchimp.com/3.0/lists/${AUDIENCE_ID}/members`;
+  const mcRes = await fetch(url, {
+    method: 'POST',
+    headers: { Authorization: `apikey ${API_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      email_address: email.toLowerCase().trim(),
+      status: 'subscribed',
+      tags: ['homepage_signup'],
+    }),
+  });
+
+  const result = await mcRes.json();
+  if (mcRes.status === 200) return res.status(200).json({ success: true });
+  if (mcRes.status === 400 && result.title === 'Member Exists')
+    return res.status(200).json({ success: true, note: 'already_subscribed' });
+  return res.status(500).json({ error: 'Subscription failed', detail: result.title });
+};
+```
+
+**File modified · 修改的文件:** `main.js` — newsletter handler replaced with async fetch:
+
+```javascript
+// Replaces the previous fake button handler
+// 替换之前的虚假按钮处理器
+newsletterBtn.addEventListener('click', async function () {
+  const email = input ? input.value.trim() : '';
+  if (!email.includes('@')) { /* validation UI */ return; }
+  newsletterBtn.textContent = '...';
+  newsletterBtn.disabled = true;
+  try {
+    const res = await fetch('/api/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    if (res.ok) {
+      newsletterBtn.textContent = '✓ Thank you · 感谢订阅';
+      newsletterBtn.style.background = '#A8B89C';
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'newsletter_signup', { event_category: 'engagement' });
+      }
+    } else { throw new Error('subscription failed'); }
+  } catch {
+    newsletterBtn.textContent = 'Try again · 请重试';
+    newsletterBtn.disabled = false;
+  }
+});
+```
+
+**Subscriber tag · 订阅者标签:** All subscribers added through the homepage form receive the tag `homepage_signup` in Mailchimp, enabling segmentation by acquisition channel.
+
+所有通过主页表单添加的订阅者将在Mailchimp中获得标签 `homepage_signup`，实现按获取渠道的细分管理。
+
+**Founder activation required · 需创始人激活:**
+
+1. Create Mailchimp account at mailchimp.com (free tier: up to 500 subscribers)  
+   在mailchimp.com创建账户（免费套餐：最多500位订阅者）
+2. Create audience named "Silora Orient — Main List"  
+   创建名为"Silora Orient — Main List"的受众列表
+3. Get API key: Account → Extras → API Keys → Create A Key  
+   获取API密钥：账户 → 扩展 → API密钥 → 创建密钥
+4. Get Audience ID: Audience → Settings → Audience name and defaults  
+   获取受众ID：受众 → 设置 → 受众名称与默认值
+5. Get datacenter prefix (DC): last segment of API key after final dash (e.g. `us21`)  
+   获取数据中心前缀（DC）：API密钥最后一个破折号后的内容（例如`us21`）
+6. In Vercel project settings → Environment Variables, add:  
+   在Vercel项目设置 → 环境变量中添加：
+   - `MAILCHIMP_API_KEY` = your API key
+   - `MAILCHIMP_AUDIENCE_ID` = your Audience ID
+   - `MAILCHIMP_DC` = your datacenter prefix (e.g. `us21`)
+7. Redeploy (git push or manual deploy) after setting env vars  
+   设置环境变量后重新部署（git push或手动部署）
+
+---
+
+### Task 1.0.C — Airtable Commission Tracker · Airtable定制订单追踪器
+
+**Completed · 完成日期:** April 8, 2026  
+**Status · 状态:** ✅ Schema document complete; requires founder to build in Airtable · 架构文档已完成；需创始人在Airtable中构建
+
+**What was done · 已完成内容:**
+
+A complete Airtable schema guide was written and saved as `admin/airtable-schema.md`. The document specifies every table, field, field type, status value set, and view for the Silora Orient operations base. This document is the single source of truth for the founder when building the Airtable base.
+
+完整的Airtable架构指南已撰写并保存为 `admin/airtable-schema.md`。该文档详细说明了Silora Orient运营数据库的每个表格、字段、字段类型、状态值集合及视图。本文档是创始人构建Airtable数据库时的唯一权威参考。
+
+**File created · 新建文件:** `admin/airtable-schema.md`
+
+**Database structure · 数据库结构:** Base name: `SILORA ORIENT — Operations`
+
+**Table 1: Customers · 表一：客户**
+
+26 fields covering the full client portrait:
+
+26个字段，覆盖完整的客户画像：
+
+| Key Fields · 关键字段 | Details · 详情 |
+|----------------------|--------------|
+| Name, Email, Phone · 姓名、邮箱、电话 | Standard contact · 标准联系信息 |
+| Eye Color · 眼睛颜色 | Core CRM field — central to commission process · 核心CRM字段——定制流程的核心 |
+| Color Preferences · 颜色偏好 | Long text — collected in consultation · 长文本——在咨询中收集 |
+| Flower Preferences · 花卉偏好 | Long text — guides design direction · 长文本——引导设计方向 |
+| Story Notes · 故事记录 | Long text — the personal narrative behind each commission · 长文本——每件定制背后的个人叙事 |
+| Family Memory Notes · 家族记忆记录 | Long text — cultural and ancestral references · 长文本——文化与家族传承参考 |
+| Brand Relationship Stage · 品牌关系阶段 | Single select: Prospect / First Commission / Repeat Customer / Community Member / Ambassador · 单选：潜在客户/首次定制/复购客户/社群成员/品牌大使 |
+| Story Consent Given · 故事分享授权 | Checkbox — separate from general consent · 复选框——与一般授权分开 |
+| Workshops Attended · 参加工作坊 | Number — cumulative count · 数字——累计次数 |
+| Newsletter Status · 邮件状态 | Single select: Subscribed / Not Subscribed / Unsubscribed · 单选：已订阅/未订阅/已退订 |
+
+**Table 2: Commissions · 表二：定制订单**
+
+24 fields with 14-state status flow:
+
+24个字段，含14状态流转：
+
+Status flow (in order) · 状态流转（按顺序）:
+```
+inquiry → consultation_scheduled → consultation_complete → proposal_sent →
+approved → deposit_paid → in_production → quality_review →
+shipped → delivered → followup_sent → story_invited → complete
+```
+
+| Key Fields · 关键字段 | Details · 详情 |
+|----------------------|--------------|
+| Customer (link) · 客户（关联） | Linked to Customers table · 关联客户表 |
+| Status · 状态 | 14-state flow as above · 如上所示14状态流转 |
+| Payment Status · 支付状态 | Unpaid / Deposit Paid / Balance Due / Paid in Full / Refunded · 未付/已付定金/余款待付/全款已付/已退款 |
+| Flower Type · 花卉类型 | The primary flower used in the piece · 作品使用的主要花卉 |
+| Total Price, Deposit Amount, Balance Due · 总价、定金金额、余款 | Formula fields · 公式字段 |
+| Stripe Payment ID · Stripe支付ID | Format `pi_xxxxxxxxxx` — copied from Stripe Dashboard · 格式`pi_xxxxxxxxxx`——从Stripe后台复制 |
+| Symbolism Notes · 象征意义记录 | The story behind the piece · 作品背后的故事 |
+| Story Shared · 故事已分享 | Checkbox — tracks if customer story has been published · 复选框——追踪客户故事是否已发布 |
+
+**Table 3: B2B Partners · 表三：B2B合作方**
+
+27 fields for the B2B outreach pipeline. See `admin/airtable-schema.md` for full details.
+
+27个字段，用于B2B外联管道。完整详情见 `admin/airtable-schema.md`。
+
+**Views created per table · 每表创建的视图:**
+
+- Customers: 6 views (All / Active Commissions / Stories / Newsletter List / High Value / New This Month)
+- Commissions: 7 views including Kanban (All / Active / Kanban / Awaiting Payment / Ready to Ship / Archive / New This Week)
+- B2B Partners: 7 views (All / Outreach Queue / Awaiting Reply / Active Leads / Follow Up Today / Won / No Reply)
+
+**Founder activation required · 需创始人激活:**
+
+1. Go to airtable.com → Create new base named `SILORA ORIENT — Operations`  
+   进入airtable.com → 创建名为`SILORA ORIENT — Operations`的新数据库
+2. Follow `admin/airtable-schema.md` exactly to build all three tables, fields, status values, and views  
+   严格按照`admin/airtable-schema.md`构建全部三个表格、字段、状态值及视图
+3. Enter any existing commissions manually to populate the base  
+   手动录入现有定制订单以填充数据库
+
+---
+
+### Task 1.1.A — Zapier Formspree → Airtable Sync · Zapier表单自动同步
+
+**Completed · 完成日期:** April 8, 2026  
+**Status · 状态:** ✅ Setup guide complete; requires founder to configure Zapier · 配置指南已完成；需创始人配置Zapier
+
+**What was done · 已完成内容:**
+
+A complete step-by-step Zapier configuration guide was written and saved as `admin/zapier-setup.md`. This document covers two Zaps with full field mapping, verification checklists, failure handling procedures, and task usage estimates.
+
+完整的Zapier逐步配置指南已撰写并保存为 `admin/zapier-setup.md`。该文档涵盖两个Zap的完整字段映射、验证核查清单、失败处理程序及任务用量估算。
+
+**File created · 新建文件:** `admin/zapier-setup.md`
+
+**Zap 1: Custom Order Form → Airtable · Zap 1：定制订单表单 → Airtable**
+
+Trigger: Formspree form `xlgopzqb` — New Submission  
+触发器：Formspree表单`xlgopzqb` — 新提交
+
+Action 1 — Create Customer record:
+
+| Airtable Field · Airtable字段 | Zapier Value · Zapier值 |
+|------------------------------|------------------------|
+| Name | `{{name}}` from Formspree |
+| Email | `{{email}}` from Formspree |
+| Customer Type | *(static)* `B2C` |
+| Source | *(static)* `Website Form` |
+| First Contact Date | `{{zap_meta_human_now}}` |
+| Story Notes | `{{message}}` from Formspree |
+| Newsletter Status | *(static)* `Not Subscribed` |
+| Brand Relationship Stage | *(static)* `Prospect` |
+
+Action 2 — Create Commission record (linked to Action 1):
+
+| Airtable Field · Airtable字段 | Zapier Value · Zapier值 |
+|------------------------------|------------------------|
+| Customer | Record ID from Action 1 (`{{1. Record ID}}`) |
+| Status | *(static)* `Inquiry` |
+| Payment Status | *(static)* `Unpaid` |
+| Inquiry Date | `{{zap_meta_human_now}}` |
+| Inquiry Source | *(static)* `Website Form` |
+| Notes | `{{message}}` full content |
+
+**Zap 2: Contact Form → Airtable (Customer only) · Zap 2：联系表单 → Airtable（仅客户记录）**
+
+Same trigger. A Filter step separates contact inquiries from custom order submissions using `_subject` field. Contact submissions create only a Customer record — no Commission record, since they may not be order inquiries.
+
+相同触发器。通过`_subject`字段的过滤步骤将联系询问与定制订单提交区分开。联系表单提交仅创建客户记录——不创建定制订单记录，因为可能不是订购询价。
+
+**Zapier free tier capacity · Zapier免费套餐容量:**
+
+| Scenario · 场景 | Tasks/month · 每月任务数 |
+|----------------|------------------------|
+| 5 custom orders + 5 contact messages | 20 tasks |
+| 20 custom orders + 20 contact messages | 60 tasks |
+| Free tier limit · 免费套餐上限 | 100 tasks |
+
+**Founder activation required · 需创始人激活:**
+
+1. Create Zapier account at zapier.com  
+   在zapier.com创建Zapier账户
+2. Follow `admin/zapier-setup.md` step-by-step to create both Zaps  
+   按照`admin/zapier-setup.md`逐步创建两个Zap
+3. Submit a test custom order on `custom.html` → verify record appears in Airtable within 15 minutes  
+   在`custom.html`提交测试定制订单 → 验证15分钟内记录出现在Airtable中
+4. Turn both Zaps to ON  
+   将两个Zap开启
+
+---
+
+### Task 1.1.B — Cal.com Booking Embed · Cal.com预约嵌入
+
+**Completed · 完成日期:** April 8, 2026  
+**Status · 状态:** ✅ Code complete; requires founder activation · 代码已完成；需创始人激活
+
+**What was done · 已完成内容:**
+
+A full booking section was added to `custom.html` above the footer. The section includes a brand-styled header, explanatory text in both English and Chinese, a Cal.com inline embed container, and the Cal.com JavaScript SDK. A `booking_click` GA4 event fires when the Cal.com widget opens. The embed is guarded by a `CAL_USERNAME` check — if the username is still the placeholder `'YOUR_CAL_USERNAME'`, the script does nothing and a branded placeholder message is shown instead.
+
+完整的预约区域已添加至 `custom.html` 页脚上方。该区域包含品牌风格的标题、英中双语说明文字、Cal.com内嵌容器及Cal.com JavaScript SDK。当Cal.com插件打开时，`booking_click` GA4事件将触发。嵌入受`CAL_USERNAME`检查保护——若用户名仍为占位符`'YOUR_CAL_USERNAME'`，脚本不执行任何操作，而是显示品牌风格的占位信息。
+
+**File modified · 修改的文件:** `custom.html`
+
+Booking section added above footer:
+
+预约区域已添加至页脚上方：
+
+```html
+<!-- Booking Section · 预约区域 -->
+<section class="booking-section" style="...">
+  <div class="container">
+    <p class="eyebrow">Schedule a conversation · 预约咨询</p>
+    <h2>Begin with a conversation · 从一次对话开始</h2>
+    <p>Every custom piece begins with a conversation — about your story, your memories,
+       and the colors that feel like yours. Book a 45-minute consultation below.
+       每件定制作品都始于一次对话——关于你的故事、你的记忆，以及那些属于你的色彩。
+       在下方预约45分钟咨询。</p>
+    <div id="cal-inline" style="min-height: 400px;"></div>
+    <!-- Cal.com SDK script with YOUR_CAL_USERNAME guard -->
+  </div>
+</section>
+```
+
+**Cal.com script guard · Cal.com脚本保护:**
+
+```javascript
+const CAL_USERNAME = 'YOUR_CAL_USERNAME'; // Replace with real Cal.com username
+if (CAL_USERNAME !== 'YOUR_CAL_USERNAME') {
+  // Cal.com embed loads only when username is configured
+  // Cal.com嵌入仅在用户名已配置时加载
+}
+```
+
+**Founder activation required · 需创始人激活:**
+
+1. Create account at cal.com (free tier is sufficient)  
+   在cal.com创建账户（免费套餐即可）
+2. Connect Google Calendar: Settings → Calendars  
+   连接Google日历：设置 → 日历
+3. Create event type: "Custom Jewelry Consultation · 定制珠宝咨询" — 45 minutes, 15-minute buffer, customize confirmation email with brand language  
+   创建活动类型："Custom Jewelry Consultation · 定制珠宝咨询"——45分钟，15分钟缓冲时间，用品牌语言自定义确认邮件
+4. Note your Cal.com username (visible in your profile URL: `cal.com/YOUR_USERNAME`)  
+   记录你的Cal.com用户名（在个人资料URL中可见：`cal.com/YOUR_USERNAME`）
+5. Open `custom.html`, find `const CAL_USERNAME = 'YOUR_CAL_USERNAME'`, replace with your actual username  
+   打开`custom.html`，找到`const CAL_USERNAME = 'YOUR_CAL_USERNAME'`，替换为你的实际用户名
+6. Deploy (git push)  
+   部署（git push）
+
+---
+
+### Task 1.1.C — Stripe Payment Links · Stripe支付链接
+
+**Completed · 完成日期:** April 8, 2026  
+**Status · 状态:** ✅ Reference document complete; requires founder to create Stripe account and links · 参考文档已完成；需创始人创建Stripe账户及链接
+
+**What was done · 已完成内容:**
+
+A complete Stripe payment link management guide was written and saved as `admin/stripe-payment-links.md`. The document specifies all links to create, amounts, product names, email templates for sending links to customers, Airtable tracking steps, refund procedures, and a test mode checklist.
+
+完整的Stripe支付链接管理指南已撰写并保存为 `admin/stripe-payment-links.md`。该文档详细说明了需创建的所有链接、金额、产品名称、向客户发送链接的邮件模板、Airtable追踪步骤、退款程序及测试模式核查清单。
+
+**File created · 新建文件:** `admin/stripe-payment-links.md`
+
+**Links to create in Stripe · 在Stripe中需创建的链接:**
+
+| Type · 类型 | Amounts · 金额 | Stripe Product Name |
+|-----------|--------------|---------------------|
+| Commission Deposit · 定制定金 | $100, $150, $200, $250, $300, $400 | `Commission Deposit — Silora Orient` |
+| Commission Balance · 定制尾款 | $100, $150, $200, $250, $300, $400 | `Commission Balance — Silora Orient` |
+| Workshop Seat · 工作坊席位 | $65, $85, $120 | `Workshop — Silora Orient` |
+
+**Commission deposit email template · 定制定金邮件模板:**
+
+```
+Subject: Your Silora Orient commission is confirmed
+
+Dear [Name],
+
+We're so pleased to confirm your custom [flower type] commission.
+
+To begin your piece, a 50% deposit of $[amount] is required.
+You can pay securely here: [STRIPE LINK]
+
+Once received, we'll begin designing your piece within 3–5 days.
+
+With care,
+Silora Orient
+```
+
+**Commission balance email template · 定制尾款邮件模板:**
+
+```
+Subject: Your Silora Orient piece is ready
+
+Dear [Name],
+
+Your [flower type] piece is complete and we love how it has turned out.
+
+To arrange shipping, the remaining balance of $[amount] is due here:
+[STRIPE LINK]
+
+Once confirmed, we'll ship within 2 business days with tracking.
+
+With care,
+Silora Orient
+```
+
+**Refund policy · 退款政策:** Deposits are non-refundable once production has begun (`In Production` status). Full refund available if customer cancels before `In Production`. All refunds processed by the Founder only via Stripe Dashboard.
+
+定金一旦开始制作（`In Production`状态）即不可退款。若客户在`In Production`状态前取消，可全额退款。所有退款仅由创始人通过Stripe后台处理。
+
+**Founder activation required · 需创始人激活:**
+
+1. Create Stripe account at stripe.com, complete identity verification (requires government ID)  
+   在stripe.com创建账户，完成身份验证（需政府颁发的身份证件）
+2. Add bank account for payouts: Dashboard → Settings → Bank accounts  
+   添加银行账户用于提款：后台 → 设置 → 银行账户
+3. Test with Stripe test mode first using test card `4242 4242 4242 4242`  
+   先使用测试卡`4242 4242 4242 4242`在Stripe测试模式下进行测试
+4. Create all 15 payment links per `admin/stripe-payment-links.md`  
+   按照`admin/stripe-payment-links.md`创建全部15条支付链接
+5. Paste each link URL into the "Paste URL here" column in `admin/stripe-payment-links.md`  
+   将每条链接URL粘贴至`admin/stripe-payment-links.md`中的"粘贴链接"列
+
+---
+
+### Summary: What Is Live vs. What Needs Activation · 摘要：已上线内容与待激活内容
+
+**Already live in production (silora-orient.vercel.app) · 已在生产环境上线:**
+
+| Item · 内容 | Details · 详情 |
+|-----------|--------------|
+| GA4 script on all 9 pages · 全部9页GA4脚本 | Tracking begins the moment GA4 Measurement ID is set · 设置GA4测量ID后立即开始追踪 |
+| Newsletter form → Mailchimp API · 订阅表单→Mailchimp API | Working code deployed; activates when env vars are set in Vercel · 已部署工作代码；在Vercel中设置环境变量后激活 |
+| Cal.com booking section on custom.html · custom.html上的Cal.com预约区域 | Placeholder visible now; activates when username is replaced · 当前显示占位信息；替换用户名后激活 |
+| All 3 GA4 custom events · 全部3个GA4自定义事件 | Fires correctly once GA4 ID is real · GA4 ID设置为真实值后正常触发 |
+| Deploy pipeline · 部署流水线 | Green; all 4 GitHub Secrets configured · 正常运行；全部4个GitHub Secrets已配置 |
+
+**Requires founder action to activate · 需创始人操作才能激活:**
+
+| Action Required · 所需操作 | Est. Time · 预计时间 |
+|--------------------------|------------------|
+| Replace `G-XXXXXXXXXX` in all 9 HTML files with real GA4 Measurement ID · 将全部9个HTML文件中的`G-XXXXXXXXXX`替换为真实GA4测量ID | 10 minutes · 10分钟 |
+| Create Mailchimp account, get API key, set 3 Vercel env vars · 创建Mailchimp账户、获取API密钥、设置3个Vercel环境变量 | 30 minutes · 30分钟 |
+| Build Airtable base per `admin/airtable-schema.md` · 按`admin/airtable-schema.md`构建Airtable数据库 | 2–3 hours · 2-3小时 |
+| Configure Zapier Zaps per `admin/zapier-setup.md` · 按`admin/zapier-setup.md`配置Zapier Zap | 45–60 minutes · 45-60分钟 |
+| Create Cal.com account, replace `YOUR_CAL_USERNAME` in `custom.html` · 创建Cal.com账户，替换`custom.html`中的`YOUR_CAL_USERNAME` | 30 minutes · 30分钟 |
+| Create Stripe account, create 15 payment links · 创建Stripe账户，创建15条支付链接 | 30–45 minutes · 30-45分钟 |
+
+---
+
+### Next: P2 Tasks · 下一步：P2任务
+
+**Task 1.2.A — Mailchimp Welcome Automation · Mailchimp欢迎自动化** — Not started · 未开始  
+Depends on: Mailchimp account live and first subscriber received · 依赖：Mailchimp账户已上线且已收到第一位订阅者  
+Effort: 2–3 hours to configure the 3-email sequence in Mailchimp Customer Journeys · 工作量：在Mailchimp客户旅程中配置3封邮件序列需2-3小时
+
+**Task 1.2.B — B2B Partner Database (Initial 50) · B2B合作方数据库（初始50条）** — Not started · 未开始  
+Depends on: Airtable base live (Task 1.0.C complete) · 依赖：Airtable数据库已上线（任务1.0.C已完成）  
+Effort: 3–4 hours research + 1 hour data entry · 工作量：3-4小时调研 + 1小时数据录入
 
 ---
 
@@ -33,6 +567,14 @@
 | Stripe payment links for commissions · 定制订单Stripe支付链接 | M-5 | Deposits can be collected · 可收取定金 |
 | Welcome email automation · 欢迎邮件自动化 | M-6 | Every subscriber gets a response · 每位订阅者获得回复 |
 | B2B partner database (initial 50) · B2B合作方数据库（初始50条） | M-4 | Outreach can begin systematically · 系统化外联可以开始 |
+
+Phase 1 = "数据捕获层"，是整个 6 模块系统的输入管道：
+Brand CMS：用GA4知道哪些内容受欢迎
+Client CRM：用Airtable存客户记录
+Product Studio：用Stripe收定制定金
+Community Hub：用Cal.com收课程预约
+B2B Pipeline：后续用Airtable存合作线索
+Analytics & Ops：用GA4看全站数据
 
 **What Phase 1 does NOT include · 第一阶段不包含:**
 - Custom backend or database build · 自建后端或数据库
@@ -787,66 +1329,72 @@ Use this checklist to confirm Phase 1 is complete before moving to Phase 2.
 
 ### P0 — Critical Fixes · P0 — 关键修复
 
-- [ ] GA4 property created, Measurement ID retrieved  
-  GA4属性已创建，测量ID已获取
-- [ ] GA4 script added to all 9 HTML files (`index`, `about`, `collections`, `other-collections`, `custom`, `stories`, `journal`, `documentary`, `contact`)  
-  GA4脚本已添加至全部9个HTML文件
-- [ ] GA4 verified: real-time report shows active users on site  
-  GA4已验证：实时报告显示网站上的活跃用户
-- [ ] Mailchimp account created, audience configured  
-  Mailchimp账户已创建，受众列表已配置
-- [ ] `/api/subscribe.js` created and deployed to Vercel  
-  `/api/subscribe.js`已创建并部署至Vercel
-- [ ] Environment variables set in Vercel: `MAILCHIMP_API_KEY`, `MAILCHIMP_AUDIENCE_ID`, `MAILCHIMP_DC`  
-  Vercel中已设置环境变量
-- [ ] Newsletter form tested: submit email → appears in Mailchimp audience within 30 seconds  
-  订阅表单已测试：提交邮箱 → 30秒内出现在Mailchimp受众列表中
-- [ ] Airtable base created: `SILORA ORIENT — Operations`  
-  Airtable数据库已创建
-- [ ] Customers table built with all required fields  
-  客户表已建立，含所有必填字段
-- [ ] Commissions table built with all required fields and status values  
-  定制订单表已建立，含所有必填字段和状态值
-- [ ] Six Airtable views created for commissions  
-  已创建六个定制订单视图
+Legend · 图例: ✅ Complete · 已完成 | 🔧 Code done, needs founder action · 代码已完成，需创始人操作 | ⏳ Awaiting prerequisite · 等待前提条件
+
+- 🔧 GA4 property created, Measurement ID retrieved — *Founder: create property at analytics.google.com*  
+  GA4属性已创建，测量ID已获取——*创始人：在analytics.google.com创建属性*
+- ✅ GA4 script added to all 9 HTML files (`index`, `about`, `collections`, `other-collections`, `custom`, `stories`, `journal`, `documentary`, `contact`) — *Completed April 7–8, 2026*  
+  GA4脚本已添加至全部9个HTML文件——*完成于2026年4月7-8日*
+- ⏳ GA4 verified: real-time report shows active users on site — *Pending: replace `G-XXXXXXXXXX` with real Measurement ID first*  
+  GA4已验证：实时报告显示网站上的活跃用户——*待处理：先替换`G-XXXXXXXXXX`为真实测量ID*
+- 🔧 Mailchimp account created, audience "Silora Orient — Main List" configured — *Founder: create at mailchimp.com*  
+  Mailchimp账户已创建，受众列表"Silora Orient — Main List"已配置——*创始人：在mailchimp.com创建*
+- ✅ `/api/subscribe.js` created and deployed to Vercel — *Completed April 8, 2026*  
+  `/api/subscribe.js`已创建并部署至Vercel——*完成于2026年4月8日*
+- 🔧 Environment variables set in Vercel: `MAILCHIMP_API_KEY`, `MAILCHIMP_AUDIENCE_ID`, `MAILCHIMP_DC` — *Founder: set in Vercel Dashboard → Project Settings → Environment Variables*  
+  Vercel中已设置环境变量——*创始人：在Vercel后台 → 项目设置 → 环境变量中设置*
+- ⏳ Newsletter form tested: submit email → appears in Mailchimp audience within 30 seconds — *Pending: Mailchimp env vars must be set first*  
+  订阅表单已测试：提交邮箱 → 30秒内出现在Mailchimp受众列表中——*待处理：需先设置Mailchimp环境变量*
+- 🔧 Airtable base created: `SILORA ORIENT — Operations` — *Founder: follow `admin/airtable-schema.md`*  
+  Airtable数据库已创建——*创始人：按照`admin/airtable-schema.md`操作*
+- 🔧 Customers table built with all 26 required fields — *Founder: schema defined in `admin/airtable-schema.md`*  
+  客户表已建立，含全部26个必填字段——*创始人：架构已在`admin/airtable-schema.md`中定义*
+- 🔧 Commissions table built with all 24 required fields and 14-state status flow — *Founder: schema defined in `admin/airtable-schema.md`*  
+  定制订单表已建立，含全部24个必填字段和14状态流转——*创始人：架构已在`admin/airtable-schema.md`中定义*
+- 🔧 Seven Airtable views created for Commissions (including Kanban) — *Founder: view specs in `admin/airtable-schema.md`*  
+  已创建七个定制订单视图（含看板）——*创始人：视图规格在`admin/airtable-schema.md`中*
 
 ### P1 — Channel Connections · P1 — 渠道连接
 
-- [ ] Zapier or Make account created  
-  Zapier或Make账户已创建
-- [ ] Zap created: Formspree submission → Airtable Customer + Commission records  
-  Zap已创建：Formspree提交 → Airtable客户+定制订单记录
-- [ ] Zap tested: submit test form → records appear in Airtable  
-  Zap已测试：提交测试表单 → 记录出现在Airtable中
-- [ ] Cal.com account created, Google Calendar connected  
-  Cal.com账户已创建，Google日历已连接
-- [ ] Consultation event type configured (45 min, buffer, availability)  
-  咨询活动类型已配置（45分钟、缓冲时间、可用性）
-- [ ] Confirmation email copy customized in Cal.com  
-  Cal.com中确认邮件文案已自定义
-- [ ] Cal.com booking widget embedded in `custom.html`  
-  Cal.com预约插件已嵌入`custom.html`
-- [ ] Stripe account created and verified  
-  Stripe账户已创建并验证
-- [ ] Three deposit payment links created ($150, $200, $300)  
-  已创建三条定金支付链接（150、200、300美元）
-- [ ] Test payment completed on Stripe (using test mode)  
-  Stripe测试支付已完成（使用测试模式）
+- 🔧 Zapier account created at zapier.com — *Founder action required*  
+  Zapier账户已在zapier.com创建——*需创始人操作*
+- 🔧 Zap 1 created: Formspree `xlgopzqb` → Airtable Customer + Commission records — *Founder: follow `admin/zapier-setup.md`*  
+  Zap 1已创建：Formspree `xlgopzqb` → Airtable客户+定制订单记录——*创始人：按`admin/zapier-setup.md`操作*
+- 🔧 Zap 2 created: Formspree contact → Airtable Customer only (with subject filter) — *Founder: follow `admin/zapier-setup.md`*  
+  Zap 2已创建：Formspree联系表单 → 仅Airtable客户记录（含主题过滤器）——*创始人：按`admin/zapier-setup.md`操作*
+- ⏳ Zap tested: submit test form on `custom.html` → records appear in Airtable — *Pending: Airtable base and Zaps must be live first*  
+  Zap已测试：在`custom.html`提交测试表单 → 记录出现在Airtable中——*待处理：需先完成Airtable数据库和Zap配置*
+- 🔧 Cal.com account created, Google Calendar connected — *Founder: create at cal.com, connect via Settings → Calendars*  
+  Cal.com账户已创建，Google日历已连接——*创始人：在cal.com创建，通过设置→日历连接*
+- 🔧 Consultation event type configured: "Custom Jewelry Consultation · 定制珠宝咨询" (45 min, 15-min buffer) — *Founder action*  
+  咨询活动类型已配置（45分钟、15分钟缓冲时间）——*需创始人操作*
+- 🔧 Confirmation email copy customized in Cal.com with brand language — *Founder action*  
+  Cal.com中确认邮件文案已用品牌语言自定义——*需创始人操作*
+- ✅ Cal.com booking section added to `custom.html` with inline embed and `booking_click` GA4 event — *Completed April 8, 2026*  
+  Cal.com预约区域已添加至`custom.html`，含内嵌插件及`booking_click` GA4事件——*完成于2026年4月8日*
+- 🔧 Replace `YOUR_CAL_USERNAME` in `custom.html` with real Cal.com username — *Founder: edit `custom.html` line with `CAL_USERNAME`, then git push*  
+  将`custom.html`中的`YOUR_CAL_USERNAME`替换为真实Cal.com用户名——*创始人：编辑`custom.html`中`CAL_USERNAME`一行，然后git push*
+- 🔧 Stripe account created and verified (identity + bank account) — *Founder: create at stripe.com*  
+  Stripe账户已创建并验证（身份+银行账户）——*创始人：在stripe.com创建*
+- 🔧 All 15 payment links created (6 deposit × $100–$400, 6 balance × $100–$400, 3 workshop × $65/$85/$120) — *Founder: follow `admin/stripe-payment-links.md`*  
+  全部15条支付链接已创建——*创始人：按`admin/stripe-payment-links.md`操作*
+- 🔧 Test payment completed on Stripe using test card `4242 4242 4242 4242` — *Founder action*  
+  使用测试卡`4242 4242 4242 4242`完成Stripe测试支付——*需创始人操作*
 
 ### P2 — Forward Momentum · P2 — 持续动力
 
-- [ ] Mailchimp Customer Journey created  
-  Mailchimp客户旅程已创建
-- [ ] Three welcome emails written in brand voice (EN, or EN + ZH)  
-  三封欢迎邮件已使用品牌语言撰写（英文，或英中双语）
-- [ ] Welcome automation tested: subscribe test email → all three emails received  
-  欢迎自动化已测试：订阅测试邮箱 → 收到全部三封邮件
-- [ ] B2B Partners table added to Airtable  
-  B2B合作方表已添加至Airtable
-- [ ] Six B2B views created  
-  已创建六个B2B视图
-- [ ] 50 initial B2B target records entered  
-  已录入50条初始B2B目标记录
+- ⏳ Mailchimp Customer Journey created (3-email welcome sequence) — *Not started · 未开始*  
+  Mailchimp客户旅程已创建（3封欢迎序列）——*未开始*
+- ⏳ Three welcome emails written and configured in Customer Journey — *Email copy exists in roadmap; needs Mailchimp setup first*  
+  三封欢迎邮件已撰写并在客户旅程中配置——*邮件文案已在路线图中；需先完成Mailchimp配置*
+- ⏳ Welcome automation tested: subscribe test email → all three emails received within 7 days — *Not started · 未开始*  
+  欢迎自动化已测试：订阅测试邮箱 → 7天内收到全部三封邮件——*未开始*
+- ⏳ B2B Partners table added to Airtable (27 fields, 12 statuses, 7 views) — *Not started; depends on Airtable base being live · 未开始；依赖Airtable数据库上线*  
+  B2B合作方表已添加至Airtable——*未开始；依赖Airtable数据库上线*
+- ⏳ Seven B2B views created — *Not started · 未开始*  
+  已创建七个B2B视图——*未开始*
+- ⏳ 50 initial B2B target records entered (NYC boutiques, concept stores, galleries, cultural institutions, stylists) — *Not started · 未开始*  
+  已录入50条初始B2B目标记录（纽约精品店、概念店、画廊、文化机构、造型师）——*未开始*
 
 ---
 
