@@ -452,19 +452,17 @@
 
       <!-- Expanded player -->
       <div class="chanhua-vid-player" id="chanhua-vid-player" style="display:none;">
-        <div class="chanhua-vid-player-inner">
-          <video id="chanhua-video" controls playsinline preload="metadata"
-                 style="width:100%;border-radius:4px;display:block;max-height:420px;background:#000;">
-            <!-- Replace the src below with your video URL or file path -->
-            <source src="TODO_VIDEO_SRC" type="video/mp4">
-            Your browser does not support HTML5 video.
-          </video>
-
-          <!-- Bilingual subtitle panel (synced via JS timeupdate) -->
-          <div class="chanhua-subs" id="chanhua-subs" aria-live="polite">
-            <p class="chanhua-sub-en" id="chanhua-sub-en">&nbsp;</p>
-            <p class="chanhua-sub-zh" id="chanhua-sub-zh">&nbsp;</p>
-          </div>
+        <div class="chanhua-vid-player-inner" style="position:relative;">
+          <iframe id="chanhua-iframe"
+            src="https://www.youtube.com/embed/TcJWl0GBHjc?enablejsapi=1&rel=0&modestbranding=1"
+            style="width:100%;aspect-ratio:16/9;border:none;border-radius:4px;display:block;"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+          <!-- Brand watermark overlay -->
+          <img src="images/silora-vid-watermark.png" alt=""
+               style="position:absolute;bottom:48px;right:14px;width:140px;
+                      pointer-events:none;opacity:0.82;" />
         </div>
 
         <button class="chanhua-vid-collapse" onclick="cvidCollapse()" aria-label="Close video">
@@ -490,10 +488,11 @@ function cvidExpand() {
   _cvidApplyLang();
 }
 function cvidCollapse() {
-  const teaser = document.getElementById('chanhua-vid-teaser');
-  const player = document.getElementById('chanhua-vid-player');
-  const vid    = document.getElementById('chanhua-video');
-  vid.pause();
+  const teaser  = document.getElementById('chanhua-vid-teaser');
+  const player  = document.getElementById('chanhua-vid-player');
+  const iframe  = document.getElementById('chanhua-iframe');
+  // Pause YouTube playback by posting to the iframe
+  if (iframe) iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}','*');
   player.style.display = 'none';
   teaser.style.display = '';
   teaser.setAttribute('aria-expanded','false');
@@ -505,49 +504,7 @@ function _cvidApplyLang() {
   });
 }
 
-/* ── Subtitle data ───────────────────────────────────────────────
-   Edit the entries below once you have the video.
-   start / end are in seconds from video start.
-   en  = English subtitle line
-   zh  = Chinese subtitle line
-   ──────────────────────────────────────────────────────────────── */
-const CHANHUA_SUBS = [
-  { start:  0, end:  8, en: "We begin with a length of silk thread, chosen for its sheen.",         zh: "我们从一根蚕丝线开始，选取光泽最好的那一根。" },
-  { start:  8, end: 18, en: "The copper wire is bent petal by petal — each shape held in memory.",  zh: "铜丝一片一片折弯，每一个弧度都记在手中。" },
-  { start: 18, end: 30, en: "Then, thread by thread, silk is wound around the wire.",               zh: "然后，一线一线，蚕丝缠绕在铜丝上。" },
-  { start: 30, end: 42, en: "This is the most meditative part — and the slowest.",                  zh: "这是最需要静心的一步，也是最慢的一步。" },
-  { start: 42, end: 54, en: "A single petal may take twenty minutes.",                              zh: "一片花瓣，有时需要二十分钟。" },
-  { start: 54, end: 66, en: "When all petals are finished, they are assembled around a stem.",      zh: "所有花瓣做好后，一片片组合成花。" },
-  { start: 66, end: 78, en: "Freshwater pearls and gold wire complete the jewel.",                  zh: "最后用淡水珍珠和金丝收尾，一朵缠花珠宝便完成了。" },
-];
-
 document.addEventListener('DOMContentLoaded', () => {
-  const video  = document.getElementById('chanhua-video');
-  const subEn  = document.getElementById('chanhua-sub-en');
-  const subZh  = document.getElementById('chanhua-sub-zh');
-
-  if (!video) return;
-
-  video.addEventListener('timeupdate', () => {
-    const t = video.currentTime;
-    const isZh = (localStorage.getItem('silora-lang') || 'en') === 'zh';
-    const active = CHANHUA_SUBS.find(s => t >= s.start && t < s.end);
-
-    if (active) {
-      if (isZh) {
-        subZh.textContent = active.zh || '';
-        subEn.textContent = active.en || '';
-      } else {
-        subEn.textContent = active.en || '';
-        subZh.textContent = active.zh || '';
-      }
-    } else {
-      subEn.textContent = '';
-      subZh.textContent = '';
-    }
-  });
-
-  // Keyboard accessibility for teaser
   const teaser = document.getElementById('chanhua-vid-teaser');
   if (teaser) {
     teaser.addEventListener('keydown', e => {
