@@ -520,8 +520,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* ---------- Collection Teasers ---------- */
 .collections-teasers {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 0;
+}
+@media (max-width: 900px) {
+  .collections-teasers { grid-template-columns: repeat(2, 1fr); }
 }
 
 .teaser-card {
@@ -1211,7 +1214,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .nav-hamburger { display: flex; }
 
   .collections-teasers { grid-template-columns: 1fr; }
-  .teaser-card { aspect-ratio: 4/3; }
+  .teaser-card { aspect-ratio: 3/4; }
 
   .grid-2, .grid-3 { grid-template-columns: 1fr; }
 
