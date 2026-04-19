@@ -374,7 +374,7 @@
         <div class="reveal reveal-delay-3" style="margin-top:2rem; display:flex; flex-wrap:wrap; gap:0.8rem;">
           <div style="flex:1; min-width:130px; border:1px solid var(--border); padding:1.1rem 1.2rem; background:var(--ivory);">
             <p style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem;">Orchid Earrings</p>
-            <p style="font-family:var(--font-serif);font-size:1.6rem;font-weight:300;line-height:1;">$78</p>
+            <p style="font-family:var(--font-serif);font-size:1.6rem;font-weight:300;line-height:1;">$79</p>
             <p style="font-size:0.75rem;color:var(--text-light);margin-top:0.25rem;">per pair · 兰花耳钉一对</p>
           </div>
           <div style="flex:1; min-width:130px; border:1px solid var(--border); padding:1.1rem 1.2rem; background:var(--ivory);">
@@ -576,40 +576,90 @@
       Receive the Silora Journal<br>— four times a year
     </h2>
     <p class="reveal reveal-delay-2" style="font-size: 0.95rem; color: rgba(250,247,242,0.6); line-height: 1.8; max-width: 500px; margin: 0 auto 0.8rem;">
-      Each quarter, we send a letter from the studio: new inspirations, seasonal flowers, behind-the-scenes craft, and the first look at upcoming collections. Subscribers also receive a <strong style="color: var(--gold-light); font-weight: 400;">10% discount</strong> on all orders.
+      Each quarter, we send a letter from the studio: new inspirations, seasonal flowers, behind-the-scenes craft, and the first look at upcoming collections.
     </p>
-    <p class="reveal reveal-delay-2" style="font-family: var(--font-serif); font-style: italic; font-size: 0.9rem; color: rgba(250,247,242,0.35); margin-bottom: 2.5rem;">每季寄出一封工作室来信：新灵感、新系列、独家折扣。</p>
+    <!-- $6 coupon callout -->
+    <div class="reveal reveal-delay-2" style="display:inline-flex; align-items:center; gap:0.8rem; border:1px solid rgba(191,157,106,0.4); padding:0.7rem 1.4rem; margin: 0 auto 2rem; background:rgba(191,157,106,0.08);">
+      <span style="font-family:var(--font-serif); font-size:1.4rem; color:var(--gold); line-height:1;">$6</span>
+      <span style="font-size:0.78rem; color:rgba(250,247,242,0.7); line-height:1.5; text-align:left;">off your first order — coupon<br>delivered instantly on sign-up<br><span style="font-size:0.68rem;color:rgba(250,247,242,0.35);">订阅即时获得 $6 优惠码</span></span>
+    </div>
+    <p style="font-family: var(--font-serif); font-style: italic; font-size: 0.9rem; color: rgba(250,247,242,0.35); margin-bottom: 2.5rem;">每季寄出一封工作室来信：新灵感、新系列、独家折扣。</p>
 
     <form id="subscribeForm" action="https://formspree.io/f/xlgopzqb" method="POST" class="reveal reveal-delay-3"
-          style="display: flex; gap: 0; max-width: 480px; margin: 0 auto; flex-wrap: wrap; gap: 0.6rem;">
+          style="display: flex; max-width: 480px; margin: 0 auto; flex-wrap: wrap; gap: 0.6rem;">
       <input type="hidden" name="_subject" value="New Journal Subscriber — Silora Orient" />
       <input type="hidden" name="type" value="journal_subscription" />
+      <input type="hidden" name="coupon_code" id="couponCodeField" value="" />
       <input type="email" name="email" required placeholder="your@email.com"
              style="flex: 1; min-width: 220px; padding: 0.85rem 1.2rem; background: rgba(255,255,255,0.07); border: 1px solid rgba(191,157,106,0.35); color: var(--ivory); font-family: var(--font-sans); font-size: 0.85rem; outline: none; letter-spacing: 0.05em;"
              onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(191,157,106,0.35)'" />
       <button type="submit"
               style="padding: 0.85rem 1.8rem; background: var(--gold); color: var(--white); border: none; font-family: var(--font-sans); font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; white-space: nowrap;"
               onmouseover="this.style.background='var(--gold-light)'" onmouseout="this.style.background='var(--gold)'">
-        Subscribe
+        Subscribe &amp; Get $6 Off
       </button>
     </form>
-    <p id="subscribeConfirm" style="display:none; margin-top:1.2rem; font-family: var(--font-serif); font-style: italic; color: var(--gold-light); font-size: 0.95rem;">
-      Thank you — your first letter is on its way. ✿
-    </p>
+
+    <!-- Success state with coupon code -->
+    <div id="subscribeConfirm" style="display:none; margin-top:1.5rem;">
+      <p style="font-family: var(--font-serif); font-style: italic; color: var(--gold-light); font-size: 1.05rem; margin-bottom:1.2rem;">
+        Thank you — welcome to the Silora Journal. ✿
+      </p>
+      <p style="font-size:0.8rem; color:rgba(250,247,242,0.55); margin-bottom:0.8rem; letter-spacing:0.05em;">Your $6 discount code:</p>
+      <div style="display:flex; align-items:center; justify-content:center; gap:0.8rem; flex-wrap:wrap;">
+        <span id="couponDisplay" style="font-family:var(--font-sans); font-size:1.1rem; letter-spacing:0.25em; color:var(--ivory); background:rgba(191,157,106,0.15); border:1px solid rgba(191,157,106,0.5); padding:0.6rem 1.4rem;"></span>
+        <button onclick="copyCoupon()" id="copyBtn"
+                style="padding:0.5rem 1rem; background:transparent; border:1px solid rgba(191,157,106,0.4); color:var(--gold-light); font-family:var(--font-sans); font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; cursor:pointer; transition:all 0.2s;">
+          Copy
+        </button>
+      </div>
+      <p style="margin-top:0.8rem; font-size:0.72rem; color:rgba(250,247,242,0.3); letter-spacing:0.05em;">
+        Save this code — use it at checkout on any order.
+        <span style="display:block; margin-top:0.2rem;">请保存此优惠码，结账时使用。</span>
+      </p>
+    </div>
+
     <p class="reveal reveal-delay-4" style="margin-top: 1.2rem; font-size: 0.7rem; color: rgba(250,247,242,0.25); letter-spacing: 0.08em;">
-      No spam. Unsubscribe any time. Discount code sent upon sign-up.
+      No spam. Unsubscribe any time.
     </p>
   </div>
 </section>
 <script>
+  function generateCoupon() {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let code = 'SL6-';
+    for (let i = 0; i < 6; i++) code += chars[Math.floor(Math.random() * chars.length)];
+    return code;
+  }
+
+  function copyCoupon() {
+    const code = document.getElementById('couponDisplay').textContent;
+    navigator.clipboard.writeText(code).then(() => {
+      const btn = document.getElementById('copyBtn');
+      btn.textContent = 'Copied ✓';
+      btn.style.color = 'var(--gold)';
+      btn.style.borderColor = 'var(--gold)';
+      setTimeout(() => { btn.textContent = 'Copy'; btn.style.color = ''; btn.style.borderColor = ''; }, 2000);
+    });
+  }
+
   document.getElementById('subscribeForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    fetch(this.action, { method: 'POST', body: new FormData(this), headers: { 'Accept': 'application/json' } })
+    const code = generateCoupon();
+    document.getElementById('couponCodeField').value = code;
+    const data = new FormData(this);
+    fetch(this.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } })
       .then(r => {
         if (r.ok) {
           this.style.display = 'none';
+          document.getElementById('couponDisplay').textContent = code;
           document.getElementById('subscribeConfirm').style.display = 'block';
         }
+      }).catch(() => {
+        // Show code anyway even if network fails
+        this.style.display = 'none';
+        document.getElementById('couponDisplay').textContent = code;
+        document.getElementById('subscribeConfirm').style.display = 'block';
       });
   });
 </script>
@@ -682,5 +732,38 @@
 </footer>
 
 <script src="main.js"></script>
+
+<!-- ── Floating subscribe button ── -->
+<a href="#subscribe" id="floatSubscribe"
+   style="position:fixed; bottom:1.6rem; right:1.6rem; z-index:900;
+          display:flex; align-items:center; gap:0.5rem;
+          background:var(--text-dark); color:var(--gold-light);
+          border:1px solid rgba(191,157,106,0.45);
+          padding:0.6rem 1.1rem 0.6rem 0.9rem;
+          font-family:var(--font-sans); font-size:0.68rem;
+          letter-spacing:0.14em; text-transform:uppercase;
+          box-shadow:0 4px 20px rgba(0,0,0,0.25);
+          transition:opacity 0.3s, transform 0.3s;
+          opacity:0; pointer-events:none; text-decoration:none;">
+  <span style="font-family:var(--font-serif);font-size:1rem;color:var(--gold);line-height:1;">✿</span>
+  Get $6 Off — Subscribe
+</a>
+<script>
+  (function(){
+    var btn = document.getElementById('floatSubscribe');
+    var sub = document.getElementById('subscribe');
+    function onScroll(){
+      var scrolled = window.scrollY > 400;
+      var subRect = sub.getBoundingClientRect();
+      var nearSub = subRect.top < window.innerHeight && subRect.bottom > 0;
+      if (scrolled && !nearSub) {
+        btn.style.opacity = '1'; btn.style.pointerEvents = 'auto'; btn.style.transform = 'translateY(0)';
+      } else {
+        btn.style.opacity = '0'; btn.style.pointerEvents = 'none'; btn.style.transform = 'translateY(8px)';
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+  })();
+</script>
 </body>
 </html>
