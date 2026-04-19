@@ -101,6 +101,79 @@
     .teaser-eye    { background: linear-gradient(135deg, #D4C0C0 0%, #E8D0C8 100%); }
     .teaser-orchid { background: linear-gradient(135deg, #E8E4F0 0%, #C8B8D4 100%); }
     .teaser-memory { background: linear-gradient(135deg, #D8E4D0 0%, #C4CEBC 100%); }
+
+    /* ---- Heritage pillars strip ---- */
+    .heritage-strip {
+      background: var(--ivory);
+      padding: 5rem 0 4rem;
+      border-top: 1px solid var(--border);
+    }
+    .heritage-pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+      margin-bottom: 0;
+    }
+    .heritage-pillar {
+      text-align: center;
+      padding: 0 1rem;
+    }
+    .heritage-icon {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      line-height: 1;
+    }
+    .heritage-pillar-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      font-weight: 400;
+      color: var(--text-dark);
+      margin-bottom: 0.3rem;
+      line-height: 1.2;
+    }
+    .heritage-pillar-zh {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+    .heritage-pillar-text {
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      max-width: 280px;
+      margin: 0 auto;
+    }
+    @media (max-width: 768px) {
+      .heritage-pillars {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+      .heritage-pillar { padding: 0; }
+    }
+
+    /* ---- Collections: English-first label ---- */
+    .teaser-en-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 300;
+      line-height: 1.2;
+      color: var(--ivory);
+      margin-bottom: 0.25rem;
+    }
+    .teaser-zh-sub {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      color: rgba(250,247,242,0.55);
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+    @media (max-width: 640px) {
+      .teaser-card { min-height: 420px; }
+    }
   </style>
 </head>
 <body>
@@ -151,20 +224,20 @@
 <section class="hero">
   <div class="hero-content">
     <div class="hero-eyebrow">
-      <span class="t-label">New York · Spring 2026</span>
+      <span class="t-label">非物质文化遗产 · Intangible Cultural Heritage</span>
     </div>
     <h1 class="hero-title reveal">
       Silk Flowers<br>for the <em>Stories</em><br>You Carry
     </h1>
     <p class="hero-tagline reveal reveal-delay-1">
-      For your eyes, your story, your memories — a silk flower jewel from the East, made just for you.
+      Silora Orient is a women-led studio with five years of craftsmanship in 缠花 — an ancient Chinese silk wire-wrapping art, now recognized as intangible cultural heritage. Each piece is shaped by hand, petal by petal.
     </p>
     <p class="hero-chinese reveal reveal-delay-2">
-      为你的眼睛、你的故事、你的记忆，定制一朵来自东方的丝绸花朵珠宝。
+      女性主创工坊，五年缠花非遗工艺传承，从东方到纽约。
     </p>
     <div class="hero-actions reveal reveal-delay-3">
-      <a href="other-collections.html" class="btn btn-primary btn-arrow">Explore the Collection</a>
-      <a href="custom.html" class="btn btn-outline btn-arrow">Create Your Custom Flower</a>
+      <a href="about.html" class="btn btn-primary btn-arrow">Our Story</a>
+      <a href="other-collections.html" class="btn btn-outline btn-arrow">Explore Collections</a>
     </div>
   </div>
 
@@ -178,39 +251,75 @@
   </div>
 </section>
 
+<!-- ============================================================ HERITAGE PILLARS -->
+<section class="heritage-strip">
+  <div class="container">
+    <div class="heritage-pillars">
+
+      <div class="heritage-pillar reveal">
+        <div class="heritage-icon">✿</div>
+        <h3 class="heritage-pillar-title">Intangible Cultural Heritage</h3>
+        <p class="heritage-pillar-zh">非物质文化遗产</p>
+        <p class="heritage-pillar-text">缠花 (Chanhua) is a silk wire-wrapping art originating in Hubei Province — officially recognized by China as an intangible cultural heritage, passed down through generations of artisans.</p>
+      </div>
+
+      <div class="heritage-pillar reveal reveal-delay-1">
+        <div class="heritage-icon">五</div>
+        <h3 class="heritage-pillar-title">Five Years of Craft</h3>
+        <p class="heritage-pillar-zh">五年匠艺</p>
+        <p class="heritage-pillar-text">Our studio has spent five years mastering and evolving the traditional 缠花 technique — honoring its roots while shaping it for the lives and stories of women today.</p>
+      </div>
+
+      <div class="heritage-pillar reveal reveal-delay-2">
+        <div class="heritage-icon">女</div>
+        <h3 class="heritage-pillar-title">Women-Led Studio</h3>
+        <p class="heritage-pillar-zh">女性主创</p>
+        <p class="heritage-pillar-text">Founded and led by women, Silora Orient creates pieces that carry memory, identity, and story — made for anyone whose life holds beauty worth honoring.</p>
+      </div>
+
+    </div>
+    <div style="text-align:center; margin-top:3rem;">
+      <a href="about.html" class="btn btn-outline btn-arrow reveal">Discover Our Story</a>
+    </div>
+  </div>
+</section>
+
 <!-- ============================================================ FEATURED COLLECTIONS -->
 <section class="collections-teasers">
 
   <div class="teaser-card">
     <div class="teaser-eye" style="height:100%; min-height:500px;">
-      <img src="images/white-orchid-earrings.jpg" alt="兰花系列 — The Orchid Collection, silk flower earrings" />
+      <img src="images/white-orchid-earrings.jpg" alt="The Orchid Collection — silk flower earrings" />
     </div>
     <div class="teaser-overlay">
       <span class="teaser-label">Collection One</span>
-      <h2 class="teaser-title">兰花系列<br><em style="font-size:0.65em;letter-spacing:0.15em;font-style:normal;">The Orchid</em></h2>
+      <h2 class="teaser-en-title">The Orchid Collection</h2>
+      <span class="teaser-zh-sub">兰花系列</span>
       <a href="other-collections.html" class="teaser-link">Discover →</a>
     </div>
   </div>
 
   <div class="teaser-card">
-    <div class="teaser-orchid" style="height:100%; min-height:500px;">
-      <img src="images/orchid-collection.jpg" alt="定制系列 — Bespoke silk orchid jewelry" />
+    <div class="teaser-memory" style="height:100%; min-height:500px;">
+      <img src="images/lotus-rising.jpg" alt="Scenes of the Four Seasons — lotus in summer" />
     </div>
     <div class="teaser-overlay">
-      <span class="teaser-label">Bespoke</span>
-      <h2 class="teaser-title">定制系列<br><em style="font-size:0.65em;letter-spacing:0.15em;font-style:normal;">Begin with the Flower</em></h2>
-      <a href="custom.html" class="teaser-link">An orchid made only for you →</a>
+      <span class="teaser-label">Seasonal Collection</span>
+      <h2 class="teaser-en-title">Scenes of Four Seasons</h2>
+      <span class="teaser-zh-sub">四时之景</span>
+      <a href="other-collections.html" class="teaser-link">Spring · Summer · Autumn · Winter →</a>
     </div>
   </div>
 
   <div class="teaser-card">
-    <div class="teaser-memory" style="height:100%; min-height:500px;">
-      <img src="images/lotus-rising.jpg" alt="四时之景 — Four Seasons Collection, lotus in summer" />
+    <div class="teaser-orchid" style="height:100%; min-height:500px;">
+      <img src="images/orchid-collection.jpg" alt="Bespoke silk orchid jewelry — custom order" />
     </div>
     <div class="teaser-overlay">
-      <span class="teaser-label">Seasonal Collection</span>
-      <h2 class="teaser-title">四时之景<br><em style="font-size:0.65em;letter-spacing:0.15em;font-style:normal;">Scenes of the Four Seasons</em></h2>
-      <a href="other-collections.html" class="teaser-link">Spring · Summer · Autumn · Winter →</a>
+      <span class="teaser-label">Bespoke</span>
+      <h2 class="teaser-en-title">Bespoke Creation</h2>
+      <span class="teaser-zh-sub">定制系列</span>
+      <a href="custom.html" class="teaser-link">An orchid made only for you →</a>
     </div>
   </div>
 

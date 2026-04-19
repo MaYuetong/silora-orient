@@ -308,7 +308,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   line-height: 1;
 }
 .nav-logo img {
-  height: 44px;
+  height: 58px;
   width: auto;
   display: block;
   object-fit: contain;
@@ -1024,7 +1024,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   margin-bottom: 1rem;
 }
 .footer-brand .nav-logo img {
-  height: 48px;
+  height: 56px;
 }
 
 .footer-tagline {
