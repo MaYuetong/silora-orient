@@ -121,6 +121,14 @@
     .pricing-form input[type="email"]:focus { outline: none; border-color: var(--gold); }
     .pricing-form-note { font-size: 0.75rem; color: var(--text-light); margin-bottom: 0.75rem; }
     .pricing-form-success { font-family: var(--font-serif); font-size: 1rem; font-style: italic; color: var(--gold); padding: 1rem 0; display: none; }
+    .promo-row { display: flex; gap: 0.5rem; align-items: flex-start; margin-bottom: 0.75rem; }
+    .promo-row input { flex: 1; padding: 0.7rem 1rem; border: 1px solid var(--border); background: #fff; font-family: var(--font-sans); font-size: 0.88rem; color: var(--text-dark); box-sizing: border-box; transition: border-color 0.2s; text-transform: uppercase; letter-spacing: 0.05em; }
+    .promo-row input:focus { outline: none; border-color: var(--gold); }
+    .promo-apply { padding: 0.7rem 1rem; background: transparent; border: 1px solid var(--border); font-family: var(--font-sans); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-mid); cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+    .promo-apply:hover { border-color: var(--gold); color: var(--gold); }
+    .promo-msg { font-size: 0.75rem; margin-bottom: 0.75rem; display: none; }
+    .promo-msg.valid { color: var(--gold); display: block; }
+    .promo-msg.invalid { color: #c0392b; display: block; }
 
     /* ---- Filter tabs ---- */
     .filter-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; margin-top: 1.8rem; }
@@ -258,6 +266,12 @@
           <input type="email" id="pricingEmailConfirm" placeholder="your@email.com" required />
           <label for="pricingLocation" style="margin-top:0.5rem;">City, State / Province, Country</label>
           <input type="text" id="pricingLocation" placeholder="e.g. New York, NY, United States" style="width:100%;padding:0.7rem 1rem;border:1px solid var(--border);background:#fff;font-family:var(--font-sans);font-size:0.88rem;color:var(--text-dark);margin-bottom:0.75rem;box-sizing:border-box;" />
+          <label for="pricingPromo" style="margin-top:0.5rem;">Promo Code <span style="font-size:0.68rem;color:var(--text-light);text-transform:none;letter-spacing:0;">(optional · 优惠码)</span></label>
+          <div class="promo-row">
+            <input type="text" id="pricingPromo" placeholder="e.g. SL6-XXXXXX" maxlength="10" autocomplete="off" />
+            <button type="button" class="promo-apply" id="promoApplyBtn">Apply</button>
+          </div>
+          <p class="promo-msg" id="promoMsg"></p>
           <p class="pricing-form-note">We use your location to estimate shipping cost and regional price. We'll reply within 24 hours.</p>
           <button class="btn btn-primary" id="pricingSubmitBtn" style="width:100%;">Send Inquiry</button>
         </div>
@@ -333,10 +347,10 @@ const COLLECTIONS_FALLBACK = [
     title:"Hearing Aid Jewelry — Worn Behind the Ear", title_zh:"聆花系列 · 为助听器而生的花",
     tagline:"Lightweight. Personalized. Anti-loss. Beautiful. Silk flowers curved to rest gently behind the ear — where sound enters, a flower blooms.",
     tagline_zh:"轻盈 · 个性化 · 防丢失 · 美观。极轻蚕丝花朵，随助听器弧度贴合耳后，声音进入的地方，花开了。",
-    story:"There is a place most people will never see.\n\nBehind the ear, where a hearing aid rests against the skin — curved, quiet, doing its work without asking to be noticed. For years, people have worn them as something to apologise for. Something to tuck away, to wish were smaller, less visible, less there.\n\nThis series begins from a different idea entirely.\n\nIf something lives behind your ear — in the exact place where sound enters, where the world reaches you — why not let a flower live there too?\n\nThe Listening Bloom is made from the same silk thread as our other collections, wound around hand-formed copper wire. Each piece is shaped to follow the gentle arc of a hearing aid, resting lightly against the bone behind the ear. The dual-hook design loops naturally around the hearing aid, keeping your flower secure all day — no clips, no adhesives, no adjusting.\n\nThe weight of a single piece is almost nothing — lighter than an earring, lighter than a pin.\n\nWe make these in silk orchids (nine colorways), osmanthus clusters, and the five-petal flowers from the Crystal Curtain and Lily in Moonlight series. Mix any flower with your ear hook.\n\nAlso available: eyeglass chains (眼镜链) and hearing aid anti-loss cords (助听器防丢绳) in matching silk flower designs.\n\nPricing:\n· Orchid earrings: $79/pair\n· Ear hook: $59 each\n· 3-Flower Set (earrings + hook): $135\n\nContact us to mix and match your color story.",
-    story_zh:"有一个地方，大多数人永远看不见。\n\n耳后，助听器贴着皮肤的地方——弯曲，安静，不声不响地做着它的工作。多年来，人们把它当作需要道歉的东西，藏起来，希望它更小、更不显眼。\n\n这个系列从一个完全不同的想法出发：如果声音在这里抵达你——为什么不让一朵花也住在那里？\n\n聆花系列用与其他系列相同的蚕丝缠绕在手工成型的铜丝上，二挂型设计与助听器弧度自然贴合，全天防脱落，无需夹子和胶水。\n\n单件重量极轻——比耳环更轻，比别针更轻。\n\n可选花型：丝绸兰花（九款色系）、桂花簇、《却下水晶帘》与《月下逢》中的五瓣花。任意搭配耳挂。\n\n也可配套：眼镜链 / 助听器防丢绳，花型与耳挂匹配。\n\n定价：\n· 兰花耳钉：$79一对\n· 耳挂：$59单只\n· 三朵花套装（耳钉+耳挂）：$135\n\n联系我们定制专属配色。",
+    story:"There is a place most people will never see.\n\nBehind the ear, where a hearing aid rests against the skin — curved, quiet, doing its work without asking to be noticed. For years, people have worn them as something to apologise for. Something to tuck away, to wish were smaller, less visible, less there.\n\nThis series begins from a different idea entirely.\n\nIf something lives behind your ear — in the exact place where sound enters, where the world reaches you — why not let a flower live there too?\n\nThe Listening Bloom is made from the same silk thread as our other collections, wound around hand-formed copper wire. Each piece is shaped to follow the gentle arc of a hearing aid, resting lightly against the bone behind the ear. The dual-hook design loops naturally around the hearing aid, keeping your flower secure all day — no clips, no adhesives, no adjusting.\n\nThe weight of a single piece is almost nothing — lighter than an earring, lighter than a pin.\n\nWe make these in silk orchids (nine colorways), osmanthus clusters, and the five-petal flowers from the Crystal Curtain and Lily in Moonlight series. Mix any flower with your ear hook.\n\nAlso available: eyeglass chains (眼镜链) and hearing aid anti-loss cords (助听器防丢绳) in matching silk flower designs.\n\nPricing:\n· Orchid earrings: $93/pair\n· Ear hook: $69 each\n· 3-Flower Set (earrings + hook): $135\n\nContact us to mix and match your color story.",
+    story_zh:"有一个地方，大多数人永远看不见。\n\n耳后，助听器贴着皮肤的地方——弯曲，安静，不声不响地做着它的工作。多年来，人们把它当作需要道歉的东西，藏起来，希望它更小、更不显眼。\n\n这个系列从一个完全不同的想法出发：如果声音在这里抵达你——为什么不让一朵花也住在那里？\n\n聆花系列用与其他系列相同的蚕丝缠绕在手工成型的铜丝上，二挂型设计与助听器弧度自然贴合，全天防脱落，无需夹子和胶水。\n\n单件重量极轻——比耳环更轻，比别针更轻。\n\n可选花型：丝绸兰花（九款色系）、桂花簇、《却下水晶帘》与《月下逢》中的五瓣花。任意搭配耳挂。\n\n也可配套：眼镜链 / 助听器防丢绳，花型与耳挂匹配。\n\n定价：\n· 兰花耳钉：$93一对\n· 耳挂：$69单只\n· 三朵花套装（耳钉+耳挂）：$135\n\n联系我们定制专属配色。",
     image:"images/lily-moonlight.jpg", imgClass:null, imgPlaceholder:null,
-    price:"Earrings $79/pr · Hook $59 · Set of 3 $135", price_zh:"耳钉$79一对 · 耳挂$59单只 · 套装$135",
+    price:"Earrings $93/pr · Hook $69 · Set of 3 $135", price_zh:"耳钉$93一对 · 耳挂$69单只 · 套装$135",
     tags:["助听器 Hearing Aid","耳后佩戴 Behind-Ear","超轻 Ultralight","防脱落 Anti-loss","适老化 Elder-Friendly","眼镜链 Eyeglass Chain"] },
   { id:"orchid-phalaenopsis", published:true, category:"orchid",
     series:"兰花系列 · The Orchid", series_zh:"兰花系列 · 特别的花",
@@ -346,7 +360,7 @@ const COLLECTIONS_FALLBACK = [
     story:"For a thousand years the orchid has appeared in East Asian art, and the reason is not mysterious: it is one of the few flowers whose shape is unmistakably itself — two wings half-spread, poised in a moment that is neither landing nor departing, suspended in something that has no other name.\n\nThis series begins from that single, undeniable fact. No added leaves. No ornamental tendrils. Only the flower — wound thread by thread, in silence, until it becomes the thing it has always been.\n\nNine colour stories, each named for a sensory memory held somewhere between taste and feeling:\nHoney Peach Oolong (蜜桃乌龙) · Into the Emerald Forest (绿野仙踪) · Sea Salt Mango Ice (海盐芒果冰) · Frozen Wonderland (冰雪奇缘) · Gilded Dreams (澛金旧梦) · Starry Moon Night (星月夜) · Taro Waves (芋泥啵啵) · Lavender Mist (薰衣草) · Deep Ocean (深海蓝)\n\nAvailable as earrings (耳钉), clip-ons (耳夹), rings (戒指), and pendants (挂坠).",
     story_zh:"兰花在东亚艺术中出现逾千年，原因只有一个：没有任何花的花型如此特别——如翅膀般展开，宁静而卓越。\n\n这个系列从这一事实出发。没有多余的叶片，没有装饰性卷须，只有这朵花——一圈一圈地缠绕，直到它成为它本来就是的样子。\n\n九款色系，每一款以一种感官记忆命名：\n蜜桃乌龙 · 绿野仙踪 · 海盐芒果冰 · 冰雪奇缘 · 澛金旧梦 · 星月夜 · 芋泥啵啵 · 薰衣草 · 深海蓝\n\n提供耳钉、耳夹、戒指与挂坠。",
     image:"images/orchid-collection.jpg", images:["images/orchid-collection.jpg","images/orchid-yellow-lavender-set.jpg","images/white-orchid-earrings.jpg"], imgClass:null, imgPlaceholder:null,
-    price:"Earrings from $79 · Hook from $59 · Sets from $135", price_zh:"耳钉$79起 · 耳挂$59起 · 套装$135起",
+    price:"Earrings from $93 · Hook from $69 · Sets from $135", price_zh:"耳钉$93起 · 耳挂$69起 · 套装$135起",
     tags:["耳钉 Earrings","耳夹 Clip-on","戒指 Ring","挂坠 Pendant","九色 9 Colorways"] },
   { id:"four-seasons-spring", published:true, category:"seasons", season:"spring",
     series:"四时之景 · 春 Spring", series_zh:"四时之景 · 春 · 月下逢",
@@ -401,12 +415,12 @@ const COLLECTIONS_FALLBACK = [
   { id:"custom-order", published:true, category:"custom",
     series:"定制系列 · Bespoke", series_zh:"定制系列 · 主推兰花",
     title:"Bespoke — Begin with the Flower", title_zh:"定制系列 · 先选花形，再选颜色",
-    tagline:"Every commission begins with a single question: which flower? Everything else — colour, jewel, story — follows from there. From $140.",
-    tagline_zh:"选择花形，再选颜色，再选珠宝，最后告诉我们你的故事。$140起。",
+    tagline:"Every commission begins with a single question: which flower? Everything else — colour, jewel, story — follows from there. From $99.",
+    tagline_zh:"选择花形，再选颜色，再选珠宝，最后告诉我们你的故事。$99起。",
     story:"Every bespoke commission begins with the flower.\n\nNot the colour, not the jewels, not the occasion — the flower first. Because the flower determines everything: its silhouette, its natural palette, the way light will pass through it or rest on it like something that belongs.\n\nThe orchid is our signature — nine colour families, each carrying a different register of feeling. The lotus receives blue and blush. The osmanthus lives in gold and amber. The lily holds its own in moonlit white.\n\nOnce the flower is chosen, we guide you through colour — not which colour in the abstract, but what colour for this person, on this occasion, in this particular quality of light. Then the jewels: which gemstone catches light the way you have been imagining it. Then the story — the occasion, the person, the thing this piece is meant to carry into the future.\n\nNo two bespoke pieces are the same. Each one is completed with a personalised story card: a quiet record of the choices made, and the meaning that lived behind them.",
     story_zh:"每一件定制委托从花开始。\n\n兰花是我们的招牌——九款色系，每款产生不同的情感共鸣。荷花可定制蓝色与粉色。桂花以金色和琥珀色为主。百合以月光白为基调。\n\n选好花形后，我们引导你选择颜色——不只是哪种颜色，而是什么感受。然后是珠宝：哪种宝石在光线下的折射符合你的期待。最后是故事——这件珠宝要承载的场合、那个人、那段记忆。\n\n没有两件定制作品完全相同。每件作品附一张个人故事卡，记录选择的过程与背后的意义。",
     image:"images/orchid-collection.jpg", imgClass:null, imgPlaceholder:null,
-    price:"from $140", price_zh:"$140起",
+    price:"from $99", price_zh:"$99起",
     tags:["定制 Bespoke","兰花首推 Orchid First","先选花 Choose Flower","故事 Story"],
     ctaLink:"custom.html", ctaLabel:"Begin Commission →" },
 ];
@@ -593,6 +607,36 @@ document.getElementById('modalPricingBtn').addEventListener('click', function() 
   document.getElementById('pricingEmail').focus();
 });
 
+// Promo code validation
+let appliedPromo = null;
+function validatePromo(code) {
+  const c = code.trim().toUpperCase();
+  if (/^SL6-[A-Z0-9]{6}$/.test(c)) return { valid: true, discount: 6, label: '✦ $6 off applied — your discount will be noted in our reply.' };
+  return { valid: false };
+}
+document.getElementById('promoApplyBtn').addEventListener('click', function() {
+  const raw = document.getElementById('pricingPromo').value;
+  const msg = document.getElementById('promoMsg');
+  const result = validatePromo(raw);
+  if (result.valid) {
+    appliedPromo = raw.trim().toUpperCase();
+    msg.textContent = result.label;
+    msg.className = 'promo-msg valid';
+    document.getElementById('pricingPromo').style.borderColor = 'var(--gold)';
+  } else {
+    appliedPromo = null;
+    msg.textContent = raw.trim() ? 'Code not recognised — please check and try again.' : 'Please enter a promo code.';
+    msg.className = 'promo-msg invalid';
+    document.getElementById('pricingPromo').style.borderColor = '#c0392b';
+  }
+});
+document.getElementById('pricingPromo').addEventListener('input', function() {
+  this.value = this.value.toUpperCase();
+  document.getElementById('promoMsg').className = 'promo-msg';
+  this.style.borderColor = '';
+  appliedPromo = null;
+});
+
 // Submit pricing inquiry
 document.getElementById('pricingSubmitBtn').addEventListener('click', async function() {
   const email    = document.getElementById('pricingEmail').value.trim();
@@ -607,17 +651,19 @@ document.getElementById('pricingSubmitBtn').addEventListener('click', async func
   }
   this.textContent = 'Sending…';
   this.disabled = true;
+  const promoNote = appliedPromo ? `\nPromo code: ${appliedPromo} ($6 off)` : '';
   try {
     await fetch('https://formspree.io/f/xlgopzqb', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
-        _subject: `Pricing Inquiry — ${c ? c.title : 'Other Collections'}`,
+        _subject: `Pricing Inquiry — ${c ? c.title : 'Other Collections'}${appliedPromo ? ' [Promo]' : ''}`,
         email,
         location: location || 'Not provided',
+        promo_code: appliedPromo || 'None',
         series: c ? c.title : '',
         series_zh: c ? c.title_zh : '',
-        message: `Pricing inquiry for: ${c ? c.title : 'Other Collections'} (${c ? c.title_zh : ''})\nLocation: ${location || 'Not provided'}`
+        message: `Pricing inquiry for: ${c ? c.title : 'Other Collections'} (${c ? c.title_zh : ''})\nLocation: ${location || 'Not provided'}${promoNote}`
       })
     });
     document.getElementById('pricingFormInner').style.display = 'none';

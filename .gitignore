@@ -1,4 +1,20 @@
-.vercel
-node_modules
+# Large video files
+videos/*.MP4
+videos/*.mp4
+videos/*.MOV
+videos/*.mov
+
+# Local reference folders (not part of website)
+ins/
+events/
+law/
+website materials/
+Brand sticker Floral Elegant Card/
+Silora Name Card /
+
+# OS
 .DS_Store
-*.log
+Thumbs.db
+
+# Node (if ever used)
+node_modules/

@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <title>Be My Model — Silora Orient</title>
+  <meta name="description" content="Create your New York City memory. You choose the place — I bring the camera and a silk flower for your ear." />
+  <link rel="stylesheet" href="styles.css" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <style>
+    /* ─── Page layout ─── */
+    .model-page { padding-top: var(--nav-h); }
+
+    /* ─── Hero ─── */
+    .model-hero {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 5rem 1.5rem 3rem;
+      background: var(--cream);
+      position: relative;
+      overflow: hidden;
+    }
+    .model-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: var(--ink-orchid, none);
+      background-repeat: repeat;
+      opacity: 0.4;
+      pointer-events: none;
+    }
+    .model-eyebrow {
+      font-size: 0.65rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+    }
+    .model-hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 300;
+      line-height: 1.15;
+      color: var(--text-dark);
+      max-width: 640px;
+      margin-bottom: 1.2rem;
+    }
+    .model-hero-sub {
+      font-size: 1rem;
+      color: var(--text-mid);
+      max-width: 500px;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+    .model-scroll-hint {
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-top: 1rem;
+    }
+
+    /* ─── How it works ─── */
+    .how-section {
+      padding: 4rem 1.5rem;
+      background: var(--ivory);
+      text-align: center;
+    }
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      max-width: 860px;
+      margin: 2.5rem auto 0;
+    }
+    .how-card {
+      padding: 2rem 1.5rem;
+      background: var(--cream);
+      border: 1px solid var(--border);
+    }
+    .how-num {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      color: var(--gold);
+      opacity: 0.5;
+      line-height: 1;
+      margin-bottom: 0.8rem;
+    }
+    .how-card h3 {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      font-weight: 400;
+      margin-bottom: 0.6rem;
+      color: var(--text-dark);
+    }
+    .how-card p {
+      font-size: 0.84rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+    }
+
+    /* ─── Exchange banner ─── */
+    .exchange-section {
+      padding: 3.5rem 1.5rem;
+      background: var(--text-dark);
+      color: var(--ivory);
+      text-align: center;
+    }
+    .exchange-section h2 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 300;
+      margin-bottom: 2rem;
+      color: var(--ivory);
+    }
+    .exchange-cols {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 1.5rem;
+      align-items: center;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .exchange-col {
+      padding: 1.5rem;
+      border: 1px solid rgba(250,247,242,0.15);
+      text-align: left;
+    }
+    .exchange-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+    .exchange-col ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .exchange-col ul li {
+      font-size: 0.85rem;
+      color: rgba(250,247,242,0.8);
+      line-height: 1.7;
+      padding-left: 1rem;
+      position: relative;
+    }
+    .exchange-col ul li::before {
+      content: '✦';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-size: 0.5rem;
+      top: 0.35em;
+    }
+    .exchange-divider {
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+      color: var(--gold);
+      opacity: 0.6;
+    }
+
+    /* ─── Gallery ─── */
+    .gallery-section {
+      padding: 4rem 1.5rem;
+      background: var(--cream);
+    }
+    .gallery-section .section-label {
+      text-align: center;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .gallery-section h2 {
+      font-family: var(--font-serif);
+      font-size: 1.6rem;
+      font-weight: 300;
+      text-align: center;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+    }
+    .gallery-section .gallery-note {
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--text-light);
+      font-style: italic;
+      margin-bottom: 2rem;
+    }
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.6rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .photo-grid-item {
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+    }
+    .photo-grid-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+    .photo-grid-item:hover img { transform: scale(1.04); }
+    .photo-grid-item .photo-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(42,39,36,0.0);
+      transition: background 0.3s;
+      display: flex;
+      align-items: flex-end;
+      padding: 1rem;
+    }
+    .photo-grid-item:hover .photo-overlay {
+      background: rgba(42,39,36,0.25);
+    }
+    .photo-caption {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--ivory);
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .photo-grid-item:hover .photo-caption { opacity: 1; }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+    .lightbox.open { opacity: 1; visibility: visible; }
+    .lightbox img {
+      max-height: 90vh;
+      max-width: 90vw;
+      object-fit: contain;
+      display: block;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: none;
+      border: none;
+      color: var(--ivory);
+      font-size: 1.5rem;
+      cursor: pointer;
+      opacity: 0.7;
+    }
+    .lightbox-close:hover { opacity: 1; }
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: 1px solid rgba(250,247,242,0.3);
+      color: var(--ivory);
+      font-size: 1rem;
+      padding: 0.8rem 1rem;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+    .lightbox-nav:hover { opacity: 1; }
+    .lightbox-prev { left: 1.5rem; }
+    .lightbox-next { right: 1.5rem; }
+
+    /* ─── Form section ─── */
+    .form-section {
+      padding: 5rem 1.5rem;
+      background: var(--ivory);
+    }
+    .form-wrap {
+      max-width: 620px;
+      margin: 0 auto;
+    }
+    .form-section .section-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .form-section h2 {
+      font-family: var(--font-serif);
+      font-size: 1.8rem;
+      font-weight: 300;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+    }
+    .form-section .form-intro {
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+    }
+
+    /* Step indicator */
+    .step-bar {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 2.5rem;
+    }
+    .step-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      color: var(--text-light);
+      background: var(--ivory);
+      transition: all 0.3s;
+      flex-shrink: 0;
+    }
+    .step-dot.active { border-color: var(--gold); color: var(--gold); background: var(--ivory); }
+    .step-dot.done { background: var(--gold); border-color: var(--gold); color: var(--ivory); }
+    .step-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      transition: background 0.3s;
+    }
+    .step-line.done { background: var(--gold); }
+
+    /* Form fields */
+    .form-step { display: none; }
+    .form-step.active { display: block; }
+    .form-step h3 {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      font-weight: 400;
+      color: var(--text-dark);
+      margin-bottom: 1.5rem;
+    }
+    .field-group { margin-bottom: 1.2rem; }
+    .field-group label {
+      display: block;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-bottom: 0.4rem;
+    }
+    .field-group label span.opt {
+      text-transform: none;
+      letter-spacing: 0;
+      font-size: 0.7rem;
+      color: var(--text-light);
+    }
+    .field-group input[type="text"],
+    .field-group input[type="email"],
+    .field-group input[type="date"],
+    .field-group textarea,
+    .field-group select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      background: var(--cream);
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      color: var(--text-dark);
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+    .field-group input:focus,
+    .field-group textarea:focus,
+    .field-group select:focus { outline: none; border-color: var(--gold); background: #fff; }
+    .field-group textarea { resize: vertical; min-height: 90px; }
+
+    /* Chip options */
+    .chip-group { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.4rem; }
+    .chip {
+      padding: 0.45rem 1rem;
+      border: 1px solid var(--border);
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: all 0.2s;
+      background: var(--cream);
+      user-select: none;
+    }
+    .chip:hover { border-color: var(--gold); color: var(--gold); }
+    .chip.selected { background: var(--text-dark); color: var(--ivory); border-color: var(--text-dark); }
+
+    /* Location suggestions */
+    .location-suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.6rem;
+    }
+    .loc-tag {
+      font-size: 0.7rem;
+      padding: 0.3rem 0.7rem;
+      border: 1px solid var(--border);
+      color: var(--text-light);
+      cursor: pointer;
+      background: transparent;
+      transition: all 0.2s;
+    }
+    .loc-tag:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* Agreement box */
+    .agreement-box {
+      padding: 1.2rem 1.4rem;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      margin-bottom: 1.2rem;
+    }
+    .agreement-box p {
+      font-size: 0.84rem;
+      color: var(--text-mid);
+      line-height: 1.75;
+      margin: 0;
+    }
+    .agreement-box strong { color: var(--text-dark); }
+    .checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+      margin-top: 1rem;
+      cursor: pointer;
+    }
+    .checkbox-row input[type="checkbox"] { margin-top: 0.2rem; flex-shrink: 0; accent-color: var(--gold); }
+    .checkbox-row span { font-size: 0.83rem; color: var(--text-mid); line-height: 1.6; }
+
+    /* Form nav buttons */
+    .form-nav {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: 2rem;
+    }
+    .btn-back {
+      padding: 0.8rem 1.4rem;
+      border: 1px solid var(--border);
+      background: transparent;
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-back:hover { border-color: var(--text-dark); color: var(--text-dark); }
+
+    /* Success */
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+    .form-success .success-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .form-success h3 {
+      font-family: var(--font-serif);
+      font-size: 1.6rem;
+      font-weight: 300;
+      color: var(--text-dark);
+      margin-bottom: 0.8rem;
+    }
+    .form-success p {
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      line-height: 1.8;
+      max-width: 420px;
+      margin: 0 auto 1.5rem;
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 680px) {
+      .how-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .exchange-cols { grid-template-columns: 1fr; }
+      .exchange-divider { display: none; }
+      .photo-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 420px) {
+      .photo-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav" id="mainNav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="images/silora-logo-dark.png" alt="Silora Orient" /></a>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html"             class="nav-link" data-i18n="nav.home">Home</a></li>
+      <li><a href="about.html"             class="nav-link" data-i18n="nav.our_story">Our Story</a></li>
+      <li><a href="other-collections.html" class="nav-link" data-i18n="nav.collections">Collections</a></li>
+      <li><a href="journal.html"           class="nav-link" data-i18n="nav.journal">Journal</a></li>
+      <li><a href="stories.html"           class="nav-link" data-i18n="nav.stories">Stories</a></li>
+      <li><a href="model.html"             class="nav-link active">Be My Model</a></li>
+      <li><a href="contact.html"           class="nav-link" data-i18n="nav.contact">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="lang-toggle" id="langToggle">中文</button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="index.html"             class="nav-link" data-i18n="nav.home">Home</a></li>
+      <li><a href="about.html"             class="nav-link" data-i18n="nav.our_story">Our Story</a></li>
+      <li><a href="other-collections.html" class="nav-link" data-i18n="nav.collections">Collections</a></li>
+      <li><a href="journal.html"           class="nav-link" data-i18n="nav.journal">Journal</a></li>
+      <li><a href="stories.html"           class="nav-link" data-i18n="nav.stories">Stories</a></li>
+      <li><a href="model.html"             class="nav-link active">Be My Model</a></li>
+      <li><a href="contact.html"           class="nav-link" data-i18n="nav.contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="model-page">
+
+  <!-- ── Hero ── -->
+  <section class="model-hero">
+    <p class="model-eyebrow reveal">Mutual Model · New York City · May 2026</p>
+    <h1 class="reveal reveal-delay-1">Create Your<br>New York Memory</h1>
+    <p class="model-hero-sub reveal reveal-delay-2">
+      You choose a corner of the city that means something to you.<br>
+      I bring the camera — and a silk flower for your ear.
+    </p>
+    <a href="#form" class="btn btn-primary btn-arrow reveal reveal-delay-3">Apply Now</a>
+    <p class="model-scroll-hint reveal reveal-delay-4">↓ See sample photos below</p>
+  </section>
+
+  <!-- ── How it works ── -->
+  <section class="how-section">
+    <p class="section-eyebrow reveal" style="font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem;">How it works</p>
+    <h2 class="t-display reveal reveal-delay-1" style="font-size:1.5rem;font-weight:300;font-family:var(--font-serif);color:var(--text-dark);margin-bottom:0;">Three simple steps</h2>
+    <div class="how-grid">
+      <div class="how-card reveal">
+        <div class="how-num">01</div>
+        <h3>Choose your NYC spot</h3>
+        <p>Any corner of the city that feels like yours — a rooftop, a library, the Brooklyn Bridge at dawn, a quiet neighbourhood you love.</p>
+      </div>
+      <div class="how-card reveal reveal-delay-1">
+        <div class="how-num">02</div>
+        <h3>Dress for the mood</h3>
+        <p>Prepare an outfit that fits your chosen location and the way you want to remember this moment. No formal dress code — just you, intentionally.</p>
+      </div>
+      <div class="how-card reveal reveal-delay-2">
+        <div class="how-num">03</div>
+        <h3>A few frames with silk flowers</h3>
+        <p>Most of the session is yours. I'll ask for a handful of frames wearing one of my pieces — nothing staged, nothing commercial.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Exchange ── -->
+  <section class="exchange-section">
+    <h2 class="reveal">The exchange</h2>
+    <div class="exchange-cols reveal reveal-delay-1">
+      <div class="exchange-col">
+        <span class="exchange-label">You receive</span>
+        <ul>
+          <li>A curated set of edited photos from your favourite NYC location</li>
+          <li>Your own memory, made visible</li>
+          <li>Full rights to use the photos as you like</li>
+        </ul>
+      </div>
+      <div class="exchange-divider">⇄</div>
+      <div class="exchange-col">
+        <span class="exchange-label">I receive</span>
+        <ul>
+          <li>A handful of frames of you wearing Silora Orient jewelry</li>
+          <li>Permission to use those frames for brand storytelling</li>
+          <li>A real story, not a studio shot</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Gallery ── -->
+  <section class="gallery-section">
+    <p class="section-label reveal">Sample Work</p>
+    <h2 class="reveal reveal-delay-1">Sofia's Session</h2>
+    <p class="gallery-note reveal reveal-delay-2">Shot in New York City · Silk orchid earrings from the 兰花系列</p>
+    <div class="photo-grid">
+      <div class="photo-grid-item reveal" data-index="0">
+        <img src="images/ins/client%20and%20models/sofia1.JPG" alt="Sofia wearing Silora Orient silk orchid earrings in New York" loading="lazy" />
+        <div class="photo-overlay"><span class="photo-caption">View</span></div>
+      </div>
+      <div class="photo-grid-item reveal reveal-delay-1" data-index="1">
+        <img src="images/ins/client%20and%20models/sofia2.JPG" alt="Sofia — NYC session 2" loading="lazy" />
+        <div class="photo-overlay"><span class="photo-caption">View</span></div>
+      </div>
+      <div class="photo-grid-item reveal reveal-delay-2" data-index="2">
+        <img src="images/ins/client%20and%20models/sofia3.JPG" alt="Sofia — NYC session 3" loading="lazy" />
+        <div class="photo-overlay"><span class="photo-caption">View</span></div>
+      </div>
+      <div class="photo-grid-item reveal" data-index="3">
+        <img src="images/ins/client%20and%20models/sofia4.JPG" alt="Sofia — NYC session 4" loading="lazy" />
+        <div class="photo-overlay"><span class="photo-caption">View</span></div>
+      </div>
+      <div class="photo-grid-item reveal reveal-delay-1" data-index="4">
+        <img src="images/ins/client%20and%20models/sofia5.JPG" alt="Sofia — NYC session 5" loading="lazy" />
+        <div class="photo-overlay"><span class="photo-caption">View</span></div>
+      </div>
+      <div class="photo-grid-item reveal reveal-delay-2" data-index="5">
+        <img src="images/ins/client%20and%20models/sofia6.JPG" alt="Sofia — NYC session 6" loading="lazy" />
+        <div class="photo-overlay"><span class="photo-caption">View</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Form ── -->
+  <section class="form-section" id="form">
+    <div class="form-wrap">
+      <p class="section-label reveal">Apply · May 2026</p>
+      <h2 class="reveal reveal-delay-1">Let's create yours</h2>
+      <p class="form-intro reveal reveal-delay-2">
+        This is open to friends interning at the UN or working in New York this May.
+        Spots are limited — I'm taking one session per day.
+        Available dates: <strong>May 8–28, excluding May 25</strong>.
+      </p>
+
+      <!-- Step indicator -->
+      <div class="step-bar reveal">
+        <div class="step-dot active" id="dot1">1</div>
+        <div class="step-line" id="line1"></div>
+        <div class="step-dot" id="dot2">2</div>
+        <div class="step-line" id="line2"></div>
+        <div class="step-dot" id="dot3">3</div>
+      </div>
+
+      <form id="modelForm" novalidate>
+
+        <!-- Step 1: About you -->
+        <div class="form-step active" id="step1">
+          <h3>Step 1 — About you</h3>
+
+          <div class="field-group">
+            <label for="fname">First name *</label>
+            <input type="text" id="fname" placeholder="Your name" required />
+          </div>
+
+          <div class="field-group">
+            <label for="femail">Email *</label>
+            <input type="email" id="femail" placeholder="your@email.com" required />
+          </div>
+
+          <div class="field-group">
+            <label for="finsta">Instagram <span class="opt">(optional)</span></label>
+            <input type="text" id="finsta" placeholder="@handle" />
+          </div>
+
+          <div class="field-group">
+            <label>How do you know Yuetong?</label>
+            <div class="chip-group" id="knowChips">
+              <div class="chip" data-val="UN intern">UN intern colleague</div>
+              <div class="chip" data-val="Friend">Friend</div>
+              <div class="chip" data-val="Found online">Found Silora Orient online</div>
+              <div class="chip" data-val="Other">Other</div>
+            </div>
+            <input type="hidden" id="fknow" />
+          </div>
+
+          <div class="form-nav">
+            <button type="button" class="btn btn-primary" id="next1">Continue →</button>
+          </div>
+        </div>
+
+        <!-- Step 2: Your vision -->
+        <div class="form-step" id="step2">
+          <h3>Step 2 — Your NYC vision</h3>
+
+          <div class="field-group">
+            <label for="flocation">Your chosen location *</label>
+            <input type="text" id="flocation" placeholder="e.g. The Brooklyn Bridge, Central Park Bow Bridge…" required />
+            <div class="location-suggestions">
+              <button type="button" class="loc-tag" data-loc="Central Park — Bow Bridge">Central Park · Bow Bridge</button>
+              <button type="button" class="loc-tag" data-loc="Brooklyn Bridge walkway">Brooklyn Bridge</button>
+              <button type="button" class="loc-tag" data-loc="The High Line">The High Line</button>
+              <button type="button" class="loc-tag" data-loc="DUMBO waterfront">DUMBO waterfront</button>
+              <button type="button" class="loc-tag" data-loc="New York Public Library steps">NY Public Library</button>
+              <button type="button" class="loc-tag" data-loc="Washington Square Park">Washington Square Park</button>
+              <button type="button" class="loc-tag" data-loc="The Vessel, Hudson Yards">The Vessel</button>
+              <button type="button" class="loc-tag" data-loc="Rockefeller Center">Rockefeller Center</button>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="fwhy">Why this place? <span class="opt">(tell me the story)</span></label>
+            <textarea id="fwhy" placeholder="What does this spot mean to you? What mood do you want to capture?" rows="3"></textarea>
+          </div>
+
+          <div class="field-group">
+            <label for="fdate">Preferred date *</label>
+            <input type="date" id="fdate"
+              min="2026-05-08"
+              max="2026-05-28"
+              required />
+            <p style="font-size:0.72rem;color:var(--text-light);margin-top:0.4rem;">Available May 8–28 · May 25 is unavailable</p>
+          </div>
+
+          <div class="field-group">
+            <label>Preferred time of day</label>
+            <div class="chip-group" id="timeChips">
+              <div class="chip" data-val="Morning (7–10am)">Morning (7–10am)</div>
+              <div class="chip" data-val="Mid-morning (10am–12pm)">Mid-morning</div>
+              <div class="chip" data-val="Afternoon (1–4pm)">Afternoon</div>
+              <div class="chip" data-val="Golden hour (5–7pm)">Golden hour ✦</div>
+            </div>
+            <input type="hidden" id="ftime" />
+          </div>
+
+          <div class="form-nav">
+            <button type="button" class="btn-back" id="back2">← Back</button>
+            <button type="button" class="btn btn-primary" id="next2">Continue →</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Agreement -->
+        <div class="form-step" id="step3">
+          <h3>Step 3 — A few last things</h3>
+
+          <div class="field-group">
+            <label for="foutfit">What are you planning to wear? <span class="opt">(brief description)</span></label>
+            <textarea id="foutfit" placeholder="e.g. A flowy ivory dress — I want it to feel like old New York" rows="2"></textarea>
+          </div>
+
+          <div class="field-group">
+            <label>Which flower would you like to wear? <span class="opt">(I'll confirm availability)</span></label>
+            <div class="chip-group" id="flowerChips">
+              <div class="chip" data-val="Silk orchid (phalaenopsis)">Silk orchid</div>
+              <div class="chip" data-val="Lotus">Lotus</div>
+              <div class="chip" data-val="Osmanthus cluster">Osmanthus</div>
+              <div class="chip" data-val="Lily (Moonlight)">Lily</div>
+              <div class="chip" data-val="Surprise me">Surprise me ✦</div>
+            </div>
+            <input type="hidden" id="fflower" />
+          </div>
+
+          <div class="field-group">
+            <label for="fnotes">Anything else you'd like me to know <span class="opt">(optional)</span></label>
+            <textarea id="fnotes" placeholder="Special requests, questions, anything at all…" rows="2"></textarea>
+          </div>
+
+          <div class="agreement-box">
+            <p>
+              <strong>The arrangement:</strong> I'll send you a curated set of edited photos from your session.
+              In return, I'll use a handful of the frames where you're wearing Silora Orient jewelry
+              for brand storytelling on the website and Instagram — always credited to you if you'd like.
+              No other commercial use without your explicit permission.
+            </p>
+            <label class="checkbox-row">
+              <input type="checkbox" id="fagree" required />
+              <span>I understand and agree to this arrangement. I'm happy to wear a Silora Orient silk flower for some of the frames. ✦</span>
+            </label>
+          </div>
+
+          <div class="form-nav">
+            <button type="button" class="btn-back" id="back3">← Back</button>
+            <button type="submit" class="btn btn-primary" id="submitBtn">Send my application →</button>
+          </div>
+        </div>
+
+        <!-- Success -->
+        <div class="form-success" id="formSuccess">
+          <div class="success-icon">✦</div>
+          <h3>Application received.</h3>
+          <p>
+            Thank you — I'll be in touch within 48 hours to confirm your date and location,
+            and we'll talk through the details together.
+          </p>
+          <a href="index.html" class="btn btn-outline">Back to Silora Orient</a>
+        </div>
+
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="nav-logo" style="color: var(--ivory); margin-bottom: 1rem;"><img src="images/silora-logo-light.png" alt="Silora Orient" /></div>
+        <p class="footer-tagline">"For your eyes, your story, your memories — a silk flower jewel from the East, made just for you."</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4 class="footer-heading">Collections</h4>
+          <ul>
+            <li><a href="other-collections.html#orchid">兰花系列</a></li>
+            <li><a href="other-collections.html#seasons">四时之景</a></li>
+            <li><a href="other-collections.html#bloom">聆花系列</a></li>
+            <li><a href="custom.html">定制 Bespoke</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-heading">Studio</h4>
+          <ul>
+            <li><a href="about.html">Our Story</a></li>
+            <li><a href="stories.html">Client Stories</a></li>
+            <li><a href="model.html">Be My Model</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Silora Orient. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <button class="lightbox-close" id="lbClose" aria-label="Close">✕</button>
+  <button class="lightbox-nav lightbox-prev" id="lbPrev" aria-label="Previous">‹</button>
+  <img src="" alt="" id="lbImg" />
+  <button class="lightbox-nav lightbox-next" id="lbNext" aria-label="Next">›</button>
+</div>
+
+<script src="main.js"></script>
+<script>
+// ── Chip selection ──────────────────────────────────────────────────────────
+function initChips(groupId, hiddenId, multiSelect = false) {
+  const group  = document.getElementById(groupId);
+  const hidden = document.getElementById(hiddenId);
+  if (!group || !hidden) return;
+  group.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      if (multiSelect) {
+        chip.classList.toggle('selected');
+        const vals = [...group.querySelectorAll('.chip.selected')].map(c => c.dataset.val);
+        hidden.value = vals.join(', ');
+      } else {
+        group.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+        chip.classList.add('selected');
+        hidden.value = chip.dataset.val;
+      }
+    });
+  });
+}
+initChips('knowChips',   'fknow');
+initChips('timeChips',   'ftime');
+initChips('flowerChips', 'fflower');
+
+// ── Location suggestion tags ────────────────────────────────────────────────
+document.querySelectorAll('.loc-tag').forEach(tag => {
+  tag.addEventListener('click', () => {
+    document.getElementById('flocation').value = tag.dataset.loc;
+  });
+});
+
+// ── Disable May 25 in date picker ───────────────────────────────────────────
+const dateInput = document.getElementById('fdate');
+dateInput.addEventListener('input', () => {
+  if (dateInput.value === '2026-05-25') {
+    dateInput.setCustomValidity('May 25 is unavailable — please choose another date.');
+    dateInput.reportValidity();
+    dateInput.value = '';
+  } else {
+    dateInput.setCustomValidity('');
+  }
+});
+
+// ── Step navigation ─────────────────────────────────────────────────────────
+let currentStep = 1;
+const TOTAL = 3;
+
+function goTo(step) {
+  document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step' + step)?.classList.add('active');
+  // Update dots
+  for (let i = 1; i <= TOTAL; i++) {
+    const dot  = document.getElementById('dot' + i);
+    const line = document.getElementById('line' + i);
+    if (i < step)       { dot.classList.add('done');   dot.classList.remove('active'); dot.textContent = '✓'; }
+    else if (i === step){ dot.classList.add('active'); dot.classList.remove('done');  dot.textContent = i; }
+    else                { dot.classList.remove('active','done');                       dot.textContent = i; }
+    if (line) line.classList.toggle('done', i < step);
+  }
+  currentStep = step;
+  window.scrollTo({ top: document.getElementById('form').offsetTop - 80, behavior: 'smooth' });
+}
+
+document.getElementById('next1').addEventListener('click', () => {
+  const name  = document.getElementById('fname');
+  const email = document.getElementById('femail');
+  if (!name.value.trim())  { name.focus(); return; }
+  if (!email.value.trim()) { email.focus(); return; }
+  goTo(2);
+});
+document.getElementById('back2').addEventListener('click', () => goTo(1));
+document.getElementById('next2').addEventListener('click', () => {
+  const loc  = document.getElementById('flocation');
+  const date = document.getElementById('fdate');
+  if (!loc.value.trim())  { loc.focus(); return; }
+  if (!date.value)        { date.focus(); return; }
+  if (date.value === '2026-05-25') { date.focus(); return; }
+  goTo(3);
+});
+document.getElementById('back3').addEventListener('click', () => goTo(2));
+
+// ── Form submission ─────────────────────────────────────────────────────────
+document.getElementById('modelForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const agree = document.getElementById('fagree');
+  if (!agree.checked) {
+    agree.parentElement.style.color = '#c0392b';
+    return;
+  }
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+
+  const payload = {
+    _subject: `Be My Model — ${document.getElementById('fname').value}`,
+    name:       document.getElementById('fname').value,
+    email:      document.getElementById('femail').value,
+    instagram:  document.getElementById('finsta').value || 'Not provided',
+    how_know:   document.getElementById('fknow').value  || 'Not specified',
+    location:   document.getElementById('flocation').value,
+    location_why: document.getElementById('fwhy').value || '',
+    date:       document.getElementById('fdate').value,
+    time:       document.getElementById('ftime').value  || 'Flexible',
+    outfit:     document.getElementById('foutfit').value || '',
+    flower:     document.getElementById('fflower').value || 'Not specified',
+    notes:      document.getElementById('fnotes').value  || '',
+    agreement:  'Agreed',
+    message: [
+      `Model application from ${document.getElementById('fname').value}`,
+      `Location: ${document.getElementById('flocation').value}`,
+      `Date: ${document.getElementById('fdate').value} · Time: ${document.getElementById('ftime').value || 'Flexible'}`,
+      `Flower preference: ${document.getElementById('fflower').value || 'Not specified'}`,
+      `Outfit: ${document.getElementById('foutfit').value || '—'}`,
+      `Notes: ${document.getElementById('fnotes').value || '—'}`,
+    ].join('\n')
+  };
+
+  try {
+    const res = await fetch('https://formspree.io/f/xlgopzqb', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (res.ok) {
+      document.querySelectorAll('.form-step').forEach(s => s.style.display = 'none');
+      document.querySelector('.step-bar').style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'model_application', { event_category: 'engagement', event_label: payload.location });
+      }
+    } else {
+      throw new Error('Server error');
+    }
+  } catch {
+    btn.textContent = 'Try again →';
+    btn.disabled = false;
+  }
+});
+
+// ── Lightbox ────────────────────────────────────────────────────────────────
+const photos = [
+  'images/ins/client%20and%20models/sofia1.JPG',
+  'images/ins/client%20and%20models/sofia2.JPG',
+  'images/ins/client%20and%20models/sofia3.JPG',
+  'images/ins/client%20and%20models/sofia4.JPG',
+  'images/ins/client%20and%20models/sofia5.JPG',
+  'images/ins/client%20and%20models/sofia6.JPG',
+];
+let lbIndex = 0;
+const lightbox = document.getElementById('lightbox');
+const lbImg    = document.getElementById('lbImg');
+
+function openLb(i) {
+  lbIndex = i;
+  lbImg.src = photos[i];
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLb() {
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+}
+function prevLb() { lbIndex = (lbIndex - 1 + photos.length) % photos.length; lbImg.src = photos[lbIndex]; }
+function nextLb() { lbIndex = (lbIndex + 1) % photos.length; lbImg.src = photos[lbIndex]; }
+
+document.querySelectorAll('.photo-grid-item').forEach(item => {
+  item.addEventListener('click', () => openLb(+item.dataset.index));
+});
+document.getElementById('lbClose').addEventListener('click', closeLb);
+document.getElementById('lbPrev').addEventListener('click', prevLb);
+document.getElementById('lbNext').addEventListener('click', nextLb);
+document.getElementById('lightbox').addEventListener('click', e => { if (e.target === lightbox) closeLb(); });
+document.addEventListener('keydown', e => {
+  if (!lightbox.classList.contains('open')) return;
+  if (e.key === 'Escape') closeLb();
+  if (e.key === 'ArrowLeft') prevLb();
+  if (e.key === 'ArrowRight') nextLb();
+});
+</script>
+</body>
+</html>
